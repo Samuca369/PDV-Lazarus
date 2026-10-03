@@ -1,0 +1,20 @@
+# Roadmap 16 — Segurança e bugs conhecidos
+
+**Objetivo:** Corrigir o que é perigoso, já no Lazarus.
+
+**Depende de:** roadmap 8
+
+## Passos
+
+- [ ] Senhas com hash e salt (hoje: cifra reversível de chave fixa, `Model/Udados.pas`).
+- [ ] Supervisor conferindo qual usuário digitou a senha (`View/uSupervisor.pas`).
+- [ ] Gravar venda, financeiro e estoque em transação (hoje não há nenhuma).
+- [ ] Códigos por generator no lugar de `SELECT MAX+1`.
+- [ ] Preço de atacado que altera todas as vendas do produto (`View/uPDV.pas:5106-5110`).
+- [ ] Estoque baixado de novo ao mudar o preço do item (`View/uPDV.pas:4041-4053`).
+- [ ] Reenvio da contingência que gera outra chave da NFC-e (`View/uNFCe.pas:1462-1467`).
+- [ ] Troca de produto quando falta estoque fiscal (`View/uEstoque_FI_Insuficiente.pas`): remover.
+
+## Pronto quando
+
+Cada item tem um teste ou um roteiro de conferência que passa.

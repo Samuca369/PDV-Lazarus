@@ -40,8 +40,8 @@ O original não foi alterado e continua lá como referência.
 
 ## Próximo passo
 
-Instalar o Delphi Community e os componentes grátis (ACBr, JVCL, Zeos, Fortes, Synapse) e compilar como está,
-antes de mudar qualquer código.
+Passar para o Lazarus com Firebird, sem Delphi: ver `ROADMAP-LAZARUS.md`. Nesse caminho o componente de licença
+(`TLockApplication`) simplesmente não é portado.
 
 ## Units do sistema que saíram (33)
 
