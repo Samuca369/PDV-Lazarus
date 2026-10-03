@@ -25,6 +25,33 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="rxnew"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBrDiversos"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBrSerial"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBr_TEFD"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBrDFeComum"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBr_NFe"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBr_NFe_DanfeESCPOS"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBr_NFe_DanfeRL"/>
+      </Item>
+      <Item>
+        <PackageName Value="laz_synapse"/>
+      </Item>
+      <Item>
         <PackageName Value="ACBr_SAT"/>
       </Item>
       <Item>
@@ -134,7 +161,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\Model;..\View"/>
+      <OtherUnitFiles Value="..\pendentes;..\Model;..\View"/>
       <UnitOutputDirectory Value="..\lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
@@ -145,6 +172,7 @@
     <Linking>
       <Debugging>
         <DebugInfoType Value="dsDwarf3"/>
+        <UseLineInfoUnit Value="True"/>
       </Debugging>
       <Options>
         <Win32>

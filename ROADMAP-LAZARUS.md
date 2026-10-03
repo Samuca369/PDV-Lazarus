@@ -12,7 +12,7 @@ O trabalho está dividido em 19 roadmaps, na pasta `roadmap/`. Faça um por vez,
 | 1 ✓ | [Ambiente](roadmap/roadmap-01-ambiente.md) | Deixar o PC pronto para abrir e compilar o projeto no Lazarus. |
 | 2 ✓ | [Banco Firebird](roadmap/roadmap-02-banco-firebird.md) | Ter a estrutura do banco em texto, versionada, e um usuário próprio. |
 | 3 ✓ | [Núcleo de dados](roadmap/roadmap-03-nucleo-de-dados.md) (13 units) | Primeiro projeto Lazarus compilando e conectando no Firebird. |
-| 4 | [PDV — tela de venda](roadmap/roadmap-04-pdv-venda.md) (12 units) | Lançar itens na venda como no original. |
+| 4 ✓ | [PDV — tela de venda](roadmap/roadmap-04-pdv-venda.md) (12 units + login) | Lançar itens na venda como no original. |
 | 5 | [PDV — pagamento](roadmap/roadmap-05-pdv-pagamento.md) (5 units) | Fechar a venda com todas as formas de pagamento. |
 | 6 | [PDV — caixa](roadmap/roadmap-06-pdv-caixa.md) (8 units) | Controle de caixa completo. |
 | 7 | [PDV — NFC-e, SAT e periféricos](roadmap/roadmap-07-pdv-fiscal-perifericos.md) (8 units) | Emitir documento fiscal e usar os aparelhos. |
@@ -69,6 +69,10 @@ errado, é só movê-la ao chegar nela.
 |---|---|
 | FireDAC (`TFDConnection`, `TFDQuery`) | Zeos (`TZConnection`, `TZQuery`): grava direto como o FireDAC e conecta em rede sem limite |
 | `CommitRetaining` espalhado | uma rotina única no módulo de dados (`Dados.Confirmar`) |
+| Mestre-detalhe por parâmetro (`MasterSource` + `MasterFields`) | `DataSource` do Zeos (o `LinkedFields` do Zeos é filtro em memória, outra coisa) |
+| Chave da consulta (campos com `pfInKey`) | `Properties` com `KeyFields=...`, que o conversor preenche |
+| Campo agregado (`TAggregateField`) | soma feita no código (exemplo: `SomaItens` no `uPDV`) |
+| `TDBCtrlGrid` (quadro de mesas) | componente próprio `View/DBCGrids.pas` |
 | EhLib `TDBGridEh` | `TRxDBGrid` (RxFPC), com rodapé de totais |
 | EhLib `TDBLookupComboboxEh`, `TDBComboBoxEh`, `TDBMemoEh` | `TDBLookupComboBox`, `TDBComboBox`, `TDBMemo` (LCL) |
 | EhLib `TDBDateTimeEditEh` | `TDBDateTimePicker` (LCL) |

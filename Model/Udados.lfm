@@ -22,6 +22,8 @@ object Dados: TDados
       'select * from PESSOA')
     Left = 80
     Top = 72
+    Properties.Strings = (
+      'KeyFields=CODIGO;EMPRESA')
     object qryPessoasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -329,6 +331,8 @@ object Dados: TDados
         Name = 'ID'
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryProdutosCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -809,6 +813,8 @@ object Dados: TDados
       '/*where*/')
     Left = 248
     Top = 72
+    Properties.Strings = (
+      'KeyFields=EMPRESA;CODIGO')
     object qryGrupoEMPRESA: TIntegerField
       FieldName = 'EMPRESA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -836,6 +842,8 @@ object Dados: TDados
       'select * from unidade /*where*/')
     Left = 312
     Top = 72
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryUnidadeCODIGO: TStringField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -867,6 +875,8 @@ object Dados: TDados
       'order by razao')
     Left = 80
     Top = 176
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryFornecedorCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -904,6 +914,8 @@ object Dados: TDados
         ParamType = ptInput
         Size = 40
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryContasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -976,6 +988,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = 1
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPlanoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1031,6 +1045,8 @@ object Dados: TDados
         DataType = ftDate
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCaixaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1206,6 +1222,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = 1
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCRCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1409,6 +1427,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = 1
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCPCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1553,6 +1573,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = 1
       end>
+    Properties.Strings = (
+      'KeyFields=ID')
     object qryCompraID: TIntegerField
       FieldName = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1768,6 +1790,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = 1
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO;EMPRESA')
     object qryProdCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2066,6 +2090,8 @@ object Dados: TDados
       '/*ordem*/')
     Left = 464
     Top = 72
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryEmpresaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2686,6 +2712,8 @@ object Dados: TDados
       'order by login')
     Left = 464
     Top = 16
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryUsuariosCODIGO: TSmallintField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2746,6 +2774,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryOrcamentoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2885,6 +2915,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = '1'
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryVendedorCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -2936,6 +2968,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryItensOCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -3025,6 +3059,8 @@ object Dados: TDados
         ParamType = ptInput
         Size = 40
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryFPGCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -3112,6 +3148,8 @@ object Dados: TDados
         ParamType = ptInput
         Size = 35
       end>
+    Properties.Strings = (
+      'KeyFields=NOME')
     object qryTerminalIP: TStringField
       FieldName = 'IP'
       Required = True
@@ -3435,6 +3473,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = 1
       end>
+    Properties.Strings = (
+      'KeyFields=EMPRESA')
     object qryConfigEMPRESA: TSmallintField
       FieldName = 'EMPRESA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -3974,6 +4014,8 @@ object Dados: TDados
       'codigo<-1')
     Left = 528
     Top = 72
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryTransfCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4073,6 +4115,8 @@ object Dados: TDados
       'order by descricao')
     Left = 528
     Top = 128
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCidadeCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4098,6 +4142,8 @@ object Dados: TDados
       'order by descricao')
     Left = 528
     Top = 240
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCFOPCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4128,6 +4174,8 @@ object Dados: TDados
         ParamType = ptInput
         Size = 20
       end>
+    Properties.Strings = (
+      'KeyFields=MAQUINA')
     object qryChaveMAQUINA: TStringField
       FieldName = 'MAQUINA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4215,6 +4263,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = 1
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryTranspCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4316,6 +4366,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = 1
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object IntegerField1: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4352,6 +4404,8 @@ object Dados: TDados
       '/*where*/')
     Left = 464
     Top = 240
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryTelasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4394,6 +4448,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=FKUSUARIO;FKTELA')
     object qryPermissoesFKUSUARIO: TIntegerField
       FieldName = 'FKUSUARIO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4451,6 +4507,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCartaoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4515,6 +4573,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryNFCE_MCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4726,6 +4786,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object QRYNFCE_DCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -4962,6 +5024,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCCCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5011,8 +5075,7 @@ object Dados: TDados
     end
   end
   object qryCPPagamento: TZQuery
-    MasterSource = dsCP
-    MasterFields = 'CODIGO'
+    DataSource = dsCP
     Connection = Conexao
     SQL.Strings = (
       'SELECT CP.* FROM CPPAGAMENTO CP'
@@ -5027,6 +5090,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCPPagamentoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5102,8 +5167,7 @@ object Dados: TDados
     Top = 296
   end
   object qryCRRecebimento: TZQuery
-    MasterSource = dsCR
-    MasterFields = 'CODIGO'
+    DataSource = dsCR
     Connection = Conexao
     SQL.Strings = (
       'SELECT CR.* FROM CRRECEBIMENTO CR'
@@ -5118,6 +5182,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCRRecebimentoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5207,6 +5273,8 @@ object Dados: TDados
       '/*where*/')
     Left = 608
     Top = 232
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryFichaClienteCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5279,6 +5347,8 @@ object Dados: TDados
       '/*where*/')
     Left = 80
     Top = 360
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPVCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5448,6 +5518,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPV_ItensCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5572,6 +5644,8 @@ object Dados: TDados
       'ORDER BY FANTASIA')
     Left = 696
     Top = 224
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPesqEmpCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5590,6 +5664,8 @@ object Dados: TDados
       'order by 1')
     Left = 79
     Top = 415
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryCSOSNCODIGO: TStringField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -5613,6 +5689,8 @@ object Dados: TDados
       'order by pro.descricao')
     Left = 168
     Top = 416
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPesqProdCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6049,6 +6127,8 @@ object Dados: TDados
       'order by descricao')
     Left = 544
     Top = 464
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPesqProdutoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6078,6 +6158,8 @@ object Dados: TDados
       'codigo=-1;')
     Left = 314
     Top = 414
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryAcertaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6121,6 +6203,8 @@ object Dados: TDados
         ParamType = ptInput
         Size = 35
       end>
+    Properties.Strings = (
+      'KeyFields=NOME')
     object qryVersaoIP: TStringField
       FieldName = 'IP'
       Required = True
@@ -6196,6 +6280,8 @@ object Dados: TDados
       '/*where*/')
     Left = 608
     Top = 288
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryTabPrecoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6234,6 +6320,8 @@ object Dados: TDados
         ParamType = ptInput
         Size = 10
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPedidoMCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6409,6 +6497,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPedidoDCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6478,6 +6568,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=FKCLIENTE')
     object qryCobrancaFKCLIENTE: TIntegerField
       FieldName = 'FKCLIENTE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6526,6 +6618,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=FKCLIENTE')
     object qryEntregaFKCLIENTE: TIntegerField
       FieldName = 'FKCLIENTE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6575,6 +6669,8 @@ object Dados: TDados
         ParamType = ptInput
         Size = 20
       end>
+    Properties.Strings = (
+      'KeyFields=ORIGEM')
     object qryBuscaIcmsORIGEM: TStringField
       FieldName = 'ORIGEM'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6750,6 +6846,8 @@ object Dados: TDados
       '/*where*/')
     Left = 248
     Top = 472
+    Properties.Strings = (
+      'KeyFields=PLACA')
     object qryVeiculos_cavaloPLACA: TStringField
       FieldName = 'PLACA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6833,6 +6931,8 @@ object Dados: TDados
         ParamType = ptInput
         Size = 7
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryVeiculos_ReboqueCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6922,6 +7022,8 @@ object Dados: TDados
         DataType = ftDate
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySpedCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -6973,6 +7075,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=FK_EMPRESA')
     object qrySped_ConfigFK_EMPRESA: TIntegerField
       FieldName = 'FK_EMPRESA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7053,6 +7157,8 @@ object Dados: TDados
       '/*where*/')
     Left = 780
     Top = 232
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySped_contadorCODIGO: TSmallintField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7137,6 +7243,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySped_ProdutoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7192,6 +7300,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySped_ParticipanteCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7263,6 +7373,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySped_UnidadeCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7292,6 +7404,8 @@ object Dados: TDados
       'select * from sped_h005')
     Left = 612
     Top = 349
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySped_H005CODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7333,6 +7447,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySped_H010CODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7408,6 +7524,8 @@ object Dados: TDados
         Name = 'ID'
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySped_C100CODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7596,6 +7714,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySped_C170CODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7820,6 +7940,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySped_C190CODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7905,6 +8027,8 @@ object Dados: TDados
       'select * from veiculo_tipo')
     Left = 176
     Top = 472
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryVeiculo_tipoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7922,6 +8046,8 @@ object Dados: TDados
       'order by 2')
     Left = 80
     Top = 472
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryVeiculo_CarroceriaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -7954,6 +8080,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryAjustaPrecoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8299,6 +8427,8 @@ object Dados: TDados
         ParamType = ptInput
         Value = '%'
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryClientesCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8361,6 +8491,8 @@ object Dados: TDados
       'order by 1')
     Left = 616
     Top = 400
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryMesasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8395,6 +8527,8 @@ object Dados: TDados
       'order by codigo')
     Left = 688
     Top = 464
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPesqUsuarioCODIGO: TSmallintField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8413,6 +8547,8 @@ object Dados: TDados
       '/*where*/')
     Left = 536
     Top = 408
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPrincipioCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8432,6 +8568,8 @@ object Dados: TDados
       '')
     Left = 622
     Top = 463
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryMarcaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8453,6 +8591,8 @@ object Dados: TDados
       'select * from responsavel_tecnico')
     Left = 865
     Top = 176
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryRespTecnicoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8490,6 +8630,8 @@ object Dados: TDados
       '')
     Left = 790
     Top = 463
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryTipoTecidoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8509,6 +8651,8 @@ object Dados: TDados
       'select * from etiquetas')
     Left = 864
     Top = 232
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryEtiquetaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8604,6 +8748,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryEtq_CamposCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8647,6 +8793,8 @@ object Dados: TDados
       'order by 1')
     Left = 864
     Top = 344
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryDesoneracaoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8667,6 +8815,8 @@ object Dados: TDados
       'select * from etiqueta_impressao')
     Left = 872
     Top = 392
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryEtq_impressaoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8694,6 +8844,8 @@ object Dados: TDados
       '/*where*/')
     Left = 952
     Top = 24
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryEntregadorCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8717,6 +8869,8 @@ object Dados: TDados
       'order by nome')
     Left = 80
     Top = 528
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPaisesCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8752,6 +8906,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryTradutorCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8786,6 +8942,8 @@ object Dados: TDados
       'order by descricao')
     Left = 168
     Top = 528
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryLCPCODIGO: TStringField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8810,6 +8968,8 @@ object Dados: TDados
       'order by Descricao')
     Left = 248
     Top = 528
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryIdiomasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8845,6 +9005,8 @@ object Dados: TDados
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryMotoristaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8882,6 +9044,8 @@ object Dados: TDados
       'codigo=-1')
     Left = 536
     Top = 296
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryMensagemZapCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -8937,6 +9101,8 @@ object Dados: TDados
       '/*where*/')
     Left = 952
     Top = 176
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qrySaboresCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]

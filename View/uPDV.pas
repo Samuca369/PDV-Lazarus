@@ -1,35 +1,25 @@
 unit uPDV;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, math, ACBrDevice, shellapi,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Grids,
-  Vcl.DBGrids, Vcl.Buttons, Vcl.ComCtrls, FireDAC.UI.Intf, FireDAC.VCLUI.Wait,
-  FireDAC.Comp.UI, FireDAC.Stan.Intf, FireDAC.Phys, FireDAC.Phys.IBBase,
-  FireDAC.Phys.FB, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
-  FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async,
-  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  FireDAC.Stan.Def, FireDAC.Stan.Pool, Vcl.DBCtrls, Vcl.Mask, ACBrDFeSSL,
-  System.Actions, ACBrDeviceSerial, pcnConversao, pcnConversaoNFe, ACBrUtil,
-  Vcl.ActnList, Vcl.Imaging.pngimage, Vcl.Imaging.jpeg, Vcl.Tabs, blcksock,
-  ACBrPosPrinter, ACBrBase, ACBrDFe, ACBrNFe, Vcl.Menus, DBGridEhGrouping,
-  ToolCtrlsEh, DBGridEhToolCtrls, DynVarsEh, EhLibVCL, GridsEh, DBAxisGridsEh,
-  DBGridEh, ACBrNFeDANFEClass, ACBrNFeDANFeESCPOS, DBCtrlsEh, DBLookupEh,
-  ACBrBAL, Vcl.ExtDlgs, ACBrDFeReport, ACBrDFeDANFeReport, ACBrDANFCeFortesFrA4,
-  ACBrEnterTab, ACBrTroco, JvComponentBase, JvXPCore, Vcl.DBCGrids, frxClass,
-  frxDBSet, frxExportBaseDialog, frxExportPDF, ACBrTEFD, cxGraphics, cxControls,
-  cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxImage, cxDBEdit,
-  ACBrLCB, ACBrInStore;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, math, ACBrDevice, shellapi, Controls,
+  Forms, Dialogs, ExtCtrls, StdCtrls, Grids, DBGrids, Buttons, ComCtrls, DB, DBCtrls, MaskEdit,
+  ACBrDFeSSL, ACBrDeviceSerial, pcnConversao, pcnConversaoNFe, ACBrUtil, ActnList, blcksock,
+  ACBrPosPrinter, ACBrBase, ACBrDFe, ACBrNFe, Menus, ACBrNFeDANFEClass, ACBrNFeDANFeESCPOS,
+  ACBrBAL, ExtDlgs, ACBrDFeReport, ACBrDFeDANFeReport, ACBrDANFCeFortesFrA4, ACBrEnterTab,
+  ACBrTroco, DBCGrids, ACBrTEFD, ACBrLCB, ACBrInStore, ZConnection, ZDataset, ZAbstractRODataset,
+  ZAbstractDataset, ZAbstractConnection, RxDBGrid;
 
 type
   TFrmPDV = class(TForm)
     ActionList1: TActionList;
     actLerPeso: TAction;
     dsPesqProd: TDataSource;
-    qryPesqProd: TFDQuery;
-    qryVenda: TFDQuery;
+    qryPesqProd: TZQuery;
+    qryVenda: TZQuery;
     dsVenda: TDataSource;
     qryVendaCODIGO: TIntegerField;
     qryVendaDATA_EMISSAO: TDateField;
@@ -42,22 +32,21 @@ type
     qryVendaTIPO_DESCONTO: TStringField;
     qryVendaOBSERVACOES: TMemoField;
     qryVendaSITUACAO: TStringField;
-    qryItem: TFDQuery;
+    qryItem: TZQuery;
     dsItem: TDataSource;
     qryItemCODIGO: TIntegerField;
     qryItemFKVENDA: TIntegerField;
     qryItemID_PRODUTO: TIntegerField;
     qryItemSITUACAO: TStringField;
     qryItemUNIDADE: TStringField;
-    qryCliente: TFDQuery;
+    qryCliente: TZQuery;
     dsCliente: TDataSource;
-    qryProd: TFDQuery;
+    qryProd: TZQuery;
     qryProdCODIGO: TIntegerField;
     qryProdDESCRICAO: TStringField;
     qryItemDESCRICAO_SL: TStringField;
     qryVendaVIRTUAL_CLIENTE: TStringField;
     qryVendaVIRTUAL_VENDEDOR: TStringField;
-    qryItemTTOTAL: TAggregateField;
     qryVendaFKEMPRESA: TIntegerField;
     qryProdEFISCAL: TStringField;
     qryVendaTIPO: TStringField;
@@ -66,8 +55,8 @@ type
     qryItemITEM: TSmallintField;
     qryItemCOD_BARRA: TStringField;
     qryItemEFISCAL: TStringField;
-    qrySoma: TFDQuery;
-    qryConta_Movimento: TFDQuery;
+    qrySoma: TZQuery;
+    qryConta_Movimento: TZQuery;
     qryConta_MovimentoID_CONTA_CAIXA: TIntegerField;
     qryConta_MovimentoDATA: TDateField;
     qryConta_MovimentoHORA: TTimeField;
@@ -75,46 +64,46 @@ type
     qryConta_MovimentoLOTE: TIntegerField;
     qryConta_MovimentoID_USUARIO: TIntegerField;
     qryVendaLOTE: TIntegerField;
-    qryBuscaVenda: TFDQuery;
+    qryBuscaVenda: TZQuery;
     dsEmpresa: TDataSource;
     qryVendaVirtualEmpresa: TStringField;
     qryConta_MovimentoCODIGO: TIntegerField;
     qryVendaGERA_FINANCEIRO: TStringField;
     qryVendaFK_TABELA: TIntegerField;
-    qryTabela: TFDQuery;
+    qryTabela: TZQuery;
     qryTabelaCODIGO: TIntegerField;
     qryTabelaDESCRICAO: TStringField;
     qryTabelaFKEMPRESA: TIntegerField;
     qryTabelaATIVO: TStringField;
     qryVendaVIRTUAL_TABELA: TStringField;
     qryVendaVIRTUAL_TX_ACRESC: TFloatField;
-    qryComposicao: TFDQuery;
+    qryComposicao: TZQuery;
     qryComposicaoID_PRODUTO: TIntegerField;
     qryConta_MovimentoHISTORICO: TStringField;
     qryVendaVIRTUAL_CNPJ: TStringField;
     qryBuscaVendaCODIGO: TIntegerField;
-    qryVendaSUBTOTAL: TFMTBCDField;
-    qryVendaDESCONTO: TFMTBCDField;
-    qryVendaTROCO: TFMTBCDField;
-    qryVendaDINHEIRO: TFMTBCDField;
-    qryVendaTOTAL: TFMTBCDField;
-    qryVendaPERCENTUAL: TFMTBCDField;
-    qryVendaPERCENTUAL_ACRESCIMO: TFMTBCDField;
-    qryVendaACRESCIMO: TFMTBCDField;
+    qryVendaSUBTOTAL: TBCDField;
+    qryVendaDESCONTO: TBCDField;
+    qryVendaTROCO: TBCDField;
+    qryVendaDINHEIRO: TBCDField;
+    qryVendaTOTAL: TBCDField;
+    qryVendaPERCENTUAL: TBCDField;
+    qryVendaPERCENTUAL_ACRESCIMO: TBCDField;
+    qryVendaACRESCIMO: TBCDField;
     qryVendaPEDIDO: TStringField;
-    qryItemPRECO: TFMTBCDField;
-    qryItemVALOR_ITEM: TFMTBCDField;
-    qryItemVDESCONTO: TFMTBCDField;
-    qryItemTOTAL: TFMTBCDField;
-    qryItemACRESCIMO: TFMTBCDField;
-    qryProdE_MEDIO: TFMTBCDField;
-    qryConta_MovimentoENTRADA: TFMTBCDField;
-    qryConta_MovimentoSAIDA: TFMTBCDField;
-    qrySomaTOTAL: TFMTBCDField;
-    qryTabelaACRESCIMO: TFMTBCDField;
-    qryItemQTD: TFMTBCDField;
-    qryItemE_MEDIO: TFMTBCDField;
-    qryItemQTD_DEVOLVIDA: TFMTBCDField;
+    qryItemPRECO: TBCDField;
+    qryItemVALOR_ITEM: TBCDField;
+    qryItemVDESCONTO: TBCDField;
+    qryItemTOTAL: TBCDField;
+    qryItemACRESCIMO: TBCDField;
+    qryProdE_MEDIO: TBCDField;
+    qryConta_MovimentoENTRADA: TBCDField;
+    qryConta_MovimentoSAIDA: TBCDField;
+    qrySomaTOTAL: TBCDField;
+    qryTabelaACRESCIMO: TBCDField;
+    qryItemQTD: TBCDField;
+    qryItemE_MEDIO: TBCDField;
+    qryItemQTD_DEVOLVIDA: TBCDField;
     qryClienteCODIGO: TIntegerField;
     qryClienteRAZAO: TStringField;
     qryClienteCNPJ: TStringField;
@@ -126,9 +115,9 @@ type
     qryClienteCEP: TStringField;
     qryClienteFONE1: TStringField;
     qryClienteCELULAR1: TStringField;
-    qryComposicaoQUANTIDADE: TFMTBCDField;
-    qryVendaTOTAL_TROCA: TFMTBCDField;
-    qryContas: TFDQuery;
+    qryComposicaoQUANTIDADE: TBCDField;
+    qryVendaTOTAL_TROCA: TBCDField;
+    qryContas: TZQuery;
     qryContasCODIGO: TIntegerField;
     qryContasDESCRICAO: TStringField;
     qryContasTIPO: TStringField;
@@ -138,16 +127,16 @@ type
     qryContasLOTE: TIntegerField;
     qryContasSITUACAO: TStringField;
     qryItemFK_GRADE: TIntegerField;
-    qryGrade: TFDQuery;
+    qryGrade: TZQuery;
     qryGradeFK_PRODUTO: TIntegerField;
     qryGradeDESCRICAO: TStringField;
-    qryGradeQTD: TFMTBCDField;
+    qryGradeQTD: TBCDField;
     dsGrade: TDataSource;
     qryGradeCODIGO: TIntegerField;
     actBusca: TAction;
-    qryConta_MovimentoTROCA: TFMTBCDField;
-    qryConta_MovimentoSALDO: TFMTBCDField;
-    qryGradePRECO: TFMTBCDField;
+    qryConta_MovimentoTROCA: TBCDField;
+    qryConta_MovimentoSALDO: TBCDField;
+    qryGradePRECO: TBCDField;
     qryVendaOS: TStringField;
     qryVendaFK_OS: TIntegerField;
     actReceber: TAction;
@@ -156,7 +145,7 @@ type
     Panel6: TPanel;
     Panel2: TPanel;
     imgLogo: TImage;
-    qryPesqConta: TFDQuery;
+    qryPesqConta: TZQuery;
     qryPesqContaCODIGO: TIntegerField;
     qryPesqContaDESCRICAO: TStringField;
     qryPesqContaTIPO: TStringField;
@@ -174,16 +163,16 @@ type
     qryPesqProdCODBARRA: TStringField;
     qryPesqProdNCM: TStringField;
     qryPesqProdREFERENCIA: TStringField;
-    qryPesqProdPR_VENDA: TFMTBCDField;
-    qryPesqProdPRECO_ATACADO: TFMTBCDField;
-    qryPesqProdQTD_ATACADO: TFMTBCDField;
-    qryPesqProdQTD_ATUAL: TFMTBCDField;
+    qryPesqProdPR_VENDA: TBCDField;
+    qryPesqProdPRECO_ATACADO: TBCDField;
+    qryPesqProdQTD_ATACADO: TBCDField;
+    qryPesqProdQTD_ATUAL: TFloatField;
     qryPesqProdUNIDADE: TStringField;
     qryPesqProdEFISCAL: TStringField;
-    qryPesqProdE_MEDIO: TFMTBCDField;
+    qryPesqProdE_MEDIO: TBCDField;
     qryPesqProdLOCALIZACAO: TStringField;
-    qryPesqProdPRECO_PROMO_VAREJO: TFMTBCDField;
-    qryPesqProdPRECO_PROMO_ATACADO: TFMTBCDField;
+    qryPesqProdPRECO_PROMO_VAREJO: TBCDField;
+    qryPesqProdPRECO_PROMO_ATACADO: TBCDField;
     qryPesqProdPRECO_VARIAVEL: TStringField;
     qryPesqProdDESCONTO: TCurrencyField;
     qryPesqProdINICIO_PROMOCAO: TDateField;
@@ -192,19 +181,19 @@ type
     qryPesqProdREMEDIO: TStringField;
     qryPesqProdGRADE: TStringField;
     qryPesqProdPREFIXO_BALANCA: TStringField;
-    qryPesqProdVIRTUAL_PRECO: TExtendedField;
+    qryPesqProdVIRTUAL_PRECO: TFloatField;
     actAbrir: TAction;
     ACBrBAL1: TACBrBAL;
     StatusBar1: TStatusBar;
     qryPesqProdPRODUTO_PESADO: TStringField;
-    qryPesqProdQTD_FISCAL: TFMTBCDField;
-    qryProdQTD_FISCAL: TFMTBCDField;
-    qryItemQTD_FISCAL: TExtendedField;
+    qryPesqProdQTD_FISCAL: TBCDField;
+    qryProdQTD_FISCAL: TBCDField;
+    qryItemQTD_FISCAL: TFloatField;
     actCliente: TAction;
     actReimprimir: TAction;
     qryPesqProdSERIAL: TStringField;
     Timer2: TTimer;
-    qtdAtacado: TFDQuery;
+    qtdAtacado: TZQuery;
     Panel1: TPanel;
     PageControl2: TPageControl;
     TabPDV: TTabSheet;
@@ -221,9 +210,9 @@ type
     DBText4: TDBText;
     tabDelivery: TTabSheet;
     PanelRestaurante: TPanel;
-    DBGridR: TDBGridEh;
+    DBGridR: TRxDBGrid;
     PanelPDV: TPanel;
-    DBGridP: TDBGridEh;
+    DBGridP: TRxDBGrid;
     grpSelecaoP: TGroupBox;
     EdtProdutoP: TEdit;
     Panel10: TPanel;
@@ -244,17 +233,12 @@ type
     edtPrecoR: TEdit;
     grpTotalItem: TGroupBox;
     lblTotalR: TLabel;
-    frxPDFExport: TfrxPDFExport;
-    frxReport: TfrxReport;
-    frxDBEmpresa: TfrxDBDataset;
-    frxDBPedido: TfrxDBDataset;
-    frxDBItens: TfrxDBDataset;
     qryVendaFK_MESA: TIntegerField;
     grpObs: TGroupBox;
     edtOBSR: TEdit;
     qryItemDESCRICAO_OBS: TStringField;
     qryItemOBSERVACAO: TStringField;
-    qryBuscaFone: TFDQuery;
+    qryBuscaFone: TZQuery;
     qryBuscaFoneCODIGO: TIntegerField;
     qryBuscaFoneFANTASIA: TStringField;
     qryBuscaFoneENDERECO: TStringField;
@@ -266,13 +250,13 @@ type
     qryBuscaFoneCOMPLEMENTO: TStringField;
     dsBuscaFone: TDataSource;
     qryVendaFK_ENTREGADOR: TIntegerField;
-    qryEntregador: TFDQuery;
+    qryEntregador: TZQuery;
     qryEntregadorCODIGO: TIntegerField;
     qryEntregadorNOME: TStringField;
     dsEntregador: TDataSource;
     qryVendaVIRTUAL_ENTREGADOR: TStringField;
     qryVendaNOME: TStringField;
-    DBGridBuscaR: TDBGridEh;
+    DBGridBuscaR: TRxDBGrid;
     qryBuscaFoneCELULAR1: TStringField;
     grpTotalGeralP: TGroupBox;
     DBText1: TDBText;
@@ -314,7 +298,7 @@ type
     qryVendaVIRTUAL_BAIRRO: TStringField;
     qryClienteCOMPLEMENTO: TStringField;
     qryVendaVIRTUAL_COMPLEMENTO: TStringField;
-    qryPedido: TFDQuery;
+    qryPedido: TZQuery;
     btnImprimeItem: TLabel;
     actImprimeItem: TAction;
     actImprimePedido: TAction;
@@ -322,14 +306,14 @@ type
     actAtualizaMesa: TAction;
     qryPedidoCODIGO: TIntegerField;
     pnDelivery: TPanel;
-    DBGridD: TDBGridEh;
+    DBGridD: TRxDBGrid;
     Panel13: TPanel;
     grpCliente: TGroupBox;
     edtCliente: TLabel;
     pnEndereco: TPanel;
     grpTelefone: TGroupBox;
     edtFone: TMaskEdit;
-    DBGridBuscaD: TDBGridEh;
+    DBGridBuscaD: TRxDBGrid;
     Panel14: TPanel;
     PageControl3: TPageControl;
     TabSheet2: TTabSheet;
@@ -348,21 +332,21 @@ type
     Label3: TLabel;
     lblGeralD: TLabel;
     Splitter4: TSplitter;
-    ObservaÁıes: TTabSheet;
+    Observacoes: TTabSheet;
     DBMemo1: TDBMemo;
-    DBGridBuscaP: TDBGridEh;
-    DBGridClie: TDBGridEh;
+    DBGridBuscaP: TRxDBGrid;
+    DBGridClie: TRxDBGrid;
     qryProdTIPO_ALIMENTO: TStringField;
     qryItemVIRTUAL_TIPO_ALIMENTO: TStringField;
     btnAbrirMesa: TLabel;
     actAbrirMesa: TAction;
-    qryProdCOMISSAOPERCENTUAL: TFMTBCDField;
-    qryProdVALORCOMISSAO: TFMTBCDField;
+    qryProdCOMISSAOPERCENTUAL: TBCDField;
+    qryProdVALORCOMISSAO: TBCDField;
     qryProdULTFORN: TIntegerField;
     qryPesqProdULTFORN: TIntegerField;
     qryProdFOTO: TBlobField;
     qryPesqProdFOTO: TBlobField;
-    cxDBImage1: TcxDBImage;
+    cxDBImage1: TDBImage;
     ACBrLCB1: TACBrLCB;
     ACBrInStore1: TACBrInStore;
     qryVendaKM: TStringField;
@@ -459,6 +443,9 @@ type
     procedure ACBrInStore1GetPrecoUnitario(const Codigo: string;
       var PrecoUnitario: Double);
   private
+    FSomandoItens: Boolean;
+    function SomaItens: Extended;
+  private
     vSql, vSQLVenda, vSqlBusca: string;
     ehCaixaRapido: string;
     vSerie: String;
@@ -554,14 +541,14 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados, uAbreCaixa, uSuprimento_Sangria,
-  uFormaPagamento, uImportar, uResumoCaixa, uSupervisor, uCadProduto,
-  uBuscaPreco, uConsReceber, uPesquisaPrincipio, uSplash, uAcesso,
-  uMenuImportarPDV, uConsVendedor, uGrade, uRemoveProduto, uCadPessoa, uResumo,
-  uChave, uTransfComanda, uConsEntregador, uTef, uDmNFe, uDmPDV, uDesconhecido,
-  uCadPessoaRapido, udmImpressao, uReimprimir, uDMEstoque;
+uses
+  Udados, uAbreCaixa, uSuprimento_Sangria, uFormaPagamento, uImportar, uResumoCaixa, uSupervisor,
+  uCadProduto, uBuscaPreco, uConsReceber, uPesquisaPrincipio, uSplash, uAcesso, uMenuImportarPDV,
+  uConsVendedor, uGrade, uRemoveProduto, uCadPessoa, uResumo, uChave, uTransfComanda,
+  uConsEntregador, uTef, uDmNFe, uDmPDV, uDesconhecido, uCadPessoaRapido, udmImpressao,
+  uReimprimir, uDMEstoque;
 
 function TFrmPDV.BaixaSerial(idProduto: Integer; idVenda: Integer;
   valor: Extended; Serie: String): Integer;
@@ -582,7 +569,7 @@ begin
   else
   begin
     result := 0;
-    raise Exception.Create('Serial n„o foi encontrado!');
+    raise Exception.Create('Serial n√£o foi encontrado!');
   end;
 
 end;
@@ -915,7 +902,7 @@ begin
         end;
 
       except
-        raise Exception.Create('N„o foi possÌvel Selecionar Produto!');
+        raise Exception.Create('N√£o foi poss√≠vel Selecionar Produto!');
       end;
     end;
   end
@@ -952,7 +939,7 @@ begin
         end;
 
       except
-        raise Exception.Create('N„o foi possÌvel Selecionar Produto!');
+        raise Exception.Create('N√£o foi poss√≠vel Selecionar Produto!');
       end;
     end
     else
@@ -1070,16 +1057,50 @@ begin
 
 end;
 
-procedure TFrmPDV.dsItemDataChange(Sender: TObject; Field: TField);
+{ Soma de VALOR_ITEM dos itens carregados. No Delphi era o campo agregado qryItemTTOTAL (SUM(VALOR_ITEM)) do FireDAC,
+  que o Zeos n√£o tem. Percorre os itens sem avisar a tela; a guarda evita repetir a soma quando a tela √© avisada no
+  fim. }
+function TFrmPDV.SomaItens: Extended;
+var
+  Marca: TBookmark;
 begin
+  Result := 0;
+  if FSomandoItens or not qryItem.Active or qryItem.IsEmpty then
+    Exit;
+  FSomandoItens := True;
+  qryItem.DisableControls;
+  Marca := qryItem.GetBookmark;
+  try
+    qryItem.First;
+    while not qryItem.Eof do
+    begin
+      Result := Result + qryItemVALOR_ITEM.AsFloat;
+      qryItem.Next;
+    end;
+    qryItem.GotoBookmark(Marca);
+  finally
+    qryItem.FreeBookmark(Marca);
+    qryItem.EnableControls;
+    FSomandoItens := False;
+  end;
+end;
 
-  if qryItemTTOTAL.Value > 0 then
-    lblGeral.Caption := FormatFloat('0.00', qryItemTTOTAL.Value)
+procedure TFrmPDV.dsItemDataChange(Sender: TObject; Field: TField);
+var
+  vTotalItens: Extended;
+begin
+  // durante a inclus√£o ou edi√ß√£o de um item o total s√≥ muda depois de gravar, como no agregado do FireDAC
+  if FSomandoItens or (qryItem.State in [dsEdit, dsInsert]) then
+    Exit;
+  vTotalItens := SomaItens;
+
+  if vTotalItens > 0 then
+    lblGeral.Caption := FormatFloat('0.00', vTotalItens)
   else
     lblGeral.Caption := FormatFloat('0.00', 0);
 
-  if qryItemTTOTAL.Value > 0 then
-    lblGeralD.Caption := FormatFloat('0.00', qryItemTTOTAL.Value)
+  if vTotalItens > 0 then
+    lblGeralD.Caption := FormatFloat('0.00', vTotalItens)
   else
     lblGeralD.Caption := FormatFloat('0.00', 0);
 
@@ -1247,7 +1268,7 @@ begin
    valorcomissao := valor * percentual / 100;
    CodigoFKFornecedor := qryPesqProdULTFORN.Value;
 
-//  ShowMessage('Perdcentual: '+floattostr(percentual)+' | Valor comiss„o: '+floattostr(valorcomissao)+' | Fornecedor: '+IntToStr(CodigoFKFornecedor)+' | Fornecedor: '+IntToStr(qryPesqProdULTFORN.Value));
+//  ShowMessage('Perdcentual: '+floattostr(percentual)+' | Valor comiss√£o: '+floattostr(valorcomissao)+' | Fornecedor: '+IntToStr(CodigoFKFornecedor)+' | Fornecedor: '+IntToStr(qryPesqProdULTFORN.Value));
     //  qryProdVALORCOMISSAO.AsFloat := valorcomissao;
 
 
@@ -1542,7 +1563,7 @@ begin
     else
 
       result := 'Existe NFC-e emitida para esta venda!' + sLineBreak +
-        'N˙mero NFCe...:' + Dados.qryConsulta.FieldByName('NUMERO').AsString;
+        'N√∫mero NFCe...:' + Dados.qryConsulta.FieldByName('NUMERO').AsString;
 
     if operacao = 'EXCLUIR ITEM' then
     begin
@@ -1552,7 +1573,7 @@ begin
       else
       begin
         result := 'Existe NFC-e emitida para esta venda!' + sLineBreak +
-          'N˙mero NFCe...:' + Dados.qryConsulta.FieldByName('NUMERO').AsString;;
+          'N√∫mero NFCe...:' + Dados.qryConsulta.FieldByName('NUMERO').AsString;;
       end;
     end;
 
@@ -1615,7 +1636,7 @@ begin
     end;
   end;
 
-  if PageControl2.ActivePage <> tabRestaurante then // se n„o for restaurante
+  if PageControl2.ActivePage <> tabRestaurante then // se n√£o for restaurante
   begin
     if (BuscaNumeroVenda = 0) then
       inserevenda
@@ -1664,10 +1685,10 @@ begin
 
   if not qryPesqConta.IsEmpty then
   begin
-    Caption := ' PDV - Venda de Balc„o | ' + qryPesqContaDESCRICAO.Value +
+    Caption := ' PDV - Venda de Balc√£o | ' + qryPesqContaDESCRICAO.Value +
       ' | Op.:' + Dados.vUsuario;
     StatusBar1.Panels[0].Text := 'Conta:' + qryPesqContaDESCRICAO.Value;
-    StatusBar1.Panels[1].Text := 'Usu·rio:' + Dados.vUsuario;
+    StatusBar1.Panels[1].Text := 'Usu√°rio:' + Dados.vUsuario;
     Dados.vConta := qryPesqContaDESCRICAO.Value;
   end
   else
@@ -2062,7 +2083,7 @@ begin
     vMensagem := 'Deseja Cancelar Pedido?' + sLineBreak +
       GerouNFCe('CANCELA VENDA');
 
-  if Application.messagebox(pwidechar(vMensagem), 'ConfirmaÁ„o', mb_yesno) = mrYes
+  if Application.messagebox(PChar(vMensagem), 'Confirma√ß√£o', mb_yesno) = mrYes
   then
   begin
 
@@ -2190,7 +2211,7 @@ begin
 
     if not qryItem.IsEmpty then
     begin
-      if Application.messagebox(pwidechar(vMensagem), 'ConfirmaÁ„o', mb_yesno) = mrYes
+      if Application.messagebox(PChar(vMensagem), 'Confirma√ß√£o', mb_yesno) = mrYes
       then
       begin
 
@@ -2311,14 +2332,14 @@ var
 begin
 
   if Application.messagebox('Tem certeza de que deseja Fechar Caixa?',
-    'ConfirmaÁ„o', mb_yesno) = mrno then
+    'Confirma√ß√£o', mb_yesno) = mrno then
     exit;
 
   Dados.vPodeFecharCaixa := false;
 
   try
     frmResumoCaixa := TfrmResumoCaixa.Create(Application);
-    frmResumoCaixa.Caption := 'Resumo Caixa - Usu·rio:' + Dados.vUsuario;
+    frmResumoCaixa.Caption := 'Resumo Caixa - Usu√°rio:' + Dados.vUsuario;
 
     frmResumoCaixa.FUsuario := Dados.idUsuario;
     frmResumoCaixa.FLote := Dados.Lote;
@@ -2374,7 +2395,7 @@ begin
     VendaExiste;
     raise Exception.Create('Venda foi finalizada em outra instancia do sistema!'
       + sLineBreak +
-      'Evite abrir o PDV com o mesmo usu·rio em mais de uma inst‚ncia do Sistema!');
+      'Evite abrir o PDV com o mesmo usu√°rio em mais de uma inst√¢ncia do Sistema!');
   end;
 end;
 
@@ -2393,7 +2414,7 @@ begin
   if Dados.qryConfigCLIENTE_PADRAO.IsNull then
   begin
     ShowMessage
-      ('V· È em configuraÁıes e informe o cÛdigo do cliente Consumidor Final!');
+      ('V√° √© em configura√ß√µes e informe o c√≥digo do cliente Consumidor Final!');
     exit;
   end;
 
@@ -2554,7 +2575,7 @@ begin
     if ACBrBAL1.Ativo then
       ACBrBAL1.Desativar;
 
-    // configura porta de comunicaÁ„o
+    // configura porta de comunica√ß√£o
     ACBrBAL1.modelo := TACBrBALModelo
       (strtointdef(Dados.qryTerminalBALANCA_MARCA.Value, 0));
     ACBrBAL1.Device.HandShake :=
@@ -2571,13 +2592,13 @@ begin
       strtointdef(Dados.qryTerminalBALANCA_VELOCIDADE.Value, 9600);
     ACBrBAL1.Device.Porta := Dados.qryTerminalBALANCA_PORTA.Value;
 
-    // Conecta com a balanÁa
+    // Conecta com a balan√ßa
     ACBrBAL1.Ativar;
 
   except
     on e: Exception do
       raise Exception.Create
-        ('BalanÁa Habilitada! Verifique a configuraÁ„o da BalanÁa:' + sLineBreak
+        ('Balan√ßa Habilitada! Verifique a configura√ß√£o da Balan√ßa:' + sLineBreak
         + e.Message);
   end;
 
@@ -2587,12 +2608,12 @@ procedure TFrmPDV.btnAbrirMesaClick(Sender: TObject);
 var
   numero: Integer;
 begin
-  numero := strtointdef(InputBox('Mesa', 'N˙mero:', ''), 0);
+  numero := strtointdef(InputBox('Mesa', 'N√∫mero:', ''), 0);
   if not Dados.qryMesas.Locate('codigo', numero, []) then
-    raise Exception.Create('Mesa n„o existe!');
+    raise Exception.Create('Mesa n√£o existe!');
 
   if Dados.qryMesasSITUACAO.Value = 'O' then
-    raise Exception.Create('Mesa j· est· ocupada!');
+    raise Exception.Create('Mesa j√° est√° ocupada!');
 
   imgLivreDblClick(Sender);
 
@@ -2646,7 +2667,7 @@ begin
     exit;
   try
     frmResumoCaixa := TfrmResumoCaixa.Create(Application);
-    frmResumoCaixa.Caption := 'Resumo Caixa - Usu·rio:' + Dados.vUsuario;
+    frmResumoCaixa.Caption := 'Resumo Caixa - Usu√°rio:' + Dados.vUsuario;
     frmResumoCaixa.FUsuario := Dados.idUsuario;
     frmResumoCaixa.FLote := Dados.Lote;
     frmResumoCaixa.Tag := 1;
@@ -2725,7 +2746,7 @@ begin
   PodeAtualizarEstoque := true;
 
 
- // ShowMessage('Perdcentual: '+floattostr(percentual)+' | Valor comiss„o: '+floattostr(valorcomissao));
+ // ShowMessage('Perdcentual: '+floattostr(percentual)+' | Valor comiss√£o: '+floattostr(valorcomissao));
    //  qryProdVALORCOMISSAO.AsFloat := valorcomissao;
 
 
@@ -2771,25 +2792,25 @@ begin
     end;
 
     raise Exception.Create
-      ('OperaÁ„o n„o permitida, J· existe NFC-e gerada para esta venda!' +
-      sLineBreak + 'NFC-e N˙mero' + Dados.qryConsulta.FieldByName('NUMERO')
+      ('Opera√ß√£o n√£o permitida, J√° existe NFC-e gerada para esta venda!' +
+      sLineBreak + 'NFC-e N√∫mero' + Dados.qryConsulta.FieldByName('NUMERO')
       .AsString);
   end;
 
   if Preco <= 0 then
   begin
-    ShowMessage('Produto est· com o preÁo inv·lido');
+    ShowMessage('Produto est√° com o pre√ßo inv√°lido');
     exit;
   end;
 
   if Qtd <= 0 then
   begin
-    ShowMessage('Produto est· com a quantidade inv·lida');
+    ShowMessage('Produto est√° com a quantidade inv√°lida');
   end;
 
   if Qtd > 9999 then
   begin
-    ShowMessage('Produto est· com a quantidade inv·lida');
+    ShowMessage('Produto est√° com a quantidade inv√°lida');
 
     if PageControl2.ActivePage = TabPDV then
     begin
@@ -3126,7 +3147,7 @@ begin
   if qryVenda.State in dsEditModes then
     qryVenda.Post;
 
-  if Application.messagebox('Deseja Imprimir Item', ' ConfirmaÁ„o ', mb_yesno)
+  if Application.messagebox('Deseja Imprimir Item', ' Confirma√ß√£o ', mb_yesno)
     <> mrYes then
     exit;
 
@@ -3146,7 +3167,7 @@ begin
   if qryVenda.State in dsEditModes then
     qryVenda.Post;
 
-  if Application.messagebox('Deseja Imprimir Pedido?', ' ConfirmaÁ„o ',
+  if Application.messagebox('Deseja Imprimir Pedido?', ' Confirma√ß√£o ',
     mb_yesno) <> mrYes then
     exit;
 
@@ -3703,7 +3724,7 @@ begin
       qryItem.Next;
     end;
     if trim(qryVendaOBSERVACOES.AsString) <> '' then
-      SL.Add('ObservaÁıes:' + qryVendaOBSERVACOES.Value);
+      SL.Add('Observa√ß√µes:' + qryVendaOBSERVACOES.Value);
     SL.Add('</linha_dupla>');
     SL.Add('</corte>');
 
@@ -3771,7 +3792,7 @@ begin
   begin
     if pnDelivery.Enabled then
       edtFone.SetFocus;
-    raise Exception.Create('N˙mero de Telefone Inv·lido!');
+    raise Exception.Create('N√∫mero de Telefone Inv√°lido!');
   end;
 end;
 
@@ -3860,7 +3881,7 @@ begin
     PanelPDV.Enabled := false;
     pnRestaurante.Enabled := false;
     pnDelivery.Enabled := false;
-    raise Exception.Create('Caixa n„o È de hoje!');
+    raise Exception.Create('Caixa n√£o √© de hoje!');
   end
   else
   begin
@@ -3871,7 +3892,7 @@ end;
 
 function TFrmPDV.SituacaoCaixa: Boolean;
 begin
-  // verifica se caixa est· aberto
+  // verifica se caixa est√° aberto
   result := false;
   Dados.qryConsulta.close;
   Dados.qryConsulta.SQL.Text :=
@@ -3898,8 +3919,8 @@ end;
 procedure TFrmPDV.HabilitaPreVenda;
 begin
   Caption := 'PV - Pedido de Venda';
-  StatusBar1.Panels[0].Text := 'PR…-VENDA';
-  StatusBar1.Panels[1].Text := 'Usu·rio:' + Dados.vUsuario;
+  StatusBar1.Panels[0].Text := 'PR√â-VENDA';
+  StatusBar1.Panels[1].Text := 'Usu√°rio:' + Dados.vUsuario;
   StatusBar1.Panels[2].Text := 'Vendedor:' + qryVendaVIRTUAL_VENDEDOR.Value;
   habilitacampos(true);
 
@@ -3917,7 +3938,7 @@ begin
   Dados.qryTerminal.Open;
   if not Dados.qryTerminal.Locate('nome', Dados.Getcomputer, []) then
   begin
-    ShowMessage('Terminal n„o cadastrado!');
+    ShowMessage('Terminal n√£o cadastrado!');
     close;
   end;
   Dados.TerminalCaixa := Dados.qryTerminalEH_CAIXA.AsString = 'S';
@@ -4001,8 +4022,8 @@ begin
     if Dados.checanfce(qryVendaCODIGO.Value) then
     begin
       raise Exception.Create
-        ('OperaÁ„o n„o permitida, J· existe NFC-e gerada para esta venda!' +
-        sLineBreak + 'NFC-e n˙mero' + Dados.qryConsulta.FieldByName('NUMERO')
+        ('Opera√ß√£o n√£o permitida, J√° existe NFC-e gerada para esta venda!' +
+        sLineBreak + 'NFC-e n√∫mero' + Dados.qryConsulta.FieldByName('NUMERO')
         .AsString);
     end;
 
@@ -4036,7 +4057,7 @@ begin
 
   valorcomissao := valor * percentual / 100;
 
-  ShowMessage('Valor comiss„o: '+FloatToIntStr(valorcomissao));
+  ShowMessage('Valor comiss√£o: '+FloatToIntStr(valorcomissao));
 
   if Dados.tela <> 'FPG' then
   begin
@@ -4065,7 +4086,7 @@ procedure TFrmPDV.qryItemQTDValidate(Sender: TField);
 begin
 
   if qryItemQTD.Value < 0 then
-    raise Exception.Create('Quantidade Inv·lida!');
+    raise Exception.Create('Quantidade Inv√°lida!');
 
   if qryItemQTD.Value > 9999 then
     raise Exception.Create('Quantidade maior que o permitido!!');
@@ -4076,7 +4097,7 @@ procedure TFrmPDV.qryItemVALOR_ITEMValidate(Sender: TField);
 begin
 
   if qryItemVALOR_ITEM.Value < 0 then
-    raise Exception.Create('Valor Inv·lido!');
+    raise Exception.Create('Valor Inv√°lido!');
 
   if qryItemVALOR_ITEM.Value > 999999 then
     raise Exception.Create('Valor maior que o permitido!!');
@@ -4098,7 +4119,7 @@ begin
     if qryPesqProdQTD_ATUAL.Value < 0 then
     begin
       if (qryPesqProdSERVICO.Value <> 'S') then
-      // se n„o for servico
+      // se n√£o for servico
       begin
         if PageControl2.ActivePage = TabPDV then
         begin
@@ -4133,7 +4154,7 @@ begin
       if qryPesqProdQTD_ATUAL.Value < Qtd then
       begin
         if (qryPesqProdSERVICO.Value <> 'S') then
-        // se n„o for servico
+        // se n√£o for servico
         begin
           if PageControl2.ActivePage = TabPDV then
           begin
@@ -4181,7 +4202,7 @@ begin
 
   if not((qryPesqProdINICIO_PROMOCAO.Value >= date) and
     (date <= qryPesqProdFIM_PROMOCAO.Value)) then
-  // n„o est· em promoÁ„o
+  // n√£o est√° em promo√ß√£o
   begin //
 
     if qryPesqProdDESCONTO.Value > 0 then
@@ -4189,7 +4210,7 @@ begin
       percentual := 100 - ((Preco / qryPesqProdPR_VENDA.AsFloat) * 100);
       if percentual > qryPesqProdDESCONTO.AsFloat then
       begin
-        ShowMessage('Desconto m·ximo para este produto È de' +
+        ShowMessage('Desconto m√°ximo para este produto √© de' +
           qryPesqProdDESCONTO.AsString + '%');
         result := false;
         exit;
@@ -4206,7 +4227,7 @@ begin
         percentual := 100 - ((Preco / qryPesqProdVIRTUAL_PRECO.Value) * 100);
         if percentual > qryPesqProdDESCONTO.AsFloat then
         begin
-          ShowMessage('Desconto m·ximo para este produto È de' +
+          ShowMessage('Desconto m√°ximo para este produto √© de' +
             qryPesqProdDESCONTO.AsString + '%');
           result := false;
           exit;
@@ -4217,7 +4238,7 @@ begin
     begin
       if qryPesqProdVIRTUAL_PRECO.AsFloat < Preco then
       begin
-        ShowMessage('N„o È permitido descontos para produtos em promoÁ„o!');
+        ShowMessage('N√£o √© permitido descontos para produtos em promo√ß√£o!');
         result := false;
         exit;
       end;
@@ -4247,7 +4268,7 @@ begin
   if (date >= qryPesqProdINICIO_PROMOCAO.AsDateTime) and
     (date <= qryPesqProdFIM_PROMOCAO.AsDateTime) then
   begin
-    // produto em promoÁ„o
+    // produto em promo√ß√£o
     qryPesqProdVIRTUAL_PRECO.AsFloat := qryPesqProdPRECO_PROMO_VAREJO.AsFloat;
     if (Qtde >= qryPesqProdQTD_ATACADO.AsFloat) and
       (qryPesqProdQTD_ATACADO.AsFloat > 0) and
@@ -4374,7 +4395,7 @@ begin
   end
   else
   begin
-    edtCliente.Caption := 'CLIENTE N√O FOI LOCALIZADO';
+    edtCliente.Caption := 'CLIENTE N√ÉO FOI LOCALIZADO';
     pnEndereco.Caption := '';
     edtFone.Text := '';
   end;
@@ -4958,7 +4979,7 @@ end;
 
 procedure TFrmPDV.edtQtdPEnter(Sender: TObject);
 begin
-       ShowMessage('O "2" esta na posiÁ„o ' + IntToStr(Pos('2', EdtProdutoP.Text)));
+       ShowMessage('O "2" esta na posi√ß√£o ' + IntToStr(Pos('2', EdtProdutoP.Text)));
   if ehCaixaRapido = 'S' then
   begin
 
@@ -5197,7 +5218,7 @@ begin
     if not DBGridBuscaP.Visible then
     begin
       if Application.messagebox('Tem certeza de que deseja sair?',
-        'ConfirmaÁ„o', mb_yesno) = mrYes then
+        'Confirma√ß√£o', mb_yesno) = mrYes then
         close;
     end;
   end;
@@ -5483,7 +5504,7 @@ begin
       0:
         begin
           raise Exception.Create('TimeOut !' + sLineBreak +
-            'Coloque o produto sobre a BalanÁa!');
+            'Coloque o produto sobre a Balan√ßa!');
           if PageControl2.ActivePage = TabPDV then
             EdtProdutoP.SetFocus;
           if PageControl2.ActivePage = tabRestaurante then
@@ -5730,7 +5751,7 @@ begin
   try
 
     if not Dados.TerminalCaixa then
-    // verifica ce o terminal È caixa
+    // verifica ce o terminal √© caixa
     begin
       HabilitaPreVenda;
     end
@@ -5750,7 +5771,7 @@ begin
       end
       else
       begin
-        // n„o existe caixa aberto para para usuario
+        // n√£o existe caixa aberto para para usuario
 
         btnCaixa.Caption := 'F2 Abrir Caixa                 ';
         btnCaixa.Tag := 1;

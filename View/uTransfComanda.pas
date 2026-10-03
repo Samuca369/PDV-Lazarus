@@ -1,28 +1,26 @@
 unit uTransfComanda;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls, Vcl.DBCtrls,
-  Vcl.Imaging.pngimage, Vcl.StdCtrls, Vcl.Buttons, JvComponentBase, JvEnterTab;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, DB, ExtCtrls,
+  DBCtrls, StdCtrls, Buttons, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset,
+  ZAbstractConnection, ACBrEnterTab;
 
 type
   TfrmTransfComanda = class(TForm)
     Label2: TLabel;
     Label4: TLabel;
-    qryOrigem: TFDQuery;
+    qryOrigem: TZQuery;
     Panel4: TPanel;
     btnGravar: TSpeedButton;
     btnCancelar: TSpeedButton;
     qryOrigemCODIGO: TIntegerField;
     edtOrigem: TEdit;
     edtDestino: TEdit;
-    JvEnterAsTab1: TJvEnterAsTab;
+    JvEnterAsTab1: TACBrEnterTab;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -39,9 +37,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses uDados, uPDV;
+uses
+  uDados, uPDV;
 
 procedure TfrmTransfComanda.btnCancelarClick(Sender: TObject);
 begin
@@ -85,13 +84,13 @@ begin
     raise Exception.Create('Informe a Mesa/Comanda de Destino!');
 
   if (edtOrigem.Text = edtDestino.Text) then
-    raise Exception.Create('Origem é igual ao Desinto!');
+    raise Exception.Create('Origem Ã© igual ao Desinto!');
 
   if not qryOrigem.Locate('codigo', edtOrigem.Text, []) then
-    raise Exception.Create('Mesa de Origem não Cadastrada!');
+    raise Exception.Create('Mesa de Origem nÃ£o Cadastrada!');
 
   if not qryOrigem.Locate('codigo', edtDestino.Text, []) then
-    raise Exception.Create('Mesa de Destino não Cadastrada!');
+    raise Exception.Create('Mesa de Destino nÃ£o Cadastrada!');
 
   try
 
@@ -131,7 +130,7 @@ begin
       dados.qryUpdate.ExecSQL;
       Dados.Confirmar;
 
-      if dados.qryMesas.Locate('codigo', edtDestino.Text) then
+      if dados.qryMesas.Locate('codigo', edtDestino.Text, []) then
       begin
 
         frmpdv.VendaExiste;
@@ -154,7 +153,7 @@ begin
 
     end;
 
-    ShowMessage('Transferência de MESA/COMANDA realizada com sucesso!');
+    ShowMessage('TransferÃªncia de MESA/COMANDA realizada com sucesso!');
     Close;
 
   except

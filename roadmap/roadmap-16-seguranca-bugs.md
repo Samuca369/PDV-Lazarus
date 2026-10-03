@@ -17,6 +17,12 @@
 - [ ] Consultas do `Udados` que não abrem nem no original (achadas pelo `testes/TesteNucleo`):
       `qryProdutos` (SQL emendado: `select * from Produtoselect PRO.*...`), `qryCartao` (tabela `CARTAO` não existe)
       e `qryResumoCaixa` (`VENDAS_MASTER` não tem `EMPRESA`, só `FKEMPRESA`). As duas últimas não são usadas: remover.
+- [ ] `ShowMessage` de depuração esquecidos no `View/uPDV.pas` (achados no roadmap 4):
+      'O "2" esta na posição...' em `edtQtdPEnter` (aparece a cada item) e 'Valor comissão: ...' em
+      `qryItemBeforePost`. Remover.
+- [ ] Código que começa com "2" é tratado como etiqueta de balança (`edtQtdPEnter` → `DecodificaBalanca`): um
+      produto de código 2, 20, 21... não entra pelo código. Conferir o prefixo da balança na configuração antes de
+      decodificar.
 
 ## Pronto quando
 

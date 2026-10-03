@@ -1,26 +1,24 @@
 unit uRemoveProduto;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, DB, StdCtrls,
+  ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset, ZAbstractConnection;
 
 type
   TFrmRemoveProduto = class(TForm)
     grpSelecao: TGroupBox;
     dsProduto: TDataSource;
-    qryProduto: TFDQuery;
+    qryProduto: TZQuery;
     qryProdutoCODIGO: TIntegerField;
     qryProdutoDESCRICAO: TStringField;
     qryProdutoCODBARRA: TStringField;
-    qryProdutoPR_VENDA: TFMTBCDField;
+    qryProdutoPR_VENDA: TBCDField;
     EdtProduto: TEdit;
-    qryVenda: TFDQuery;
+    qryVenda: TZQuery;
     qryVendaCODIGO: TIntegerField;
     qryVendaDATA_EMISSAO: TDateField;
     qryVendaDATA_SAIDA: TDateField;
@@ -45,32 +43,32 @@ type
     qryVendaVIRTUAL_TABELA: TStringField;
     qryVendaVIRTUAL_TX_ACRESC: TFloatField;
     qryVendaVIRTUAL_CNPJ: TStringField;
-    qryVendaSUBTOTAL: TFMTBCDField;
-    qryVendaDESCONTO: TFMTBCDField;
-    qryVendaTROCO: TFMTBCDField;
-    qryVendaDINHEIRO: TFMTBCDField;
-    qryVendaTOTAL: TFMTBCDField;
-    qryVendaPERCENTUAL: TFMTBCDField;
-    qryVendaPERCENTUAL_ACRESCIMO: TFMTBCDField;
-    qryVendaACRESCIMO: TFMTBCDField;
+    qryVendaSUBTOTAL: TBCDField;
+    qryVendaDESCONTO: TBCDField;
+    qryVendaTROCO: TBCDField;
+    qryVendaDINHEIRO: TBCDField;
+    qryVendaTOTAL: TBCDField;
+    qryVendaPERCENTUAL: TBCDField;
+    qryVendaPERCENTUAL_ACRESCIMO: TBCDField;
+    qryVendaACRESCIMO: TBCDField;
     qryVendaPEDIDO: TStringField;
-    qryVendaTOTAL_TROCA: TFMTBCDField;
+    qryVendaTOTAL_TROCA: TBCDField;
     qryVendaOS: TStringField;
     qryVendaFK_OS: TIntegerField;
     qryVendaFORMA_PAGAMENTO: TStringField;
-    qrySoma: TFDQuery;
-    qrySomaTOTAL: TFMTBCDField;
+    qrySoma: TZQuery;
+    qrySomaTOTAL: TBCDField;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure EdtProdutoExit(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
-    FQueryItem: TFDQuery;
+    FQueryItem: TZQuery;
     procedure excluirProduto;
     { Private declarations }
   public
     { Public declarations }
-    property QueryItem: TFDQuery read FQueryItem write FQueryItem;
+    property QueryItem: TZQuery read FQueryItem write FQueryItem;
 
   end;
 
@@ -79,9 +77,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados, uDMEstoque;
+uses
+  Udados, uDMEstoque;
 
 procedure TFrmRemoveProduto.excluirProduto;
 var
@@ -108,7 +107,7 @@ begin
 
   if not WNotLocate then
   begin
-    Showmessage(' Produto n„o encontrado ');
+    Showmessage(' Produto n√£o encontrado ');
     EdtProduto.Clear;
   end;
 
@@ -133,7 +132,7 @@ begin
   end;
 
   if not WNotLocate then
-    Showmessage(' Produto n„o encontrado ');
+    Showmessage(' Produto n√£o encontrado ');
 
 end;
 
@@ -146,7 +145,7 @@ end;
 
 procedure TFrmRemoveProduto.FormCreate(Sender: TObject);
 begin
-  // FQueryItem:= TFDQuery.Create(Self);
+  // FQueryItem:= TZQuery.Create(Self);
 end;
 
 procedure TFrmRemoveProduto.FormKeyDown(Sender: TObject; var Key: Word;

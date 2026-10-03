@@ -1,22 +1,20 @@
 unit uConsEntregador;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
-  ACBrBase, ACBrEnterTab, Data.DB, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  Buttons, ACBrBase, ACBrEnterTab, DB, Grids, DBGrids, ZConnection, ZDataset, ZAbstractRODataset,
+  ZAbstractDataset, ZAbstractConnection;
 
 type
   TFrmConsEntregador = class(TForm)
     edtLoc: TEdit;
     DBGrid1: TDBGrid;
     dsEntregador: TDataSource;
-    qryEntregador: TFDQuery;
+    qryEntregador: TZQuery;
     qryEntregadorNOME: TStringField;
     qryEntregadorCODIGO: TIntegerField;
     procedure edtLocChange(Sender: TObject);
@@ -40,9 +38,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados;
+uses
+  Udados;
 
 procedure TFrmConsEntregador.DBGrid1DblClick(Sender: TObject);
 begin

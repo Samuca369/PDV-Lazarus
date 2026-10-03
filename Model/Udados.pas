@@ -2094,12 +2094,12 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  serial, uConexaoBD, WinSock;
+  serial, uConexaoBD, WinSock, JwaIpHlpApi, JwaIpTypes;
 
 {$R *.lfm}
 
-{ IP da máquina na rede local (no Delphi vinha do componente TIdIPWatch). }
-function IpLocal: string;
+{ Primeiro endereço da máquina pelo nome. }
+function IpPeloNome: string;
 var
   Wsa: TWSAData;
   Nome: array [0 .. 255] of AnsiChar;
@@ -2117,6 +2117,38 @@ begin
   finally
     WSACleanup;
   end;
+end;
+
+{ IP da máquina na rede local (no Delphi vinha do componente TIdIPWatch). Usa o adaptador que tem gateway, para não
+  pegar adaptador virtual (WSL, Hyper-V, VPN); sem nenhum com gateway, o primeiro endereço da máquina. }
+function IpLocal: string;
+var
+  Tam: ULONG;
+  Lista, A: PIP_ADAPTER_INFO;
+  Ip, Gateway: string;
+begin
+  Tam := 0;
+  if GetAdaptersInfo(nil, Tam) = ERROR_BUFFER_OVERFLOW then
+  begin
+    GetMem(Lista, Tam);
+    try
+      if GetAdaptersInfo(Lista, Tam) = NO_ERROR then
+      begin
+        A := Lista;
+        while A <> nil do
+        begin
+          Ip := string(A^.IpAddressList.IpAddress.S);
+          Gateway := string(A^.GatewayList.IpAddress.S);
+          if (Ip <> '') and (Ip <> '0.0.0.0') and (Gateway <> '') and (Gateway <> '0.0.0.0') then
+            Exit(Ip);
+          A := A^.Next;
+        end;
+      end;
+    finally
+      FreeMem(Lista);
+    end;
+  end;
+  Result := IpPeloNome;
 end;
 
 { Com AutoCommit ligado o Zeos grava cada comando na hora; só há o que confirmar quando uma tela abriu

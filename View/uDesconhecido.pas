@@ -1,12 +1,12 @@
 unit uDesconhecido;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
-  ACBrBase, ACBrEnterTab;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  Buttons, ACBrBase, ACBrEnterTab;
 
 type
   Tfrmdesconhecido = class(TForm)
@@ -35,7 +35,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 
 procedure Tfrmdesconhecido.btnConcluirClick(Sender: TObject);

@@ -6,7 +6,7 @@
 
 ## Passos
 
-- [ ] Login (`uAcesso`) e liberação por supervisor.
+- [ ] Liberação por supervisor. O login (`uAcesso`) já foi convertido no roadmap 4.
 - [ ] Cadastros abertos pelo caixa: cliente, cliente rápido, produto, grupo, unidade, marca, princípio ativo.
 - [ ] Importar pedido, orçamento e OS para o caixa.
 - [ ] Boleto (classes de remessa e retorno) e backup.
@@ -15,7 +15,7 @@
 
 ## Telas e units desta etapa (26)
 
-- [ ] `uAcesso` — `View/uAcesso.pas`
+- [x] `uAcesso` — `View/uAcesso.pas` (feito no roadmap 4)
 - [ ] `uSupervisor` — `View/uSupervisor.pas`
 - [ ] `U_Backup` — `View/U_Backup.pas`
 - [ ] `uImportar` — `View/uImportar.pas`

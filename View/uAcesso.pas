@@ -1,24 +1,22 @@
 unit uAcesso;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, ComCtrls, Buttons, FireDAC.Stan.Intf,
-  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
-  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Mask,
-  Vcl.Imaging.pngimage, Vcl.Themes, Vcl.Styles,
-  Vcl.DBCtrls, JvExStdCtrls, JvGroupBox, Vcl.ExtDlgs, acPNG;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, ExtCtrls,
+  StdCtrls, ComCtrls, Buttons, DB, MaskEdit, DBCtrls, ExtDlgs, ZConnection, ZDataset,
+  ZAbstractRODataset, ZAbstractDataset, ZAbstractConnection;
 
 type
   TfrmAcesso = class(TForm)
-    qryUsuarios: TFDQuery;
+    qryUsuarios: TZQuery;
     qryUsuariosLOGIN: TStringField;
     qryUsuariosSENHA: TStringField;
     qryUsuariosCODIGO: TSmallintField;
     qryUsuariosATIVO: TStringField;
-    qrySupervisor: TFDQuery;
+    qrySupervisor: TZQuery;
     qrySupervisorCODIGO: TSmallintField;
     qrySupervisorLOGIN: TStringField;
     qrySupervisorSENHA: TStringField;
@@ -29,10 +27,10 @@ type
     dsSupervisor: TDataSource;
     qryUsuariosSUPERVISOR: TStringField;
     dsEmpresa: TDataSource;
-    qryEmpresa: TFDQuery;
+    qryEmpresa: TZQuery;
     qryEmpresaCODIGO: TIntegerField;
     qryEmpresaFANTASIA: TStringField;
-    qryPermissao: TFDQuery;
+    qryPermissao: TZQuery;
     qryPermissaoVISUALIZAR: TStringField;
     dsIdioma: TDataSource;
     qryEmpresaMULTI_IDIOMA: TStringField;
@@ -71,9 +69,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados, uSplash, uChave;
+uses
+  Udados, uSplash, uChave;
 
 procedure TfrmAcesso.BitBtn1Click(Sender: TObject);
 begin
@@ -84,7 +83,7 @@ begin
 
   if not(CbUsuario.KeyValue > 0) then
   begin
-    ShowMessage('Informe o usu·rio');
+    ShowMessage('Informe o usu√°rio');
     exit;
   end;
 
@@ -108,7 +107,7 @@ begin
     qryPermissao.Open;
     if qryPermissaoVISUALIZAR.Value <> 'S' then
     begin
-      ShowMessage('Usu·rio n„o È caixa!');
+      ShowMessage('Usu√°rio n√£o √© caixa!');
       Dados.vFechaPrograma := true;
       Application.Terminate;
     end;
@@ -139,7 +138,7 @@ begin
 
   if not Dados.qryTerminal.Locate('nome', Dados.Getcomputer, []) then
   begin
-    ShowMessage('Terminal n„o cadastrado!' + sLineBreak +
+    ShowMessage('Terminal n√£o cadastrado!' + sLineBreak +
       'Acesse o retaguarda para realizar o cadastro do terminal');
     Dados.vFechaPrograma := true;
     Application.Terminate;;
@@ -173,7 +172,7 @@ end;
 
 procedure TfrmAcesso.CbUsuarioEnter(Sender: TObject);
 begin
-  TDBLookupComboBox(Sender).DropDown;
+  TDBLookupComboBox(Sender).DroppedDown := True;
 end;
 
 procedure TfrmAcesso.FormActivate(Sender: TObject);
@@ -219,7 +218,7 @@ begin
   If Key = #13 then
   begin
     Key := #0;
-    Perform(CM_DialogKey, Vk_Tab, 0);
+    SelectNext(ActiveControl, True, True);
   end;
 end;
 

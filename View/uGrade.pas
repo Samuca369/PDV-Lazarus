@@ -1,24 +1,22 @@
 unit uGrade;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, DB, Grids,
+  DBGrids, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset, ZAbstractConnection;
 
 type
   TFrmGrade = class(TForm)
     DBGrid1: TDBGrid;
-    qryGrade: TFDQuery;
+    qryGrade: TZQuery;
     qryGradeCODIGO: TIntegerField;
     qryGradeFK_PRODUTO: TIntegerField;
     qryGradeDESCRICAO: TStringField;
-    qryGradeQTD: TFMTBCDField;
-    qryGradePRECO: TFMTBCDField;
+    qryGradeQTD: TBCDField;
+    qryGradePRECO: TBCDField;
     dsGrade: TDataSource;
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -36,9 +34,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses uPDV, Udados;
+uses
+  uPDV, Udados;
 
 procedure TFrmGrade.DBGrid1DblClick(Sender: TObject);
 begin

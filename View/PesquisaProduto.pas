@@ -1,20 +1,17 @@
 unit PesquisaProduto;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DBGridEhGrouping, ToolCtrlsEh,
-  DBGridEhToolCtrls, DynVarsEh, Vcl.StdCtrls, EhLibVCL, GridsEh, DBAxisGridsEh,
-  DBGridEh, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls, DB,
+  Buttons, ExtCtrls, Grids, DBGrids, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset,
+  ZAbstractConnection;
 
 type
   TfrmPesquisaProduto = class(TForm)
-    qryProduto: TFDQuery;
+    qryProduto: TZQuery;
     dsProduto: TDataSource;
     qryProdutoCODIGO: TIntegerField;
     qryProdutoCODBARRA: TStringField;
@@ -26,13 +23,13 @@ type
     bbSair: TSpeedButton;
     bbVincular: TSpeedButton;
     qryProdutoGRUPO: TIntegerField;
-    qryChecaVinculo: TFDQuery;
+    qryChecaVinculo: TZQuery;
     qryChecaVinculoID_FORNECEDOR: TFloatField;
     qryChecaVinculoID_PRODUTO_FORN: TStringField;
     qryChecaVinculoID_PRODUTO_LOCAL: TFloatField;
     qryChecaVinculoFK_GRUPO: TIntegerField;
     qryChecaVinculoFKEMPRESA: TIntegerField;
-    qryProdutoPR_VENDA: TFMTBCDField;
+    qryProdutoPR_VENDA: TBCDField;
     DBGrideh1: TDBGrid;
     procedure edtLocChange(Sender: TObject);
     procedure bbSairClick(Sender: TObject);
@@ -57,9 +54,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados;
+uses
+  Udados;
 
 procedure TfrmPesquisaProduto.bbSairClick(Sender: TObject);
 begin
@@ -79,7 +77,7 @@ begin
   if not qryChecaVinculo.IsEmpty then
   begin
     If Application.messagebox
-      ('Produto j· est· vinculado! Deseja Fazer Novo VÌnculo?', 'ConfirmaÁ„o',
+      ('Produto j√° est√° vinculado! Deseja Fazer Novo V√≠nculo?', 'Confirma√ß√£o',
       mb_yesno + mb_iconquestion) = idyes then
     begin
       qryChecaVinculo.Delete;
@@ -105,9 +103,9 @@ begin
 
   idx := Column.Index;
 
-  DBGrideh1.Columns[0].Title.Caption := 'CÛdigo';
-  DBGrideh1.Columns[1].Title.Caption := 'CÛdigo Barras';
-  DBGrideh1.Columns[2].Title.Caption := 'DescriÁ„o';
+  DBGrideh1.Columns[0].Title.Caption := 'C√≥digo';
+  DBGrideh1.Columns[1].Title.Caption := 'C√≥digo Barras';
+  DBGrideh1.Columns[2].Title.Caption := 'Descri√ß√£o';
 
   GroupBox1.Caption := 'F5 | Localizar <<' + DBGrideh1.Columns[idx]
     .Title.Caption + '>>';

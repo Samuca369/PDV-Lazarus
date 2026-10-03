@@ -1,29 +1,27 @@
 unit uEstoque_FI_Insuficiente;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Imaging.pngimage;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, DB, Grids,
+  DBGrids, ExtCtrls, StdCtrls, Buttons, ZConnection, ZDataset, ZAbstractRODataset,
+  ZAbstractDataset, ZAbstractConnection;
 
 type
   TfrmEstoque_FI_Insuficiente = class(TForm)
-    qryItem: TFDQuery;
+    qryItem: TZQuery;
     dsItem: TDataSource;
-    qryProduto: TFDQuery;
+    qryProduto: TZQuery;
     qryItemCODIGO: TIntegerField;
     qryItemITEM: TSmallintField;
     qryItemID_PRODUTO: TIntegerField;
     qryItemDESCRICAO: TStringField;
-    qryItemQTD: TFMTBCDField;
-    qryItemQTD_FISCAL: TFMTBCDField;
-    qryItemPRECO: TFMTBCDField;
-    qryItemTOTAL: TFMTBCDField;
+    qryItemQTD: TBCDField;
+    qryItemQTD_FISCAL: TBCDField;
+    qryItemPRECO: TBCDField;
+    qryItemTOTAL: TBCDField;
     qryProdutoCODIGO: TIntegerField;
     Image1: TImage;
     Panel1: TPanel;
@@ -44,9 +42,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados;
+uses
+  Udados;
 
 procedure TfrmEstoque_FI_Insuficiente.btnCorrigirClick(Sender: TObject);
 begin
@@ -92,7 +91,7 @@ begin
     if qryProduto.IsEmpty then
     begin
       dados.vMudouEstoque := false;
-      raise Exception.Create('Não existem produtos com Estoque Fiscal!');
+      raise Exception.Create('NÃ£o existem produtos com Estoque Fiscal!');
     end;
 
     dados.qryUpdate.Close;

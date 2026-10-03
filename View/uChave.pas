@@ -187,7 +187,7 @@ begin
   If Key = #13 then
   begin
     Key := #0;
-    Perform(CM_DialogKey, Vk_Tab, 0);
+    SelectNext(ActiveControl, True, True);
   end;
 end;
 

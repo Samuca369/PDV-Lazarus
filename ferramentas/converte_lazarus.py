@@ -9,6 +9,7 @@ import os
 import re
 import subprocess
 import sys
+import unicodedata
 
 # ---------------------------------------------------------------- regras do .lfm
 
@@ -23,13 +24,26 @@ CLASSES = {
     "TExtendedField": "TFloatField",
     "TLongWordField": "TLargeintField",
     "TShortintField": "TSmallintField",
+    # componentes de terceiros (pagos) trocados pelos grátis
+    "TDBGridEh": "TRxDBGrid",
+    "TcxDBImage": "TDBImage",
+    "TJvEnterAsTab": "TACBrEnterTab",
+}
+
+# unit que cada componente novo exige no uses
+UNIT_DA_CLASSE = {
+    "TRxDBGrid": "RxDBGrid", "TDBImage": "DBCtrls", "TACBrEnterTab": "ACBrEnterTab", "TDBCtrlGrid": "DBCGrids",
 }
 
 # objetos que somem (sem equivalente ou desnecessários no Lazarus)
 OBJETOS_REMOVIDOS = {
     "TFDGUIxWaitCursor", "TFDPhysFBDriverLink", "TFDPhysMySQLDriverLink", "TFDPhysIBDriverLink", "TFDTransaction",
     "TAggregateField", "TIdIPWatch",
+    # painel de detalhe da grade EhLib: sem equivalente (o conversor avisa se não estiver vazio)
+    "TRowDetailPanelControlEh",
 }
+# relatórios FastReport (Tfrx...): saem e voltam no roadmap 9
+PREFIXO_OBJETO_REMOVIDO = ("Tfrx",)
 
 # propriedades que somem em qualquer componente
 PROPS_REMOVIDAS = {
@@ -51,11 +65,38 @@ PROPS_POR_CLASSE = {
     "TZStoredProc": {"Transaction"},
     "TZTable": {"Transaction"},
     "TZConnection": {"Transaction", "Params.Strings", "Connected", "DriverName"},
+    "TRxDBGrid": {"DynProps", "EvenRowColor", "OptionsEh", "IndicatorOptions", "AutoFitColWidths", "SortLocal",
+                  "AllowedOperations", "AllowedSelections", "ColumnDefValues", "DrawMemoText", "FooterRowCount",
+                  "SumList", "TitleParams", "UseMultiTitle", "RowDetailPanel", "STFilter", "SearchPanel"},
+    "TDBImage": {"TabOrder", "TabStop", "Properties"},
 }
+# no LCL só o painel tem moldura própria (BevelInner/BevelOuter); nos campos de texto o Delphi aceitava e o LCL não
+PROPS_BEVEL = {"BevelInner", "BevelOuter", "BevelEdges", "BevelWidth"}
+CLASSES_COM_BEVEL = {"TPanel", "TDBCtrlGrid"}
 
 RENOMEIA_PROP = {
     "TZQuery": {"ParamData": "Params", "DetailFields": "LinkedFields", "IndexFieldNames": "SortedFields"},
     "TZStoredProc": {"ParamData": "Params"},
+    "TDBImage": {"DataBinding.DataField": "DataField", "DataBinding.DataSource": "DataSource"},
+    "TRxDBGrid": {"OddRowColor": "AlternateColor"},
+}
+# troca do começo do nome (TitleParams.Font.Name -> TitleFont.Name)
+RENOMEIA_PREFIXO = {
+    "TRxDBGrid": {"TitleParams.Font.": "TitleFont."},
+}
+# começos de nome que somem só em certas classes
+PREFIXOS_POR_CLASSE = {
+    "TDBImage": ("Properties.", "Style.", "StyleDisabled.", "StyleFocused.", "StyleHot."),
+    "TRxDBGrid": ("TitleParams.", "IndicatorParams.", "GridLineParams.", "SearchPanel.", "STFilter.", "FooterParams.",
+                  "ColumnDefValues.", "SumList.", "IndicatorTitle.", "HorzScrollBar.", "VertScrollBar.",
+                  "EditButtonsShowOptions.", "TreeViewParams.", "RowDetailPanel."),
+}
+# propriedades que somem dos itens de uma coleção (classe, coleção): nomes ou começos de nome
+PROPS_ITEM_REMOVIDAS = {
+    ("TRxDBGrid", "Columns"): ("CellButtons", "DynProps", "EditButtons", "Footers", "Footer.", "Title.TitleButton",
+                               "Title.SortIndex", "Title.SortMarker", "Title.Hint", "Title.ToolTips", "AutoFitColWidth",
+                               "TextEditing", "Checkboxes", "KeyList", "ShowImageAndText", "ImageList",
+                               "DropDownBox.", "HighlightRequired", "ToolTips", "MRUList.", "STFilter."),
 }
 
 # ---------------------------------------------------------------- regras do .pas
@@ -78,7 +119,8 @@ USES_TROCA = {
     "vcl.tabs": "", "tabs": "", "vcl.imaging.pngimage": "", "pngimage": "", "vcl.imaging.jpeg": "", "jpeg": "",
     "vcl.imaging.gifimg": "", "gifimg": "", "vcl.oleCtrls": "", "vcl.olectrls": "", "vcl.toolwin": "",
     "vcl.wincontrols": "", "vcl.winxctrls": "", "vcl.samples.spin": "Spin", "vcl.samples.gauges": "",
-    "vcl.numberbox": "", "vcl.mplayer": "", "vcl.valedit": "ValEdit", "vcl.dbcgrids": "",
+    "vcl.numberbox": "", "vcl.mplayer": "", "vcl.valedit": "ValEdit", "vcl.dbcgrids": "DBCGrids",
+    "system.actions": "",
     "winapi.windows": "Windows", "winapi.messages": "Messages", "winapi.shellapi": "ShellApi",
     "winapi.activex": "ActiveX", "winapi.aclapi": "JwaAclApi", "winapi.winsock": "WinSock",
     "winapi.winsock2": "WinSock2", "winapi.wininet": "WinInet", "winapi.shlobj": "ShlObj",
@@ -95,10 +137,17 @@ USES_TROCA = {
 }
 ZEOS_UNITS = ["ZConnection", "ZDataset", "ZAbstractRODataset", "ZAbstractDataset", "ZAbstractConnection"]
 
+# units de componentes pagos que saem do uses (a unit do substituto entra por UNIT_DA_CLASSE)
+UNITS_EHLIB = {"dbaxisgridseh", "dbctrlseh", "dbgrideh", "dbgridehgrouping", "dbgridehtoolctrls", "dblookupeh",
+               "dbutilseh", "dynvarseh", "ehlibvcl", "gridseh", "toolctrlseh", "memtableeh", "datadrivereh"}
+PREFIXOS_UNIT_REMOVIDA = ("jv", "cx", "dx", "frx")
+UNITS_REMOVIDAS = UNITS_EHLIB | {"acfloatctrls", "acpng", "advglassbutton"}
+
 TIPOS_CODIGO = {
     "TFDQuery": "TZQuery", "TFDConnection": "TZConnection", "TFDStoredProc": "TZStoredProc", "TFDTable": "TZTable",
     "TSQLTimeStampField": "TDateTimeField", "TFDAutoIncField": "TLongintField", "TSingleField": "TFloatField",
     "TExtendedField": "TFloatField", "TLongWordField": "TLargeintField", "TShortintField": "TSmallintField",
+    "TDBGridEh": "TRxDBGrid", "TcxDBImage": "TDBImage", "TJvEnterAsTab": "TACBrEnterTab",
 }
 
 
@@ -231,6 +280,46 @@ class Parser:
             break
 
 
+def filtra_itens(texto, remover, relatorio):
+    """Tira propriedades dos itens de uma coleção ('Columns = < item ... end>'), mantendo o resto do texto."""
+    abre = texto.index("<")
+    p = Parser(texto)
+    p.p = abre + 1
+    itens = []
+    while True:
+        p.ws()
+        if texto[p.p] == ">":
+            break
+        ini = texto.rfind("\n", 0, p.p) + 1
+        m = re.match(r"item\b(\s*\[\s*\d+\s*\])?", texto[p.p:])
+        p.p += m.end()
+        cabecalho = texto[ini:p.p]
+        props = []
+        while True:
+            p.ws()
+            if re.match(r"end\b", texto[p.p:]):
+                fim = texto[texto.rfind("\n", 0, p.p) + 1:p.p] + "end"
+                p.p += 3
+                break
+            ini = texto.rfind("\n", 0, p.p) + 1
+            m = re.match(r"([A-Za-z_][\w.]*)\s*=\s*", texto[p.p:])
+            nome = m.group(1)
+            p.p += m.end()
+            p.valor()
+            if nome in remover or nome.startswith(tuple(r for r in remover if r.endswith("."))):
+                relatorio.setdefault("props_removidas", {}).setdefault("item." + nome, 0)
+                relatorio["props_removidas"]["item." + nome] += 1
+                continue
+            props.append(texto[ini:p.p])
+        itens.append((cabecalho, props, fim))
+    partes = [texto[:abre + 1]]
+    for cabecalho, props, fim in itens:
+        partes.append("\n" + cabecalho)
+        partes += ["\n" + pr for pr in props]
+        partes.append("\n" + fim)
+    return "".join(partes) + ">"
+
+
 def emitir(no):
     linhas = [no.cabecalho]
     linhas += [texto for _, texto in no.props]
@@ -266,21 +355,65 @@ def converte_lfm(texto, relatorio):
         if cls in CLASSES:
             no.cabecalho = no.cabecalho.replace(cls, CLASSES[cls], 1)
             cls = CLASSES[cls]
+        relatorio.setdefault("classes", set()).add(cls)
         novas = []
         for nome, texto in no.props:
-            if nome in PROPS_REMOVIDAS or nome.startswith(PREFIXOS_REMOVIDOS) or nome in PROPS_POR_CLASSE.get(cls, ()):
+            # primeiro renomeia, depois decide se a propriedade (já com o nome novo) fica
+            novo = RENOMEIA_PROP.get(cls, {}).get(nome)
+            for antes, depois in RENOMEIA_PREFIXO.get(cls, {}).items():
+                if nome.startswith(antes):
+                    novo = depois + nome[len(antes):]
+            if novo:
+                texto = re.sub(r"^(\s*)" + re.escape(nome) + r"(\s*=)", r"\1" + novo + r"\2", texto, count=1)
+                nome = novo
+            if (nome in PROPS_REMOVIDAS or nome.startswith(PREFIXOS_REMOVIDOS) or nome in PROPS_POR_CLASSE.get(cls, ())
+                    or nome.startswith(PREFIXOS_POR_CLASSE.get(cls, ()))
+                    or (nome in PROPS_BEVEL and cls not in CLASSES_COM_BEVEL)):
                 relatorio.setdefault("props_removidas", {}).setdefault(nome, 0)
                 relatorio["props_removidas"][nome] += 1
                 continue
-            novo = RENOMEIA_PROP.get(cls, {}).get(nome)
-            if novo:
-                texto = re.sub(r"^(\s*)" + re.escape(nome) + r"(\s*=)", r"\1" + novo + r"\2", texto, count=1)
+            if (cls, nome) in PROPS_ITEM_REMOVIDAS:
+                texto = filtra_itens(texto, PROPS_ITEM_REMOVIDAS[(cls, nome)], relatorio)
             if nome in ("ParamData", "Params"):
                 # o leitor de .lfm não aceita Null/nil como valor de Variant; vazio já é o padrão
                 texto = "\n".join(l for l in texto.split("\n")
                                   if not re.match(r"\s*(FDDataType\s*=|Value\s*=\s*(Null|nil)\s*$)", l, re.I))
             novas.append((nome, texto))
         no.props = novas
+        if cls in ("TZQuery", "TZReadOnlyQuery", "TZTable") and not any(n == "Properties.Strings" for n, _ in no.props):
+            # Chave da consulta: o FireDAC usava os campos com pfInKey para reposicionar no Refresh e para o WHERE
+            # dos UPDATE. Sem KeyFields o Zeos usa TODOS os campos como chave, e o Refresh perde a posição.
+            chaves = []
+            for f in no.filhos:
+                fp = dict(f.props)
+                if "pfInKey" in fp.get("ProviderFlags", ""):
+                    m = re.search(r"=\s*'([^']+)'", fp.get("FieldName", ""))
+                    if m:
+                        chaves.append(m.group(1))
+            if chaves:
+                ind = no.indent + "  "
+                no.props.append(("Properties.Strings", f"{ind}Properties.Strings = (\n{ind}  'KeyFields={';'.join(chaves)}')"))
+                relatorio["consultas_com_keyfields"] = relatorio.get("consultas_com_keyfields", 0) + 1
+        if cls in ("TZQuery", "TZReadOnlyQuery") and any(n == "MasterSource" for n, _ in no.props):
+            # Mestre-detalhe do FireDAC por parâmetro (o SQL tem :CAMPO com o nome do campo do mestre). No Zeos isso é
+            # a propriedade DataSource; MasterSource + LinkedFields no Zeos é outra coisa (filtro em memória pelo
+            # campo do detalhe), que no uPDV escondia os itens da venda.
+            props = dict(no.props)
+            sql = " ".join(re.findall(r"'((?:[^']|'')*)'", props.get("SQL.Strings", "")))
+            parametros = {p.upper() for p in re.findall(r":(\w+)", sql)}
+            mestres = {c.strip().upper() for c in re.sub(r"^[^=]*=\s*'?|'\s*$", "", props.get("MasterFields", "")).split(";")
+                       if c.strip()}
+            if mestres and mestres <= parametros:
+                saida = []
+                for n, t in no.props:
+                    if n == "MasterSource":
+                        saida.append((n, re.sub(r"^(\s*)MasterSource(\s*=)", r"\1DataSource\2", t)))
+                    elif n not in ("MasterFields", "LinkedFields"):
+                        saida.append((n, t))
+                no.props = saida
+                relatorio["mestre_detalhe_por_parametro"] = relatorio.get("mestre_detalhe_por_parametro", 0) + 1
+            else:
+                relatorio.setdefault("mestre_detalhe_por_filtro", []).append(no.nome)
         if cls == "TZConnection":
             ind = no.indent + "  "
             tem = {n for n, _ in no.props}
@@ -290,8 +423,11 @@ def converte_lfm(texto, relatorio):
                 ("Port", "Port = 3050")) if n not in tem]
         filhos = []
         for f in no.filhos:
-            if f.classe in OBJETOS_REMOVIDOS:
+            if f.classe in OBJETOS_REMOVIDOS or f.classe.startswith(PREFIXO_OBJETO_REMOVIDO):
                 removidos.append((f.nome, f.classe))
+                if f.classe == "TRowDetailPanelControlEh" and f.filhos:
+                    relatorio.setdefault("painel_de_detalhe_com_componentes", []).append(
+                        f"{no.nome}: {len(f.filhos)} componentes")
                 continue
             visita(f)
             filhos.append(f)
@@ -314,6 +450,9 @@ def troca_uses(bloco, relatorio):
         chave = nome.lower()
         if chave.startswith("firedac."):
             tinha_firedac = True
+            continue
+        if chave in UNITS_REMOVIDAS or chave.startswith(PREFIXOS_UNIT_REMOVIDA):
+            relatorio.setdefault("uses_removidas", []).append(nome)
             continue
         if chave in USES_TROCA:
             novo = USES_TROCA[chave]
@@ -344,9 +483,19 @@ def converte_pas(texto, removidos, relatorio):
         t = re.sub(r"^(\s*unit\s+[\w.]+\s*;)", r"\1\n\n{$mode delphi}{$H+}", t, count=1, flags=re.I | re.M)
     t = re.sub(r"\{\$R\s+\*\.dfm\}", "{$R *.lfm}", t, flags=re.I)
 
-    # uses (interface e implementation)
+    # uses (interface e implementation); o primeiro (interface) recebe as units dos componentes novos do .lfm
+    blocos = [0]
+
     def repl(m):
         itens = troca_uses(m.group(2), relatorio)
+        if blocos[0] == 0:
+            tem = {i.split()[0].lower() for i in itens}
+            for cls in sorted(relatorio.get("classes", ())):
+                u = UNIT_DA_CLASSE.get(cls)
+                if u and u.lower() not in tem:
+                    itens.append(u)
+                    tem.add(u.lower())
+        blocos[0] += 1
         if not itens:
             return ""
         linhas, atual = [], "  "
@@ -375,6 +524,11 @@ def converte_pas(texto, removidos, relatorio):
     t = re.sub(r"(?<![\w.])Conexao\.CommitRetaining\b", "Confirmar", t)
     relatorio["commitretaining"] = n
     t = re.sub(r"\bConexao\.ExecSQL\(", "Conexao.ExecuteDirect(", t)
+    # no Delphi a string é larga (UTF-16); no Lazarus é UTF-8 e as funções do LCL recebem PChar
+    t = re.sub(r"\bPWideChar\b", "PChar", t, flags=re.I)
+    # Enter como Tab: o LCL declara CM_DIALOGKEY mas não trata a mensagem
+    t = re.sub(r"\bPerform\s*\(\s*CM_DialogKey\s*,\s*VK_TAB\s*,\s*0\s*\)", "SelectNext(ActiveControl, True, True)", t,
+               flags=re.I)
     # declarações de objetos removidos do formulário
     for nome, cls in removidos:
         t2 = re.sub(r"^\s*" + nome + r"\s*:\s*" + cls + r"\s*;\s*\r?\n", "", t, count=1, flags=re.M | re.I)
@@ -413,6 +567,39 @@ def git_mv(origem, destino):
         os.replace(origem, destino)
 
 
+def completa_locate(texto, relatorio):
+    """O FireDAC aceitava Locate(campos, valores); o Zeos exige o terceiro parâmetro (opções): acrescenta ', []'."""
+    saida, i, n = [], 0, 0
+    for m in re.finditer(r"\.Locate\s*\(", texto, re.I):
+        if m.start() < i:
+            continue
+        j, nivel, args, aspas = m.end(), 1, 1, False
+        while j < len(texto) and nivel:
+            c = texto[j]
+            if c == "'":
+                aspas = not aspas
+            elif not aspas:
+                if c in "([":
+                    nivel += 1
+                elif c in ")]":
+                    nivel -= 1
+                elif c == "," and nivel == 1:
+                    args += 1
+            j += 1
+        if args == 2:
+            saida.append(texto[i:j - 1] + ", []")
+            i = j - 1
+            n += 1
+    saida.append(texto[i:])
+    if n:
+        relatorio["locate_completado"] = n
+    return "".join(saida)
+
+
+def sem_acento(nome):
+    return unicodedata.normalize("NFKD", nome).encode("ascii", "ignore").decode("ascii")
+
+
 def converte_unit(pas):
     relatorio = {}
     removidos = []
@@ -420,10 +607,27 @@ def converte_unit(pas):
     lfm = pas[:-4] + ".lfm"
     if os.path.exists(dfm):
         git_mv(dfm, lfm)
+    trocas_de_nome = {}
     if os.path.exists(lfm):
         novo, removidos = converte_lfm(le_texto(lfm), relatorio)
+        # o Delphi aceita acento em nome de componente (Observações); o FPC não
+        for nome in set(re.findall(r"^\s*(?:object|inherited|inline)\s+(\w+)\s*:", novo, re.M)):
+            if not nome.isascii():
+                trocas_de_nome[nome] = sem_acento(nome)
+        for antes, depois in trocas_de_nome.items():
+            novo = re.sub(r"(?<!\w)" + re.escape(antes) + r"(?!\w)", depois, novo)
         grava_texto(lfm, novo)
-    grava_texto(pas, converte_pas(le_texto(pas), removidos, relatorio))
+    texto = completa_locate(converte_pas(le_texto(pas), removidos, relatorio), relatorio)
+    if trocas_de_nome:
+        # só no código: textos entre aspas (mensagens) continuam com acento
+        partes = re.split(r"('(?:[^'\n]|'')*')", texto)
+        for i in range(0, len(partes), 2):
+            for antes, depois in trocas_de_nome.items():
+                partes[i] = re.sub(r"(?<!\w)" + re.escape(antes) + r"(?!\w)", depois, partes[i])
+        texto = "".join(partes)
+    if trocas_de_nome:
+        relatorio["nomes_sem_acento"] = trocas_de_nome
+    grava_texto(pas, texto)
     return relatorio
 
 
@@ -432,6 +636,8 @@ def main():
         rel = converte_unit(pas)
         print(f"== {pas}")
         for k, v in rel.items():
+            if k == "classes":
+                continue
             if k == "campos_bcd":
                 v = {c: sum(1 for x in v.values() if x == c) for c in sorted(set(v.values()))}
             if v:

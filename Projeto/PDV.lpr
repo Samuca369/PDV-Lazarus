@@ -3,9 +3,10 @@ program PDV;
 {$mode delphi}{$H+}
 
 uses
-  Interfaces, Forms, SysUtils, zcomponent,
+  uErroFatal, Interfaces, Forms, SysUtils, zcomponent,
   Serial, uEnums, uLib, uLib02, Udados, uDadosWeb, uRotinasComuns, uDmPDV,
-  frExibeMensagem, ufrmStatus, uConexaoBD, uSplash, uChave;
+  frExibeMensagem, ufrmStatus, uConexaoBD, uSplash, uChave,
+  udmImpressao, uDmNFe, uDMEstoque, uPDV, uTef, uTraducaoLCL;
 
 {$R *.res}
 
@@ -13,15 +14,27 @@ begin
   RequireDerivedFormResource := True;
   Application.Title := 'PDV';
   Application.Scaled := True;
+  // erro não tratado: só a mensagem e OK, como no Delphi (o padrão do Lazarus oferece "Abort" para matar o programa)
+  Application.ExceptionDialog := aedOkMessageBox;
+  TraduzLCL;
   Application.Initialize;
-  Application.CreateForm(TDados, Dados);
-  Application.CreateForm(TDadosWeb, DadosWeb);
-  Application.CreateForm(TDMRotinas, DMRotinas);
-  Application.CreateForm(TdmPDV, dmPDV);
-  Dados.ConfiguraEstilo(Dados.qryParametroESTILO.Value);
-  // Por enquanto só o núcleo de dados: a tela de venda (FrmPDV) entra no roadmap 4.
-  Application.CreateForm(TfrmStatus, frmStatus);
-  frmStatus.Position := poScreenCenter;
-  frmStatus.lblstatus.Caption := 'Banco conectado: ' + Dados.Conexao.User + '@' + Dados.Conexao.HostName;
-  Application.Run;
+  try
+    Application.CreateForm(TDados, Dados);
+    Application.CreateForm(TDadosWeb, DadosWeb);
+    Application.CreateForm(TDMRotinas, DMRotinas);
+    // O original também criava TdtmCBR (boleto, roadmap 8) e TDMSat (SAT, roadmap 7).
+    Application.CreateForm(TDMImpressao, DMImpressao);
+    Application.CreateForm(TdmNFe, dmNFe);
+    Application.CreateForm(TdmPDV, dmPDV);
+    Application.CreateForm(TDMEstoque, DMEstoque);
+    Dados.ConfiguraEstilo(Dados.qryParametroESTILO.Value);
+    Application.CreateForm(TFrmPDV, FrmPDV);
+    Application.CreateForm(TFrmTef, FrmTef);
+    Application.Run;
+  except
+    // Erro ao abrir as telas (fora do laço de mensagens): o Delphi mostrava a mensagem antes de fechar; sem isto
+    // o Lazarus fecha calado (código de saída 217).
+    on E: Exception do
+      Application.ShowException(E);
+  end;
 end.

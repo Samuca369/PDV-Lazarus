@@ -1,15 +1,13 @@
 unit uBuscaPreco;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.DBCtrls,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  ExtCtrls, DBCtrls, DB, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset,
+  ZAbstractConnection;
 
 type
   TFrmBuscaPreco = class(TForm)
@@ -17,14 +15,14 @@ type
     grpSelecao: TGroupBox;
     EdtProduto: TEdit;
     grpProduto: TGroupBox;
-    qryProduto: TFDQuery;
+    qryProduto: TZQuery;
     dsProduto: TDataSource;
     qryProdutoCODIGO: TIntegerField;
     qryProdutoDESCRICAO: TStringField;
     qryProdutoCODBARRA: TStringField;
     lblCodigo: TLabel;
     LblPreco: TLabel;
-    qryProdutoPR_VENDA: TFMTBCDField;
+    qryProdutoPR_VENDA: TBCDField;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EdtProdutoChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -41,9 +39,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados;
+uses
+  Udados;
 
 procedure TFrmBuscaPreco.EdtProdutoChange(Sender: TObject);
 begin

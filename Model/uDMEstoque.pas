@@ -1,12 +1,12 @@
 unit uDMEstoque;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  SysUtils, Classes, DB, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset,
+  ZAbstractConnection;
 
 type
 
@@ -48,24 +48,25 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses Udados;
+uses
+  Udados;
 
-{$R *.dfm}
+{$R *.lfm}
 { TEstoque }
 
 procedure TDMEstoque.AtualizaEstoque(aProduto: Integer; aQuantidade: Extended;
   aQuantidade_Anterior: Extended; aMovimento: String; aTipo: String);
 var
   QtdEstoque: Extended;
-  qryConsulta: TFDQuery;
-  qryExecute: TFDQuery;
+  qryConsulta: TZQuery;
+  qryExecute: TZQuery;
 begin
 
   try
-    qryConsulta := TFDQuery.Create(self);
+    qryConsulta := TZQuery.Create(self);
     qryConsulta.Connection := dados.Conexao;
 
-    qryExecute := TFDQuery.Create(self);
+    qryExecute := TZQuery.Create(self);
     qryExecute.Connection := dados.Conexao;
 
     qryConsulta.Close;
@@ -124,7 +125,7 @@ begin
           end;
         end;
 
-        if aMovimento = 'S' then // Movimento de Saída
+        if aMovimento = 'S' then // Movimento de SaÃ­da
         begin
           if aTipo = 'R' then
           begin // Estoque Real
@@ -163,7 +164,7 @@ begin
         end;
       end
       else
-        raise Exception.Create('Saldo do estoque não pode ser negativo !');
+        raise Exception.Create('Saldo do estoque nÃ£o pode ser negativo !');
     end;
   finally
     qryConsulta.Free;
@@ -217,11 +218,11 @@ procedure TDMEstoque.AtualizaComposicao(aProduto: Integer;
 
 var
   ehComposicao: Boolean;
-  qryPesquisa: TFDQuery;
+  qryPesquisa: TZQuery;
 
 begin
   try
-    qryPesquisa := TFDQuery.Create(self);
+    qryPesquisa := TZQuery.Create(self);
     qryPesquisa.Connection := dados.Conexao;
 
     qryPesquisa.Close;
@@ -265,10 +266,10 @@ end;
 procedure TDMEstoque.AddEstoqueCompra(aCompra: Integer; aFiscal: String);
 
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -308,10 +309,10 @@ end;
 
 procedure TDMEstoque.RemoveEstoqueCompra(aCompra: Integer; aFiscal: String);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -351,10 +352,10 @@ end;
 
 procedure TDMEstoque.AddEstoqueGRadeCompra(aCompra: Integer);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -381,10 +382,10 @@ end;
 
 procedure TDMEstoque.ApagaCompra_GRade(aCompra: Integer);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -402,10 +403,10 @@ end;
 
 procedure TDMEstoque.ApagaDevolucao_GRade(aDevolucao: Integer);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -423,10 +424,10 @@ end;
 
 procedure TDMEstoque.EstoqueGRadeDevCompra(aDevolucao: Integer);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -452,10 +453,10 @@ end;
 
 procedure TDMEstoque.EstoqueGradeOS(aDevolucao: Integer; Operacao: String);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -481,10 +482,10 @@ end;
 
 procedure TDMEstoque.CancelaOS(aDevolucao: Integer);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -514,13 +515,13 @@ end;
 procedure TDMEstoque.AtualizaEstoqueFiscal(aTabela: String; aCodigo: Integer;
   aMovimento: String; aFiscal: String);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   if aFiscal = 'S' then
   begin
 
     try
-      qryEstoque := TFDQuery.Create(self);
+      qryEstoque := TZQuery.Create(self);
       qryEstoque.Connection := dados.Conexao;
 
       qryEstoque.Close;
@@ -549,13 +550,13 @@ end;
 procedure TDMEstoque.AtualizaEstoqueReal(aTabela: String; aCodigo: Integer;
   aMovimento: String; Fk_venda: Integer);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   if Fk_venda > 0 then
     exit;
 
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -583,10 +584,10 @@ end;
 
 procedure TDMEstoque.EstoqueDevCompra(aCompra: Integer);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;
@@ -618,10 +619,10 @@ procedure TDMEstoque.InsereProdutoFabricado(aProduto: Integer;
   aSituacao: String; aQtd_A: Extended; aQtd_F: Extended; aTransacao: String;
   aFabrica: Integer);
 var
-  qryInsere: TFDQuery;
+  qryInsere: TZQuery;
 begin
   try
-    qryInsere := TFDQuery.Create(self);
+    qryInsere := TZQuery.Create(self);
     qryInsere.Connection := dados.Conexao;
 
     qryInsere.Close;
@@ -649,10 +650,10 @@ end;
 
 procedure TDMEstoque.RemoveEstoqueGRadeCompra(aCompra: Integer);
 var
-  qryEstoque: TFDQuery;
+  qryEstoque: TZQuery;
 begin
   try
-    qryEstoque := TFDQuery.Create(self);
+    qryEstoque := TZQuery.Create(self);
     qryEstoque.Connection := dados.Conexao;
 
     qryEstoque.Close;

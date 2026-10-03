@@ -30,6 +30,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryBuscaVendaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInKey]
@@ -75,6 +77,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryNFCE_MCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -276,6 +280,8 @@ object dmPDV: TdmPDV
       'select * from contas')
     Left = 40
     Top = 88
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryContasCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -324,6 +330,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryVendaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -573,6 +581,8 @@ object dmPDV: TdmPDV
         ParamType = ptInput
         Size = 14
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryBuscaFoneCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -640,6 +650,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryGradeCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -715,6 +727,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPesqProdCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -860,6 +874,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryConta_MovimentoCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -934,6 +950,8 @@ object dmPDV: TdmPDV
       'order by nome')
     Left = 288
     Top = 256
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryEntregadorCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -957,6 +975,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryPesqContaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -999,6 +1019,8 @@ object dmPDV: TdmPDV
         'M PRODUTO')
     Left = 136
     Top = 233
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryProdCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1043,6 +1065,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryTabelaCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1078,6 +1102,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=ID_PRODUTO')
     object qryComposicaoID_PRODUTO: TIntegerField
       FieldName = 'ID_PRODUTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1118,6 +1144,8 @@ object dmPDV: TdmPDV
         ParamType = ptInput
         Size = 18
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryClienteCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1183,9 +1211,7 @@ object dmPDV: TdmPDV
     Top = 408
   end
   object qryItem: TZQuery
-    MasterSource = dsVenda
-    MasterFields = 'CODIGO'
-    LinkedFields = 'CODIGO'
+    DataSource = dsVenda
     Connection = Dados.Conexao
     SQL.Strings = (
       'select * FROM VENDAS_DETALHE'
@@ -1200,6 +1226,8 @@ object dmPDV: TdmPDV
         DataType = ftInteger
         ParamType = ptInput
       end>
+    Properties.Strings = (
+      'KeyFields=CODIGO')
     object qryItemCODIGO: TIntegerField
       FieldName = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
