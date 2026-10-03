@@ -1,0 +1,28 @@
+# saídas de compilação
+*.dcu
+*.exe
+*.dll
+*.bpl
+*.dcp
+*.map
+*.drc
+*.rsm
+Win32/
+Win64/
+__history/
+__recovery/
+
+# arquivos locais do Delphi
+*.identcache
+*.local
+*.stat
+*.tvsconfig
+*.dsk
+
+# bancos, backups e configuração local
+*.fdb
+*.FDB
+*.fbk
+*.gdb
+Banco.ini
+dados-locais/
