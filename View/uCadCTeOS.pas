@@ -256,7 +256,7 @@ begin
  end;
 
  qryCte.post;
- dados.Conexao.CommitRetaining;
+ Dados.Confirmar;
  Close;
 
 

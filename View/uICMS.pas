@@ -158,7 +158,7 @@ end;
 
 procedure TFrmICMS.qryICMSAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TFrmICMS.qryICMSBeforeDelete(DataSet: TDataSet);

@@ -67,7 +67,7 @@ begin
       dados.qryPermissoes.Next;
     end;
   end;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmPermissoes.DBGridEh2CellClick(Column: TColumnEh);

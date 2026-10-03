@@ -248,7 +248,7 @@ begin
   Dados.qryMesasTOTAL.Value := 0;
   Dados.qryMesasFK_EMPRESA.Value := Dados.idEmpresa;
   Dados.qryMesas.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmMesas.localiza;
@@ -296,7 +296,7 @@ begin
     end;
 
     Dados.qryMesas.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   PageControl1.ActivePage := Lista;

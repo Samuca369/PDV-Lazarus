@@ -713,7 +713,7 @@ begin
     Dados.qryParametro.FieldByName('TELA_FUNDO').AsString :=
       OpenPicture.FileName;
     Dados.qryParametro.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     CarregaImagem;
 
@@ -778,7 +778,7 @@ begin
           Dados.qryUpdate.ParamByName('FLAG').Value := 'S';
           Dados.qryUpdate.ParamByName('PAI').Value := i;
           Dados.qryUpdate.ExecSQL;
-          Dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
         end;
       end
       else
@@ -793,7 +793,7 @@ begin
         Dados.qryUpdate.ParamByName('NIVEL').Value := 0;
         Dados.qryUpdate.ParamByName('PAI').Value := i;
         Dados.qryUpdate.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
 
     end;
@@ -819,7 +819,7 @@ begin
             Dados.qryUpdate.ParamByName('FLAG').Value := 'S';
             Dados.qryUpdate.ParamByName('PAI').Value := i;
             Dados.qryUpdate.ExecSQL;
-            Dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
 
           end;
         end
@@ -836,7 +836,7 @@ begin
           Dados.qryUpdate.ParamByName('NIVEL').Value := 1;
           Dados.qryUpdate.ParamByName('PAI').Value := i;
           Dados.qryUpdate.ExecSQL;
-          Dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
 
         end;
       end;
@@ -866,7 +866,7 @@ begin
               Dados.qryUpdate.ParamByName('FLAG').Value := 'S';
               Dados.qryUpdate.ParamByName('PAI').Value := i;
               Dados.qryUpdate.ExecSQL;
-              Dados.Conexao.CommitRetaining;
+              Dados.Confirmar;
 
             end;
           end
@@ -884,7 +884,7 @@ begin
             Dados.qryUpdate.ParamByName('NIVEL').Value := 2;
             Dados.qryUpdate.ParamByName('PAI').Value := i;
             Dados.qryUpdate.ExecSQL;
-            Dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
 
           end;
         end;
@@ -920,7 +920,7 @@ begin
                 Dados.qryUpdate.ParamByName('FLAG').Value := 'S';
                 Dados.qryUpdate.ParamByName('PAI').Value := i;
                 Dados.qryUpdate.ExecSQL;
-                Dados.Conexao.CommitRetaining;
+                Dados.Confirmar;
 
               end
             end
@@ -938,7 +938,7 @@ begin
               Dados.qryUpdate.ParamByName('NIVEL').Value := 3;
               Dados.qryUpdate.ParamByName('PAI').Value := i;
               Dados.qryUpdate.ExecSQL;
-              Dados.Conexao.CommitRetaining;
+              Dados.Confirmar;
 
             end;
           end;
@@ -3155,18 +3155,18 @@ begin
       end;
     end;
   end;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := 'delete from telas where flag<>''*''';;
   Dados.qryExecute.ExecSQL;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := 'update telas set flag=''S''';;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Application.ProcessMessages;
   ShowMessage('Menu Ajusta com sucesso!');

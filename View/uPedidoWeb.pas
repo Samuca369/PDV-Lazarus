@@ -246,11 +246,11 @@ begin
 
         UpdateGidPessoa(cdsPessoastipo.Value);
 
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
       except
 
-        dados.Conexao.RollbackRetaining;
+        Dados.Desfazer;
 
       end;
 
@@ -381,7 +381,7 @@ begin
         item := item + 1;
       end;
 
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       dadosweb.cdsOrcamento.Next;
     end;

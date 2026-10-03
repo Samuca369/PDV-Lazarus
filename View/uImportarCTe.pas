@@ -306,7 +306,7 @@ begin
       qryDestinatarioCIDADE.Value := dados.qryconsulta.FieldByName
         ('MUNICIPIO').Value;
       qryDestinatario.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
     // insere dados cte master
@@ -328,7 +328,7 @@ begin
     FrmCadCte.qryCTE_MVALOR_SERVICO.Value := 0;
     FrmCadCte.qryCTE_MMETRAGEM.Value := 'M3';
     FrmCadCte.qryCTE_M.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
 
 
@@ -347,7 +347,7 @@ begin
     FrmCadCte.qryCTE_DPRECO.Value := PrecoProduto;
     FrmCadCte.qryCTE_DTOTAL.Value := qryNotaTOTAL.Value;
     FrmCadCte.qryCTE_D.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     dados.qryconsulta.Close;
     dados.qryconsulta.sql.Clear;
@@ -368,7 +368,7 @@ begin
     FrmCadCte.qryCTE_MQTD.Value := dados.qryconsulta.FieldByName('qtd').AsFloat;
     FrmCadCte.qryCTE_MMETRAGEM.Value := Unidade;
     FrmCadCte.qryCTE_M.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end
   else
   begin
@@ -455,7 +455,7 @@ begin
     qryDestinatarioFK_USUARIO.Value := dados.idUsuario;
     qryDestinatarioATIVO.Value := 0;
     qryDestinatario.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
 
@@ -494,7 +494,7 @@ begin
   FrmCadCte.qryCTE_MMETRAGEM.Value := 'M3';
   if FrmCadCte.qryCTE_M.State in [dsInsert, dsEdit] then
     FrmCadCte.qryCTE_M.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   // insere itens cte
 
@@ -539,7 +539,7 @@ begin
   FrmCadCte.qryCTE_MQTD.Value := dados.qryconsulta.Fields[1].AsFloat;
   FrmCadCte.qryCTE_MMETRAGEM.Value := 'M3';
   FrmCadCte.qryCTE_M.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmImportarCTe.btnNFCeClick(Sender: TObject);

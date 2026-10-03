@@ -1,16 +1,13 @@
 unit uChave;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, ComCtrls, Buttons, DB, serial,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Vcl.Mask, Vcl.Imaging.pngimage, FireDAC.Phys.MySQLDef,
-  FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
-  FireDAC.Phys.MySQL, FireDAC.VCLUI.Wait, FireDAC.Comp.UI;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, ExtCtrls,
+  StdCtrls, ComCtrls, Buttons, DB, serial, MaskEdit, ZConnection, ZDataset, ZAbstractRODataset,
+  ZAbstractDataset, ZAbstractConnection;
 
 type
   TfrmChave = class(TForm)
@@ -56,9 +53,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados, uDadosWeb;
+uses
+  Udados;
 
 procedure TfrmChave.FormActivate(Sender: TObject);
 begin
@@ -81,26 +79,8 @@ end;
 
 procedure TfrmChave.BitBtn2Click(Sender: TObject);
 begin
-  try
-    BitBtn2.Enabled := false;
-    try
-      DadosWeb.ConexaoChave.close;
-      DadosWeb.ConexaoChave.Open;
-      if DadosWeb.ConexaoChave.Connected then
-      begin
-        DadosWeb.CadastraEmpresa;
-        DadosWeb.RetornaSerial;
-        ShowMessage('AtualizaÁ„o realizada com sucesso!');
-        Application.Terminate;
-      end;
-    except
-      on e: exception do
-        raise exception.Create(e.Message + sLineBreak + 'Tente novamente!');
-    end;
-    close;
-  finally
-    BitBtn2.Enabled := true;
-  end;
+  // A ativa√ß√£o online usava o servidor de licen√ßas do autor original e foi desligada nesta vers√£o.
+  ShowMessage('A ativa√ß√£o online n√£o est√° dispon√≠vel nesta vers√£o.');
 end;
 
 procedure TfrmChave.btnSairClick(Sender: TObject);
@@ -129,19 +109,19 @@ begin
 
   if Edit2.Text = '' then
   begin
-    ShowMessage('Informe a Chave de LiberaÁ„o!');
+    ShowMessage('Informe a Chave de Libera√ß√£o!');
     exit;
   end;
 
   if length(Edit2.Text) < 15 then
   begin
-    ShowMessage('Chave de LiberaÁ„o Inv·lida!');
+    ShowMessage('Chave de Libera√ß√£o Inv√°lida!');
     exit;
   end;
 
   if MaskValidade.Text = '  /  /    ' then
   begin
-    ShowMessage('Informe a Data de Validade da LicenÁa!');
+    ShowMessage('Informe a Data de Validade da Licen√ßa!');
     exit;
   end;
 
@@ -149,7 +129,7 @@ begin
 
   if Trim(nTerminais) = '' then
   begin
-    ShowMessage('Chave inv·lida!');
+    ShowMessage('Chave inv√°lida!');
     exit;
   end;
 
@@ -183,7 +163,7 @@ begin
         qryChave.Edit;
       qryChaveCHAVEACESSO.Value := crypt('C', nserial);
       qryChave.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       dados.qryEmpresa.Edit;
       dados.qryEmpresaDATA_VALIDADE.AsString :=
@@ -194,7 +174,7 @@ begin
       dados.qryEmpresaCSENHA.AsString := dados.crypt('C', 'N');
 
       dados.qryEmpresa.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       close;
     end;
   end

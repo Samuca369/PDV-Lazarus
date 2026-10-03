@@ -61,7 +61,7 @@ begin
   if vValor > 0 then
   begin
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     dados.qryCaixa.Close;
     dados.qryCaixa.Open;
@@ -94,7 +94,7 @@ begin
       dados.qryCaixaCODIGO.Value := dados.Numerador('CAIXA', 'CODIGO',
         'N', '', '');
       dados.qryCaixa.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
   end;
 end;
@@ -125,7 +125,7 @@ begin
     dados.qryExecute.Params[2].Value := cbCaixa.KeyValue;
     dados.qryExecute.ExecSQL;
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     FrmPDV.qryConta_Movimento.Close;
     FrmPDV.qryConta_Movimento.Params[0].Value := dados.Lote;
@@ -143,7 +143,7 @@ begin
     FrmPDV.qryConta_MovimentoLOTE.Value := dados.Lote;
     FrmPDV.qryConta_MovimentoID_USUARIO.Value := dados.idUsuario;
     FrmPDV.qryConta_Movimento.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     GeraCaixa;
 

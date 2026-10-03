@@ -402,42 +402,42 @@ begin
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := ' delete from SPED_Produtos';
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := ' delete from SPED_PARTICIPANTES';
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := ' delete from SPED_Unidade';
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := ' delete from SPED_H005';
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := ' delete from SPED_H010';
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := ' delete from SPED_c190';
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := ' delete from SPED_c170';
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.SQL.Text := ' delete from SPED_c100';
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -502,7 +502,7 @@ begin
     Dados.qrySped_ParticipanteFK_USUARIO.Value := Dados.idUsuario;
 
     Dados.qrySped_Participante.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     DadosSped.qrParticipantes.Next;
   end;
 
@@ -537,7 +537,7 @@ begin
     Dados.qrySped_H005FK_EMPRESA.Value := Dados.qryEmpresaCODIGO.Value;
     Dados.qrySped_H005FK_USUARIO.Value := Dados.idUsuario;
     Dados.qrySped_H005.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     Dados.qrySped_H010.Close;
     Dados.qrySped_H010.Params[0].Value := Dados.qrySped_H005CODIGO.Value;
@@ -559,7 +559,7 @@ begin
       Dados.qrySped_H010FK_EMPRESA.Value := Dados.qryEmpresaCODIGO.Value;
       Dados.qrySped_H010FK_USUARIO.Value := Dados.idUsuario;
       Dados.qrySped_H010.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       TTotal := TTotal + Dados.qrySped_H010VL_ITEM.AsFloat;
       DadosSped.qryInventario.Next;
     end;
@@ -567,7 +567,7 @@ begin
     Dados.qrySped_H005.Edit;
     Dados.qrySped_H005VL_INV.Value := TTotal;
     Dados.qrySped_H005.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 end;
 
@@ -602,7 +602,7 @@ begin
       Dados.qrySped_UnidadeFK_EMPRESA.Value := Empresa;
       Dados.qrySped_UnidadeFK_USUARIO.Value := Dados.idUsuario;
       Dados.qrySped_Unidade.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
     DadosSped.qrUnidades.Next;
   end;
@@ -789,7 +789,7 @@ begin
       Dados.qrySped_ProdutoFK_EMPRESA.Value := Empresa;
       Dados.qrySped_ProdutoFK_USUARIO.Value := Dados.idUsuario;
       Dados.qrySped_Produto.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
     DadosSped.qrProdutos.Next;
   end;
@@ -880,7 +880,7 @@ begin
     Dados.qrySped_C100vl_pis.AsFloat := DadosSped.qryCompraTOTAL_PIS.AsFloat;
     Dados.qrySped_C100vl_cofins.AsFloat := DadosSped.qryCompraTOTAL_COF.AsFloat;
     Dados.qrySped_C100.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     DadosSped.qryItensC.Close; // abre os itens da compra
     DadosSped.qryItensC.Params[0].Value := DadosSped.qryCompraID.Value;
@@ -1010,7 +1010,7 @@ begin
           DadosSped.qryItensCDESCONTO.AsFloat + vOutros;
 
         Dados.qrySped_C170.Post;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
       DadosSped.qryItensC.Next;
     end;
@@ -1073,7 +1073,7 @@ begin
     Dados.qrySped_C100vl_cofins.Value :=
       DadosSped.qryNFe_ETOTALICMSCOFINS.AsFloat;
     Dados.qrySped_C100.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     DadosSped.qryItens_NFe_E.Close; // abre os itens da nfe de entrada
     DadosSped.qryItens_NFe_E.Params[0].Value :=
@@ -1197,7 +1197,7 @@ begin
         DadosSped.qryItens_NFe_EVALOR_ICMS_ST.AsFloat -
         DadosSped.qryItens_NFe_EDESCONTO.AsFloat;
       Dados.qrySped_C170.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       DadosSped.qryItens_NFe_E.Next;
     end;
@@ -1259,7 +1259,7 @@ begin
     Dados.qrySped_C100vl_cofins.Value :=
       DadosSped.qryNFCE_STOTALICMSCOFINS.AsFloat;
     Dados.qrySped_C100.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     DadosSped.QryItens_NFCe_S.Close; // abre os itens da nfce
     DadosSped.QryItens_NFCe_S.Params[0].Value :=
@@ -1384,7 +1384,7 @@ begin
         DadosSped.QryItens_NFCe_SVALOR_ICMS_ST.AsFloat -
         DadosSped.QryItens_NFCe_SVDESCONTO.AsFloat;
       Dados.qrySped_C170.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       DadosSped.QryItens_NFCe_S.Next;
     end;
@@ -1446,7 +1446,7 @@ begin
     Dados.qrySped_C100vl_cofins.Value :=
       DadosSped.qryNFE_STOTALICMSCOFINS.AsFloat;
     Dados.qrySped_C100.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     DadosSped.qryItens_NFe_S.Close; // abre os itens da nfce
     DadosSped.qryItens_NFe_S.Params[0].Value := DadosSped.qryNFE_SCODIGO.Value;
@@ -1545,7 +1545,7 @@ begin
           DadosSped.qryItens_NFe_SVALOR_ICMS_ST.AsFloat -
           DadosSped.qryItens_NFe_SDESCONTO.AsFloat;
         Dados.qrySped_C170.Post;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
 
       DadosSped.qryItens_NFe_S.Next;
@@ -1591,7 +1591,7 @@ begin
         DadosSped.qryConsC170VL_ICMS_ST.AsFloat;
       Dados.qrySped_C190vl_ipi.Value := DadosSped.qryConsC170VL_IPI.AsFloat;
       Dados.qrySped_C190.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       DadosSped.qryConsC170.Next;
     end;

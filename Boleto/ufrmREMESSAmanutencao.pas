@@ -240,12 +240,12 @@ begin
     qryDefaultARQUIVO.LoadFromFile(AArquivo.Trim);
     qryDefault.Post;
 
-    // qryDefault.Connection.CommitRetaining;
+    // Dados.Confirmar;
   except
     on e: Exception do
     begin
 
-      // qryDefault.Connection.RollbackRetaining;
+      // Dados.Desfazer;
       raise Exception.Create('Ocorreu erro ao gerar a Remessa!' + sLineBreak +
         e.Message);
     end;
@@ -277,14 +277,14 @@ begin
         [dados.qryempresaCodigo.Value, qryDefault.FieldByName('ID_CBR_REMESSA')
         .AsInteger]));
 
-      qryDefault.Connection.CommitRetaining;
+      Dados.Confirmar;
 
       qryDefault.Close;
       qryDefault.Open;
     except
       on e: Exception do
       begin
-        qryDefault.Connection.RollbackRetaining;
+        Dados.Desfazer;
 
         raise Exception.Create('Ocorreu erro ao tentar cancelar a Remessa.' +
           sLineBreak + sLineBreak + e.Message);
@@ -394,7 +394,7 @@ begin
 
       GerarRemessa;
 
-      qryDefault.Connection.CommitRetaining;
+      Dados.Confirmar;
       qryDefault.Close;
       qryDefault.Open;
     finally
@@ -403,7 +403,7 @@ begin
   except
     on e: Exception do
     begin
-      qryDefault.Connection.RollbackRetaining;
+      Dados.Desfazer;
 
       raise Exception.Create('Ocorreu erro na geraçao do arquivo da remessa:' +
         sLineBreak + sLineBreak + e.Message);

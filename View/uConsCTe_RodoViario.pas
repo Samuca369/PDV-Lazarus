@@ -461,7 +461,7 @@ begin
     btnCorrecao.Enabled := false;
     if (qryCorrecao.State in dsEditmodes) then
       qryCorrecao.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     dmCTe.ACBrCTe.EventoCTe.Evento.Clear;
     with dmCTe.ACBrCTe.EventoCTe.Evento.Add do
@@ -558,7 +558,7 @@ begin
     qryCTE_MDATA.Value := dmCTe.ACBrCTe.Conhecimentos.Items[0].CTe.ide.dhEmi;
     qryCTE_MSITUACAO.Value := 'T';
     qryCTE_M.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
   btnFiltrar.Click;
 end;
@@ -728,7 +728,7 @@ begin
           qryInutiliza.edit;
           qryInutilizaSITUACAO.Value := 'I';
           qryInutiliza.Post;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
           Application.ProcessMessages;
         end
         else
@@ -766,7 +766,7 @@ begin
           qryInutilizaMODELO.Value := 57;
           qryInutilizaMETRAGEM.Value := '0';
           qryInutiliza.Post;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
         end;
 
       end;

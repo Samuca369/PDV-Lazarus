@@ -17,7 +17,7 @@
 - [ ] `uMesas` — `View/uMesas.pas`
 - [ ] `uCadPedido` — `View/uCadPedido.pas`
 - [ ] `uPedido` — `View/uPedido.pas`
-- [ ] `uPedidoWeb` — `View/uPedidoWeb.pas`
+- [ ] `uPedidoWeb` — `View/uPedidoWeb.pas` (depende da decisão sobre o aplicativo no roadmap 10)
 - [ ] `uCadOS` — `View/uCadOS.pas`
 - [ ] `uConsOS` — `View/uConsOS.pas`
 - [ ] `uConsOS_Roupa` — `View/uConsOS_Roupa.pas`

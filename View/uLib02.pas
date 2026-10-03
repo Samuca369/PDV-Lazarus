@@ -2,18 +2,20 @@
    unit:   uLib02
    Classe: TCustomInputBox
 
-   Data de criação  : 18/06/2019
+   Data de criaÃ§Ã£o  : 18/06/2019
    Autor            :
-   Descrição        : Lib contendo estruturas Auxiliares da Aplicação
+   DescriÃ§Ã£o        : Lib contendo estruturas Auxiliares da AplicaÃ§Ã£o
    }
 //*****************************************************************************/
 unit uLib02;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, System.StrUtils, system.AnsiStrings,
-  Vcl.Graphics,Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, System.Types, System.TypInfo;
+  Windows, Messages, SysUtils, Variants, Classes, StrUtils, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, MaskEdit, Types, TypInfo;
 
 
 type
@@ -49,7 +51,7 @@ begin
    if (TEdit(Sender).Text[I] in ['0'..'9']) then
       s := s + TEdit(Sender).Text[I];
 
-   //fazer com que o conteúdo do edit apresente 2 casas decimais:
+   //fazer com que o conteÃºdo do edit apresente 2 casas decimais:
    v := strtofloat(s);
    v := (v /100); // para criar 2 casa decimais
 
@@ -68,7 +70,7 @@ var
 begin
    if NOT (Key in ['0'..'9', #8, #9]) then
      key := #0;
-     //Função para posicionar o cursor sempre na direita
+     //FunÃ§Ã£o para posicionar o cursor sempre na direita
      TEdit(Sender).SelStart := Length(TEdit(Sender).Text);
 
 end;
@@ -165,7 +167,7 @@ begin
         ModalResult := mrCancel;
         Cancel := True;
         //Enabled := False;
-        Visible := True;       // Esconde Botão Cancelar
+        Visible := True;       // Esconde BotÃ£o Cancelar
         SetBounds(MulDiv(92, DialogUnits.X, 4), Edit.Top + Edit.Height + 15,
         ButtonWidth, ButtonHeight);
         Form.ClientHeight := Top + Height + 13;

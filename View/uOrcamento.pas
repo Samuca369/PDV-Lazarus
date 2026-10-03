@@ -283,7 +283,7 @@ begin
         Dados.qryOrcamento.edit;
       Dados.qryOrcamentoSITUACAO.Value := 'C';
       Dados.qryOrcamento.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       ShowMessage('Orçamento Cancelado Com Sucesso!');
     end;
 

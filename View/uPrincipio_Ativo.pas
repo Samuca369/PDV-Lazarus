@@ -304,7 +304,7 @@ begin
     end;
 
     Dados.qryPrincipio.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   PageControl1.ActivePage := Lista;

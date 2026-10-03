@@ -1400,7 +1400,7 @@ begin
 
       qryItemITEM.AsInteger := Item;
       qryItem.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       qryItem.Next;
       Item := Item + 1;
@@ -1429,7 +1429,7 @@ begin
       qryItemSEGURO.Value := qryItemSEGURO.AsFloat + vDiferenca;
 
     qryItem.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   finally
     qryItem.EnableControls;
   end;
@@ -1680,7 +1680,7 @@ end;
 
 procedure TfrmCadNFe.QryFaturaAfterDelete(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadNFe.QryFaturaAfterInsert(DataSet: TDataSet);
@@ -1690,7 +1690,7 @@ end;
 
 procedure TfrmCadNFe.QryFaturaAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadNFe.QryFaturaBeforeEdit(DataSet: TDataSet);
@@ -1752,7 +1752,7 @@ begin
     'update nfe_detalhe set situacao=''2'' where fknfe=:codigo';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -2035,7 +2035,7 @@ begin
   Dados.qryExecute.ParamByName('codigo').AsInteger := qryVendaCODIGO.AsInteger;
   Dados.qryExecute.Prepare;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -2336,7 +2336,7 @@ begin
       copy(DmNFe.ACBrNFe.NotasFiscais.Items[0].NFe.infNFe.Id, 4, 100);
     qryVendaXML.Value := DmNFe.ACBrNFe.NotasFiscais.Items[0].XML;
     qryVenda.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 end;
 
@@ -3225,7 +3225,7 @@ begin
       qryCR.Edit;
       qryCRVALOR.Value := SimpleRoundTo(qryCRVALOR.Value + vDif, -2);
       qryCR.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
     if not(qryVenda.State in dsEditModes) then
@@ -3852,7 +3852,7 @@ end;
 
 procedure TfrmCadNFe.qryItemAfterDelete(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
 end;
 
@@ -3961,7 +3961,7 @@ begin
 
     qryVenda.Post;
 
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     if Dados.qryEmpresaENVIAR_EMAIL_NFE.AsString = 'S' then
       DmNFe.EnviarEmal(qryVendaVIRTUAL_EMAIL.AsString, qryVendaNUMERO.AsString,
@@ -3994,7 +3994,7 @@ begin
     qryVenda.Edit;
   qryVendaSITUACAO.Value := '3';
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   ShowMessage(DmNFe.ACBrNFe.WebServices.Retorno.xMotivo);
   Close;
 end;
@@ -4014,7 +4014,7 @@ begin
   qryVendaHORA_EMISSAO.Value := Now;
   qryVendaHORA_SAIDA.Value := Now;
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   Close;
 end;
 
@@ -4026,7 +4026,7 @@ begin
   qryVendaHORA_EMISSAO.Value := Now;
   qryVendaHORA_SAIDA.Value := Now;
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   ShowMessage(DmNFe.ACBrNFe.WebServices.Retorno.xMotivo);
   Close;
 end;
@@ -4037,7 +4037,7 @@ begin
     qryVenda.Edit;
   qryVendaSITUACAO.Value := '5';
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   ShowMessage(DmNFe.ACBrNFe.WebServices.Retorno.xMotivo);
   Close;
 end;
@@ -4057,7 +4057,7 @@ begin
   qryVendaHORA_EMISSAO.Value := Now;
   qryVendaHORA_SAIDA.Value := Now;
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   Close;
 end;
 
@@ -4067,7 +4067,7 @@ begin
   vLetras := '';
   qryProd.Filtered := false;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
   NaturezaOperacao;
 
@@ -4232,7 +4232,7 @@ end;
 
 procedure TfrmCadNFe.qryReferenciaAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadNFe.qryReferenciaNewRecord(DataSet: TDataSet);
@@ -4245,7 +4245,7 @@ end;
 
 procedure TfrmCadNFe.qryVendaAfterDelete(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadNFe.qryVendaAfterEdit(DataSet: TDataSet);
@@ -4270,7 +4270,7 @@ end;
 
 procedure TfrmCadNFe.qryVendaAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadNFe.qryVendaBeforePost(DataSet: TDataSet);

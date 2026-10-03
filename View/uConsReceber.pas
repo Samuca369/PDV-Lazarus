@@ -679,7 +679,7 @@ begin
 
   if not dados.qryCRRecebimento.IsEmpty then
     dados.qryCRRecebimento.Delete;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   dados.qrysomarec.Close;
   dados.qrysomarec.Params[0].Value := dados.qrycrCODIGO.Value;
@@ -701,7 +701,7 @@ begin
     dados.qrycrSITUACAO.Value := 'P';
   dados.qrycr.Post;
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   // btnFiltrarClick(self);
 
@@ -1061,7 +1061,7 @@ begin
           'update creceber set FLAG=''S'' where codigo=:codigo';
         dados.qryExecute.Params[0].Value := dados.qrycrCODIGO.Value;
         dados.qryExecute.ExecSQL;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
 
       if not ChckSeleciona.Checked then
@@ -1072,7 +1072,7 @@ begin
           'update creceber set FLAG=''N'' where codigo=:codigo';
         dados.qryExecute.Params[0].Value := dados.qrycrCODIGO.Value;
         dados.qryExecute.ExecSQL;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
       dados.qrycr.Next;
     end;
@@ -1185,7 +1185,7 @@ begin
       if (dados.qryCRFK_USUARIO.Value = dados.idUsuario) then
         dados.qryCRFK_USUARIO.Clear;
       dados.qrycr.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end
     else
     begin
@@ -1193,10 +1193,10 @@ begin
       dados.qryCRFLAG.Value := 'S';
       dados.qryCRFK_USUARIO.Value := dados.idUsuario;
       dados.qrycr.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
   end;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmConsReceber.dbGrid1DblClick(Sender: TObject);

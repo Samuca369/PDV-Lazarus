@@ -132,7 +132,7 @@ begin
       Dados.qryEmpresaCSENHA.AsString := Dados.crypt('C', 'N');
 
     Dados.qryEmpresa.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   Dados.eSupervisor := qryUsuariosSUPERVISOR.Value = 'S';
@@ -154,7 +154,7 @@ begin
         Dados.qryTerminal.Edit;
         Dados.qryTerminalLOGADO.Value := 'S';
         Dados.qryTerminal.Post;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
       except
         Dados.qryExecute.Close;
@@ -162,7 +162,7 @@ begin
           'update empresa set nterm=NULL where codigo=:cod';
         Dados.qryExecute.Params[0].Value := Dados.qryEmpresaCODIGO.Value;
         Dados.qryExecute.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
       end;
 
@@ -249,7 +249,7 @@ begin
     Dados.qryParametro.FieldByName('TELA_FUNDO_LOGIN').AsString :=
       OpenPicture.FileName;
     Dados.qryParametro.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 end;
 

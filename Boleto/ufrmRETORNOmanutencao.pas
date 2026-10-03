@@ -317,7 +317,7 @@ begin
     dados.qryExecute.ExecSQL;
   end;
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -371,7 +371,7 @@ begin
       (Format('UPDATE CBR_RETORNO SET SITUACAO = 1, DTHORA_PROCESSAMENTO = CURRENT_TIMESTAMP WHERE ID_EMPRESA = %d AND ID_CBR_RETORNO = %d',
       [dados.qryempresaCodigo.Value, vID_CBR_RETORNO]));
 
-    qryDefault.Connection.CommitRetaining;
+    Dados.Confirmar;
 
     qryDefault.Close;
     qryDefault.Open;
@@ -380,7 +380,7 @@ begin
   except
     on e: Exception do
     begin
-      qryDefault.Connection.RollbackRetaining;
+      Dados.Desfazer;
       raise Exception.Create('Erro no processamento do arquivo: ' + sLineBreak +
         sLineBreak + e.Message);
     end;
@@ -408,7 +408,7 @@ begin
       (Format('UPDATE CBR_RETORNO SET SITUACAO = 2, DTHORA_ARQUIVAMENTO = CURRENT_TIMESTAMP  WHERE ID_EMPRESA = %d AND ID_CBR_RETORNO = %d',
       [dados.qryempresaCodigo.Value, vID_CBR_RETORNO]));
 
-    qryDefault.Connection.CommitRetaining;
+    Dados.Confirmar;
 
     qryDefault.Close;
     qryDefault.Open;
@@ -428,7 +428,7 @@ begin
   except
     on e: Exception do
     begin
-      qryDefault.Connection.RollbackRetaining;
+      Dados.Desfazer;
 
       raise Exception.Create('Erro no arquivamento do arquivo: ' + sLineBreak +
         sLineBreak + qryDefault.FieldByName('').AsString + e.Message);
@@ -713,7 +713,7 @@ begin
           insCBR_RETORNO_TITULOS.ExecSQL;
         end;
 
-        qryDefault.Connection.CommitRetaining;
+        Dados.Confirmar;
 
         qryDefault.Close;
         qryDefault.Open;
@@ -732,7 +732,7 @@ begin
       except
         on e: Exception do
         begin
-          qryDefault.Connection.RollbackRetaining;
+          Dados.Desfazer;
           raise Exception.Create('Erro ao processar os arquivos de retorno:' +
             sLineBreak + e.Message);
         end;
@@ -840,7 +840,7 @@ begin
       'delete from crrecebimento where fkreceber=:id';
     dados.qryExecute.Params[0].Value := aCodigo;
     dados.qryExecute.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     qryRecebimento.Close;
     qryRecebimento.Params[0].Value := aCodigo;
@@ -871,7 +871,7 @@ begin
 
     Result := qryRecebimentoCODIGO.Value;
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
 end;

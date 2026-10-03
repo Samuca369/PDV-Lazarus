@@ -123,7 +123,7 @@ begin
   qryCaixaFK_FICHA_CLI.Value := qryFichaCODIGO.Value;
   qryCaixaEMPRESA.Value := Dados.qryEmpresaCODIGO.Value;
   qryCaixa.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadFichaCliente.btnGravarClick(Sender: TObject);
@@ -157,7 +157,7 @@ begin
       end;
 
       qryFicha.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       close;
     end;
@@ -183,7 +183,7 @@ end;
 
 procedure TfrmCadFichaCliente.qryFichaAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadFichaCliente.qryFichaBeforeOpen(DataSet: TDataSet);

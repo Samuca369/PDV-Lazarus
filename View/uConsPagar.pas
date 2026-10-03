@@ -533,7 +533,7 @@ begin
 
   if not(Dados.qryCPPagamento.IsEmpty) then
     Dados.qryCPPagamento.Delete;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qrySomaPaga.Close;
   Dados.qrySomaPaga.Params[0].Value := Dados.qryCPCODIGO.Value;
@@ -552,7 +552,7 @@ begin
     Dados.qryCPSITUACAO.Value := 'P';
   Dados.qryCP.Post;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   // btnFiltrarClick(self);
 
@@ -663,7 +663,7 @@ begin
       Dados.qryCP.Next;
     end;
   end;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmConsPagar.DBGrid1CellClick(Column: TColumn);
@@ -685,7 +685,7 @@ begin
       Dados.qryCP.Post;
     end;
   end;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmConsPagar.DBGrid1DblClick(Sender: TObject);

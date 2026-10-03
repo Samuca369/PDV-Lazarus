@@ -310,7 +310,7 @@ begin
       qryEncerrar.Edit;
       qryEncerrarSITUACAO.Value := 'E';
       qryEncerrar.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       dados.qryExecute.close;
       dados.qryExecute.SQL.Clear;
@@ -321,7 +321,7 @@ begin
       dados.qryExecute.SQL.Add('chave=:chave');
       dados.qryExecute.Params[0].Value := qryEncerrarCHAVE.Value;
       dados.qryExecute.ExecSQL;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       ShowMessage('MDFe encerrado com sucesso!');
 
     end;
@@ -348,7 +348,7 @@ begin
     dados.qryExecute.SQL.Clear;
     dados.qryExecute.SQL.Add('delete from MDFE_ENCERRAR');
     dados.qryExecute.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     ACBrMDFe.Manifestos.Clear;
     ACBrMDFe.EventoMDFe.Evento.Clear;
@@ -365,7 +365,7 @@ begin
         Items[i].nProt;
       qryEncerrarFK_EMPRESA.Value := dados.qryEmpresaCODIGO.Value;
       qryEncerrar.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
     btnPesquisar.Enabled := true;
   end;

@@ -274,7 +274,7 @@ end;
 
 procedure TfrmCadDevolucao.qryDevolucaoAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -321,7 +321,7 @@ end;
 
 procedure TfrmCadDevolucao.qryItensAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
   CalculaDevolucao(iTem);
 end;
@@ -340,14 +340,14 @@ begin
   dados.qryExecute.Params[0].Value := dados.qryConsulta.Fields[0].AsFloat;
   dados.qryExecute.Params[1].Value := produto;
   dados.qryExecute.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   iTem := -1;
 
 end;
 
 procedure TfrmCadDevolucao.qryItensAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
 end;
 
@@ -442,14 +442,14 @@ begin
         'DELETE FROM CRECEBER CR WHERE CR.FK_VENDA=:VENDA AND CR.VRECEBIDO=0';
       dados.qryExecute.Params[0].Value := qryDevolucaoFK_VENDA.Value;
       dados.qryExecute.ExecSQL;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       dados.qryExecute.Close;
       dados.qryExecute.SQL.Text :=
         'update CRECEBER CR set cr.vl_restante=0, cr.valor=cr.vrecebido WHERE CR.FK_VENDA=:VENDA AND CR.VRECEBIDO>0 and cr.vl_restante>0';
       dados.qryExecute.Params[0].Value := qryDevolucaoFK_VENDA.Value;
       dados.qryExecute.ExecSQL;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end
     else
     begin
@@ -474,7 +474,7 @@ begin
           qryCR.Post;
           valor := 0;
         end;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
     end;
   end;
@@ -664,7 +664,7 @@ begin
     frmCadDevolucao.qryDevolucaoFK_CLIENTE.Value := qryVendaID_CLIENTE.Value;
     frmCadDevolucao.qryDevolucaoFKEMPRESA.Value := qryVendaFKEMPRESA.Value;
     frmCadDevolucao.qryDevolucao.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     qryItensV.First;
 
@@ -698,7 +698,7 @@ begin
         frmCadDevolucao.qryItensFK_GRADE.Value := qryItensVFK_GRADE.Value;
 
         frmCadDevolucao.qryItens.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
       qryItensV.Next;
     end;

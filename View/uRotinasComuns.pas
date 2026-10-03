@@ -1,10 +1,11 @@
 unit uRotinasComuns;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  System.SysUtils, System.Classes, REST.Types, REST.Response.Adapter,
-  REST.Client, Data.Bind.Components, Data.Bind.ObjectScope, System.JSon;
+  SysUtils, Classes, fphttpclient, opensslsockets, fpjson, jsonparser;
 
 type
   TPessoa = Record
@@ -24,10 +25,6 @@ type
 
 type
   TDMRotinas = class(TDataModule)
-    RESTResponseCNPJ: TRESTResponse;
-    RESTRequestCNPJ: TRESTRequest;
-    RESTClientCNPJ: TRESTClient;
-    RESTResponseDataCNPJ: TRESTResponseDataSetAdapter;
   private
     { Private declarations }
   public
@@ -41,27 +38,43 @@ var
 
 implementation
 
-{%CLASSGROUP 'Vcl.Controls.TControl'}
-{$R *.dfm}
+{$R *.lfm}
+
+const
+  URL_CNPJ = 'https://www.receitaws.com.br/v1/cnpj/';
 
 procedure TDMRotinas.BuscaCNPJ(CNPJ: String);
 var
-  jsonObject: TJsonObject;
+  Cliente: TFPHTTPClient;
+  Json: TJSONData;
+  Obj: TJSONObject;
 begin
-  RESTRequestCNPJ.Resource := CNPJ;
-  RESTRequestCNPJ.Execute;
-  jsonObject := TJsonObject.ParseJSONValue(RESTResponseCNPJ.Content)
-    as TJsonObject;
-  Pessoa.razao := jsonObject.GetValue('nome').Value;
-  Pessoa.fantasia := jsonObject.GetValue('fantasia').Value;
-  Pessoa.logradouro := jsonObject.GetValue('logradouro').Value;
-  Pessoa.numero := jsonObject.GetValue('numero').Value;
-  Pessoa.bairro := jsonObject.GetValue('bairro').Value;
-  Pessoa.municipio := jsonObject.GetValue('municipio').Value;
-  Pessoa.uf := jsonObject.GetValue('uf').Value;
-  Pessoa.cep := jsonObject.GetValue('cep').Value;
-  Pessoa.email := jsonObject.GetValue('email').Value;
-  Pessoa.complemento := jsonObject.GetValue('complemento').Value;
+  Cliente := TFPHTTPClient.Create(nil);
+  try
+    Cliente.AddHeader('Accept', 'application/json');
+    Json := GetJSON(Cliente.Get(URL_CNPJ + CNPJ));
+  finally
+    Cliente.Free;
+  end;
+  try
+    if not (Json is TJSONObject) then
+      raise Exception.Create('Resposta inesperada na consulta do CNPJ.');
+    Obj := TJSONObject(Json);
+    if Obj.Get('status', '') = 'ERROR' then
+      raise Exception.Create(Obj.Get('message', 'CNPJ não encontrado.'));
+    Pessoa.razao := Obj.Get('nome', '');
+    Pessoa.fantasia := Obj.Get('fantasia', '');
+    Pessoa.logradouro := Obj.Get('logradouro', '');
+    Pessoa.numero := Obj.Get('numero', '');
+    Pessoa.bairro := Obj.Get('bairro', '');
+    Pessoa.municipio := Obj.Get('municipio', '');
+    Pessoa.uf := Obj.Get('uf', '');
+    Pessoa.cep := Obj.Get('cep', '');
+    Pessoa.email := Obj.Get('email', '');
+    Pessoa.complemento := Obj.Get('complemento', '');
+  finally
+    Json.Free;
+  end;
 end;
 
 procedure TPessoa.Clear;

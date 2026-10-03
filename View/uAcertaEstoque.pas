@@ -488,12 +488,12 @@ end;
 
 procedure TfrmAcerta.qryAcertaAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmAcerta.qryAcertaAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmAcerta.qryAcertaBeforeDelete(DataSet: TDataSet);
@@ -511,7 +511,7 @@ begin
     dmEstoque.AtualizaEstoque(fProduto, qryAcertaQTD_F.AsFloat, 0,
       qryAcertaE_S.Value, 'F');
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -654,7 +654,7 @@ begin
   if (qryAcerta.State in dsEditModes) then
   begin
     qryAcerta.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   PageControl1.ActivePage := Lista;

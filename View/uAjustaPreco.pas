@@ -246,7 +246,7 @@ begin
 
   if vPrecoAnterior <> qryProdutosPR_VENDA.AsFloat then
     dados.AlteraDataPreco(qryProdutosCODIGO.Value);
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TFrmAjustaPreco.qryProdutosBeforeEdit(DataSet: TDataSet);

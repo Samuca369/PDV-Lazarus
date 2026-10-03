@@ -279,7 +279,7 @@ begin
     Dados.qryTerminal.Edit;
     Dados.qryTerminal.FieldByName('DT_VERSAO').Value := DateTimeToStr(now);
     Dados.qryTerminal.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   Label1.Caption := '';

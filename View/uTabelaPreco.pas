@@ -311,7 +311,7 @@ begin
     end;
 
     dados.qryTabPreco.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   PageControl1.ActivePage := Lista;

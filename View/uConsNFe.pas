@@ -667,7 +667,7 @@ begin
 
     if (qryCorrecao.State in dsEditmodes) then
       qryCorrecao.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     DmNFe.CartaCorrecao(qryVendaCHAVE.Value,
       TiraPontos(Dados.qryEmpresaCNPJ.Value), qryCorrecaoSEQUENCIA.Value,
@@ -707,7 +707,7 @@ begin
   Dados.qryExecute.ParamByName('codigo').AsInteger := qryVendaCODIGO.AsInteger;
   Dados.qryExecute.Prepare;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmConsNFe.btnAlterarClick(Sender: TObject);
@@ -1307,7 +1307,7 @@ begin
       qryInutiliza.edit;
       qryInutilizaSITUACAO.Value := '5';
       qryInutiliza.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       Application.ProcessMessages;
       ApagaItensInutiliza(qryInutilizaCODIGO.Value);
 
@@ -1333,7 +1333,7 @@ begin
       qryInutilizaTOTAL.Value := 0;
       qryInutilizaSITUACAO.Value := '5';
       qryInutiliza.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
   end;
 end;
@@ -1344,7 +1344,7 @@ begin
   Dados.qryExecute.sql.Text := 'delete from NFE_DETALHE where codigo=:codigo';
   Dados.qryExecute.Params[0].Value := Codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmConsNFe.btnInutilizarClick(Sender: TObject);
@@ -1675,7 +1675,7 @@ begin
   qryVendaAux.FieldByName('SITUACAO').AsInteger := 1;
 
   qryVendaAux.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Result := qryVendaAux.FieldByName('CODIGO').AsInteger;
 
@@ -1715,7 +1715,7 @@ begin
     end;
     qryItemAux.FieldByName('SITUACAO').AsInteger := 1;
     qryItemAux.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     qryNFE_D.Next;
   end;

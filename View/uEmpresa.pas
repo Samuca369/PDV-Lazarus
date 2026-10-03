@@ -519,7 +519,7 @@ end;
 procedure TfrmEmpresa.qryEmpresaAfterPost(DataSet: TDataSet);
 
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   dados.qryEmpresa.close;
   dados.qryEmpresa.Open;
@@ -847,7 +847,7 @@ begin
     end;
 
     qryEmpresa.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     close;
   end;
 end;

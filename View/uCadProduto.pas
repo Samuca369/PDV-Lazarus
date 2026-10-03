@@ -484,7 +484,7 @@ begin
     'delete from produto_grade where FK_PRODUTO=:codigo';
   dados.qryExecute.Params[0].Value := qryProdutosCODIGO.Value;
   dados.qryExecute.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TFrmCadProduto.AcertaEstoque;
@@ -508,7 +508,7 @@ begin
       dados.qryAcertaQTD_F.Value := 0;
       dados.qryAcertaE_S.Value := 'E';
       dados.qryAcerta.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
   end
   else
@@ -539,7 +539,7 @@ begin
       end;
 
       dados.qryAcerta.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
   end;
 end;
@@ -693,7 +693,7 @@ begin
 
     dados.vCodProduto := qryProdutosCODIGO.Value;
     qryProdutos.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
   close;
 end;
@@ -1166,7 +1166,7 @@ begin
   if qryComposicaoTVENDA.AsVariant > 0 then
     total := qryComposicaoTVENDA.Value;
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   if not(qryProdutos.State in dsEditModes) then
     qryProdutos.Edit;
   qryProdutosPR_CUSTO.Value := total;
@@ -1399,7 +1399,7 @@ procedure TFrmCadProduto.qrySerialBeforeInsert(DataSet: TDataSet);
 begin
   if qryProdutos.State = dsInsert then
     qryProdutos.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   qryProdutos.Edit;
 end;
 

@@ -1,5 +1,7 @@
 unit Serial;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses

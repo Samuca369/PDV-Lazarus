@@ -67,7 +67,7 @@ begin
     dados.qryUsuarios.Edit;
     dados.qryUsuariosSENHA.Value := dados.Crypt('C', Edit2.Text);
     dados.qryUsuarios.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   Close;

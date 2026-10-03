@@ -310,7 +310,7 @@ begin
       exit;
     end;
     dados.qryVendedor.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   PageControl1.ActivePage := Lista;

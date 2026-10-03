@@ -491,7 +491,7 @@ end;
 
 procedure TfrmRecibo.qryReciboAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmRecibo.qryReciboCalcFields(DataSet: TDataSet);

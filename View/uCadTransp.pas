@@ -255,7 +255,7 @@ begin
     end;
     dados.qryTranspCIDADE.Value := dados.qryCidadeDESCRICAO.Value;
     dados.qryTransp.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
   frmCadTransp.close;
 end;

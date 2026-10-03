@@ -198,7 +198,7 @@ begin
   Dados.qryExecute.SQL.Text := 'DELETE FROM SPED';
   Dados.qryExecute.ExecSQL;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TFrmSpedSP.GeraSped;
@@ -230,7 +230,7 @@ begin
       'N', '', '');
     DadosSped.CodSped := Dados.qrySpedCODIGO.Value;
     Dados.qrySped.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end
   else
   begin
@@ -253,7 +253,7 @@ begin
 
       DadosSped.CodSped := Dados.qrySpedCODIGO.Value;
 
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       DadosSped.ApagaRegistro;
 

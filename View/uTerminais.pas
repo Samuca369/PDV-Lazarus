@@ -346,7 +346,7 @@ begin
   If Application.messagebox('Deseja realmente excluir terminal?', 'Confirmação',
     mb_yesno + mb_iconquestion) = idyes then
     qryTerminal.Delete;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmTerminais.btnGravarClick(Sender: TObject);
@@ -360,7 +360,7 @@ begin
   if qryTerminal.State in [dsinsert, dsedit] then
     qryTerminal.Post;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   ShowMessage('Dados gravado com sucesso!');
   Close;
@@ -385,7 +385,7 @@ begin
   if qryTerminal.State in [dsinsert, dsedit] then
     qryTerminal.Post;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Close;
 end;

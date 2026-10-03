@@ -115,7 +115,7 @@ begin
         qryUpdate.SQL.Clear;
         qryUpdate.SQL.Text := 'delete from ibpt';
         qryUpdate.ExecSQL;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
 
       qryIBPT.Close;
@@ -136,7 +136,7 @@ begin
       qryIBPTVERSAO.AsString := ACBrIBPTax1.VersaoArquivo;
       qryIBPTFONTE.AsString := ACBrIBPTax1.Fonte;
       qryIBPT.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       try
         for I := 0 to ACBrIBPTax1.Itens.Count - 1 do
@@ -174,7 +174,7 @@ begin
               qryIBPTVERSAO.AsString := ACBrIBPTax1.VersaoArquivo;
               qryIBPTFONTE.AsString := ACBrIBPTax1.Fonte;
               qryIBPT.Post;
-              dados.Conexao.CommitRetaining;
+              Dados.Confirmar;
               Application.ProcessMessages;
             end;
           end;

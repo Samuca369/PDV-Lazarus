@@ -101,7 +101,7 @@ begin
             qryExecute.Params[0].Value := QtdEstoque;
             qryExecute.Params[1].Value := aProduto;
             qryExecute.ExecSQL;
-            dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
 
           end;
 
@@ -119,7 +119,7 @@ begin
             qryExecute.Params[0].Value := QtdEstoque;
             qryExecute.Params[1].Value := aProduto;
             qryExecute.ExecSQL;
-            dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
 
           end;
         end;
@@ -140,7 +140,7 @@ begin
             qryExecute.Params[0].Value := QtdEstoque;
             qryExecute.Params[1].Value := aProduto;
             qryExecute.ExecSQL;
-            dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
 
           end;
 
@@ -158,7 +158,7 @@ begin
             qryExecute.Params[0].Value := QtdEstoque;
             qryExecute.Params[1].Value := aProduto;
             qryExecute.ExecSQL;
-            dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
           end;
         end;
       end
@@ -183,7 +183,7 @@ begin
     dados.qryExecute.Params[0].AsFloat := aQuantidade;
     dados.qryExecute.Params[1].Value := aGrade;
     dados.qryExecute.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   if aMovimento = 'S' then
@@ -194,7 +194,7 @@ begin
     dados.qryExecute.Params[0].AsFloat := aQuantidade;
     dados.qryExecute.Params[1].Value := aGrade;
     dados.qryExecute.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   if aPreco > 0 then
@@ -205,7 +205,7 @@ begin
     dados.qryExecute.Params[0].AsFloat := aPreco;
     dados.qryExecute.Params[1].Value := aGrade;
     dados.qryExecute.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
   end;
 
@@ -393,7 +393,7 @@ begin
       'delete from compra_grade where FK_COMPRA=:compra and qtd=0 ';
     qryEstoque.Params[0].Value := aCompra;
     qryEstoque.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   finally
     qryEstoque.Free;
   end;
@@ -414,7 +414,7 @@ begin
       'delete from devolucao_compra_grade where FK_DEVOLUCAO=:DEVOLUCAO and qtd_devolvida=0';
     qryEstoque.Params[0].Value := aDevolucao;
     qryEstoque.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   finally
     qryEstoque.Free;
   end;
@@ -641,7 +641,7 @@ begin
     qryInsere.ParamByName('TRANSACAO').AsString := aTransacao;
     qryInsere.ParamByName('FK_FABRICA').AsInteger := aFabrica;
     qryInsere.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   finally
     qryInsere.Free;
   end;

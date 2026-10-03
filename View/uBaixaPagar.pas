@@ -260,7 +260,7 @@ begin
         qryCaixaFKPAGAR.Value := qryPagamentoCODIGO.Value;
         qryCaixaEMPRESA.Value := qryCPFKEMPRESA.Value;
         qryCaixa.Post;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
 
       Dados.qrySomaPaga.Close;
@@ -281,7 +281,7 @@ begin
         qryCPSITUACAO.Value := 'P';
 
       qryCP.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
     except
       on e: exception do

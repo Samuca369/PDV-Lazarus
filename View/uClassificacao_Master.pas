@@ -329,9 +329,9 @@ begin
       try
         qryLaudo.Post;
         AtualizaLaudo(DadosLaudo.qryLaudoCODIGO.Value);
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       except
-        Dados.Conexao.RollbackRetaining;
+        Dados.Desfazer;
       end;
       DadosLaudo.qryLaudo.Next;
     end;
@@ -393,7 +393,7 @@ begin
         qryLaudo.edit;
       qryLaudoSITUACAO.Value := 'C';
       qryLaudo.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       ShowMessage('Orçamento Cancelado Com Sucesso!');
     end;
 

@@ -333,7 +333,7 @@ begin
   dados.qryUpdate.ParamByName('compra').AsInteger := CodCompra;
   dados.qryUpdate.prepare;
   dados.qryUpdate.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 function TfrmCompra.VerificaCP(aCompra: Integer): Boolean;
@@ -438,14 +438,14 @@ begin
         dados.qryExecute.SQL.Text := 'DELETE FROM CPAGAR WHERE FK_COMPRA=:ID';
         dados.qryExecute.Params[0].Value := dados.qryCompraID.Value;
         dados.qryExecute.ExecSQL;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
         if not(dados.qryCompra.State = dsEdit) then
           dados.qryCompra.edit;
         dados.qryCompraNR_NOTA.Value := '';
         dados.qryCompraSTATUS.Value := 'C';
         dados.qryCompra.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
         CancelaItem(dados.qryCompraID.AsInteger);
 

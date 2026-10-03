@@ -176,7 +176,7 @@ begin
     end;
     qryCartao.Next;
   end;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -278,7 +278,7 @@ begin
       qryCartaoID_USUARIO.Value := dados.idUsuario;
       qryCartaoTRANSFERENCIA.Value := 0;
       qryCartao.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       vSoma := SimpleRoundTo(vSoma + qryCartaoENTRADA.AsFloat, -2);
     end;
 
@@ -293,7 +293,7 @@ begin
       qryCartaoSAIDA.Value := SimpleRoundTo((vTaxa * qryCartaoENTRADA.AsFloat)
         / 100, -2);
       qryCartao.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
   finally
@@ -360,7 +360,7 @@ end;
 
 procedure TfrmCartaoParcela.qryCartaoAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 end.

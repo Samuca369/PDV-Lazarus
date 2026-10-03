@@ -164,7 +164,7 @@ begin
     qryDuplicaHISTORICO.Value := qryCPHISTORICO.Value;
     qryDuplica.Post;
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
 end;
@@ -206,7 +206,7 @@ begin
     end;
 
     qryCP.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     close;
   end;
 end;
@@ -256,9 +256,9 @@ end;
 
 procedure TfrmCadPagar.qryCPAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   duplica(SpinEdit1.Value);
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 

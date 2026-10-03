@@ -88,7 +88,7 @@ begin
   dados.qryCaixaTRANSFERENCIA.Value := dados.qryCaixaCODIGO.Value;
   result := dados.qryCaixaCODIGO.Value;
   dados.qryCaixa.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmTransferencia.BitBtn1Click(Sender: TObject);
@@ -172,11 +172,11 @@ begin
         dados.qryCaixaTRANSFERENCIA.Value := codigo;
         dados.qryCaixa.Post;
 
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
         ShowMessage('Transferência realizada com sucesso!');
       except
-        dados.Conexao.RollbackRetaining;
+        Dados.Desfazer;
         ShowMessage('Transferência não foi realizada! ');
         exit;
       end;

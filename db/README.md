@@ -7,6 +7,7 @@ Scripts numerados que criam o banco do zero. Rodar na ordem.
 | `001-estrutura-2022.sql` | Estrutura do `Dados/DADOS.FDB` do repositório original (junho de 2022): 150 tabelas, 11 gatilhos, 78 chaves estrangeiras, 1 generator. |
 | `002-comandas.sql` | Modelo novo de comandas (tabelas `COMANDA` e `COMANDA_ITENS`, 3 campos em `MESAS`), que o código cria pela rotina "Atualiza Tabelas" e o banco do repositório ainda não tinha. |
 | `003-usuario-gestor.sql` | Permissões para um usuário próprio, `GESTOR`, no lugar do SYSDBA. |
+| `004-campos-do-codigo.sql` | Campos que o código de 2022 usa e nenhum banco nem rotina do original cria (`VENDAS_MASTER.KM` e `PLACA`). |
 
 ## Criar um banco novo
 

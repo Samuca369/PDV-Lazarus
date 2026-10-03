@@ -305,7 +305,7 @@ begin
   end;
 
   qryBaixaLote.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   try
 
@@ -328,7 +328,7 @@ begin
     end;
 
   except
-    dados.Conexao.RollbackRetaining;
+    Dados.Desfazer;
   end;
 
   Close;
@@ -373,7 +373,7 @@ begin
         else
           qryCRSITUACAO.Value := 'P';
         qryCR.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
     end;
 
@@ -481,7 +481,7 @@ begin
       SomaDesconto := SomaDesconto + qryRecebimentoDESCONTO.AsFloat;
 
       qryRecebimento.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
     qryCRBaixa.Next;
@@ -553,7 +553,7 @@ begin
           qryCaixaFKRECEBER.Value := qryRecebimentoCODIGO.Value;
           qryCaixaEMPRESA.Value := qryCRFKEMPRESA.Value;
           qryCaixa.Post;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
 
           SomaParcela := SomaParcela + qryCaixaENTRADA.AsFloat;
 
@@ -565,7 +565,7 @@ begin
               qryCaixa.Edit;
               qryCaixaENTRADA.AsFloat := qryCaixaENTRADA.AsFloat - valorDif;
               qryCaixa.Post;
-              dados.Conexao.CommitRetaining;
+              Dados.Confirmar;
             end;
           end;
 
@@ -593,7 +593,7 @@ begin
             qryCaixaFKRECEBER.Value := qryRecebimentoCODIGO.Value;
             qryCaixaTRANSFERENCIA.Value := 0;
             qryCaixa.Post;
-            dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
 
             if i = Parcelas then
             begin
@@ -603,7 +603,7 @@ begin
                 qryCaixa.Edit;
                 qryCaixaSAIDA.AsFloat := qryCaixaSAIDA.AsFloat - valorDif;
                 qryCaixa.Post;
-                dados.Conexao.CommitRetaining;
+                Dados.Confirmar;
               end;
             end;
 

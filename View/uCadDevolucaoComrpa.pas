@@ -253,7 +253,7 @@ end;
 
 procedure TfrmCadDevolucaoCompra.qryDevolucaoAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -304,7 +304,7 @@ procedure TfrmCadDevolucaoCompra.qryItensAfterDelete(DataSet: TDataSet);
 begin
   CalculaTotais;
   CalculaDevolucao(idProduto);
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadDevolucaoCompra.CalculaDevolucao(produto: Integer);
@@ -322,13 +322,13 @@ begin
   dados.qryExecute.Params[1].Value := produto;
   dados.qryExecute.ExecSQL;
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
 procedure TfrmCadDevolucaoCompra.qryItensAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaDevolucao(idProduto);
   CalculaTotais;
 end;
@@ -535,7 +535,7 @@ begin
     qryDevolucaoFK_FORNECEDOR.Value := qryCompraFORNECEDOR.Value;
     qryDevolucaoFK_EMPRESA.Value := qryCompraEMPRESA.Value;
     qryDevolucao.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     qryItensV.First;
     while not qryItensV.eof do
@@ -555,7 +555,7 @@ begin
         qryItensPRECO.AsFloat := qryItensVVL_UNITARIO.AsFloat;
         qryItensFK_COMPRA_ITEM.Value := qryItensVID.Value;
         qryItens.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
       qryItensV.Next;
     end;

@@ -10,6 +10,8 @@
 - [ ] Converter a tela principal (`uPrincipal`) sem o componente de licença `TLockApplication`.
 - [ ] Configurações, usuários, permissões, terminais e as telas de sistema (lista abaixo).
 - [ ] Cadastros que só o ERP tem (lista abaixo).
+- [ ] Decidir a sincronização com o aplicativo (`uSincronizar`, e `uPedidoWeb` no roadmap 13): usava o MySQL do
+      `uDadosWeb`, que ficou vazio no roadmap 3.
 
 **Como fazer cada tela:** Converter o `.dfm` para `.lfm`, trocar os componentes (tabela em `ROADMAP-LAZARUS.md`), compilar, abrir e comparar com o original rodando em `gestor-teste`. Marcar `[x]` e fazer um commit.
 

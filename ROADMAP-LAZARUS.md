@@ -11,7 +11,7 @@ O trabalho está dividido em 19 roadmaps, na pasta `roadmap/`. Faça um por vez,
 |---|---|---|
 | 1 ✓ | [Ambiente](roadmap/roadmap-01-ambiente.md) | Deixar o PC pronto para abrir e compilar o projeto no Lazarus. |
 | 2 ✓ | [Banco Firebird](roadmap/roadmap-02-banco-firebird.md) | Ter a estrutura do banco em texto, versionada, e um usuário próprio. |
-| 3 | [Núcleo de dados](roadmap/roadmap-03-nucleo-de-dados.md) (13 units) | Primeiro projeto Lazarus compilando e conectando no Firebird. |
+| 3 ✓ | [Núcleo de dados](roadmap/roadmap-03-nucleo-de-dados.md) (13 units) | Primeiro projeto Lazarus compilando e conectando no Firebird. |
 | 4 | [PDV — tela de venda](roadmap/roadmap-04-pdv-venda.md) (12 units) | Lançar itens na venda como no original. |
 | 5 | [PDV — pagamento](roadmap/roadmap-05-pdv-pagamento.md) (5 units) | Fechar a venda com todas as formas de pagamento. |
 | 6 | [PDV — caixa](roadmap/roadmap-06-pdv-caixa.md) (8 units) | Controle de caixa completo. |

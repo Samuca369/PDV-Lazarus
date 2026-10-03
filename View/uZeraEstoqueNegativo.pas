@@ -108,7 +108,7 @@ begin
       qryAcertaQTD_F.Value := 0;
       qryAcertaDATA.Value := DATE;
       qryAcerta.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       dmEstoque.AtualizaEstoque(qrySaldoRCODIGO.Value, qryAcertaQTD_A.AsFloat,
         0, 'E', 'R');

@@ -558,7 +558,7 @@ begin
             qryClienteFUN.Value := 'N';
             qryClienteDT_CADASTRO.Value := date;
             qryCliente.Post;
-            dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
           end;
 
           idCliente := qryClienteCODIGO.Value;
@@ -634,12 +634,12 @@ begin
             .NFe.Total.ICMSTot.vCOFINS;
           qryVendaXML.Value := ACBrNFe.NotasFiscais.Items[0].XML;
           qryVenda.Post;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
 
           qryItens.First;
           while not qryItens.IsEmpty do
             qryItens.Delete;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
           // importa itens do xml
 
           for n := 0 to ACBrNFe.NotasFiscais.Count - 1 do
@@ -758,7 +758,7 @@ begin
                     qryProdutosCODBARRA.Value := prod.cEAN;
                     qryProdutosTIPO.Value := '00-MERCADORIA PARA REVENDA';
                     qryProdutos.Post;
-                    dados.Conexao.CommitRetaining;
+                    Dados.Confirmar;
                   end;
 
                   qryItens.Insert;
@@ -802,7 +802,7 @@ begin
                     Imposto.COFINS.vCOFINS;
                 end;
                 qryItens.Post;
-                dados.Conexao.CommitRetaining;
+                Dados.Confirmar;
               end;
             end;
           end;

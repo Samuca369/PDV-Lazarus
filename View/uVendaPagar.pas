@@ -417,7 +417,7 @@ begin
       qryCR.Edit;
       qryCRVALOR.Value := SimpleRoundTo(qryCRVALOR.Value + vDif, -2);
       qryCR.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
   finally
@@ -524,7 +524,7 @@ end;
 
 procedure TfrmCRParcela.qryCRAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCRParcela.qryCRBeforePost(DataSet: TDataSet);

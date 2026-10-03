@@ -690,7 +690,7 @@ begin
     end;
 
     qryXMLProduto.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 end;
 
@@ -701,7 +701,7 @@ begin
   dados.qryExecute.Params[0].Value := codigo;
   dados.qryExecute.Prepare;
   dados.qryExecute.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 function TFrmXml.BuscaProduto: string;
@@ -754,7 +754,7 @@ begin
     qryCPFK_USUARIO.Value := dados.idUsuario;
     qryCPFK_COMPRA.Value := codigo;
     qryCP.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     qryXMLDuplicata.Next;
   end;
 end;
@@ -882,7 +882,7 @@ begin
       qryFornecedorFUN.Value := 'N';
       qryFornecedorDT_CADASTRO.Value := Date;
       qryFornecedor.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
     idFornecedor := qryFornecedorCODIGO.Value;
     dados.qryFornecedor.Close;
@@ -947,7 +947,7 @@ begin
         qryXmlMasterCFOP.Value := '2102';
 
       qryXmlMaster.Post;
-      Conexao.CommitRetaining;
+      Confirmar;
     end;
 
 
@@ -1080,7 +1080,7 @@ begin
               qryXMLDetailQUANT_S.Value;
 
             qryXMLDetail.Post;
-            dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
 
             QRYUnidade.Close;
             QRYUnidade.Params[0].Value := UpperCase(Copy(prod.uCom, 1, 2));
@@ -1092,7 +1092,7 @@ begin
               QRYUnidadeDESCRICAO.Value := UpperCase(prod.uCom);
               QRYUnidadeFK_USUARIO.Value := dados.idUsuario;
               QRYUnidade.Post;
-              dados.Conexao.CommitRetaining;
+              Dados.Confirmar;
             end;
           end;
         end;
@@ -1106,7 +1106,7 @@ begin
       qryXmlMasterBASE_IPI.Value := qryXmlMasterBASE_IPI.Value +
         qryXMLDetailBASE_IPI.Value;
       qryXmlMaster.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
     qryXMLDuplicata.Close;
@@ -1127,7 +1127,7 @@ begin
         .NFe.Cobr.Dup.Items[j].vDup;
       qryXMLDuplicata.Post;
 
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
     end;
 
@@ -1257,7 +1257,7 @@ begin
       qryXMLDetailFK_GRUPO.Value := dados.vCodGrupo;
       qryXMLDetailPR_VENDA.Value := dados.vPrecoProduto;
       qryXMLDetail.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
     btnLoc.Enabled := True;
     FrmPesquisaProduto.Release;
@@ -1386,7 +1386,7 @@ begin
   dados.qryExecute.SQL.Text := 'delete from compra_itens where fk_compra=:id';
   dados.qryExecute.Params[0].Value := qryCompraID.Value;
   dados.qryExecute.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   qryXMLDetail.First;
   while not qryXMLDetail.Eof do
   begin
@@ -1445,7 +1445,7 @@ begin
       qryXMLDetailPR_VENDA_ANTERIOR.AsFloat;
 
     qryItensCompra.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     qryXMLDetail.Next;
   end;
   qryItensCompra.Refresh;
@@ -1459,7 +1459,7 @@ end;
 
 procedure TFrmXml.qryCompraAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TFrmXml.qryCompraNewRecord(DataSet: TDataSet);
@@ -1495,7 +1495,7 @@ end;
 
 procedure TFrmXml.qryItensCompraAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TFrmXml.qryItensCompraBeforeDelete(DataSet: TDataSet);
@@ -1565,13 +1565,13 @@ end;
 
 procedure TFrmXml.qryXMLDetailAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TFrmXml.qryXMLDetailAfterPost(DataSet: TDataSet);
 begin
   dados.vCodGrupo := qryXMLDetailFK_GRUPO.Value;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CadastraXMLProduto;
 end;
 
@@ -1632,7 +1632,7 @@ begin
         qryXMLDetailPR_VENDA.AsFloat := qryXMLDetailPR_SUGESTAO.AsFloat;
 
         qryXMLDetail.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
 
       qryXMLDetail.Next;
@@ -1690,12 +1690,12 @@ end;
 
 procedure TFrmXml.qryXmlMasterAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TFrmXml.qryXmlMasterAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TFrmXml.Vincular;
@@ -1809,7 +1809,7 @@ begin
         - 1) * 100;
 
       qryCadProduto.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
     result := qryCadProdutoCODIGO.AsInteger;
@@ -1826,13 +1826,13 @@ begin
   dados.qryConsulta.SQL.Text := 'delete from xml_master where codigo=:cod';
   dados.qryConsulta.Params[0].Value := dados.idUsuario;
   dados.qryConsulta.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   dados.qryConsulta.Close;
   dados.qryConsulta.SQL.Text :=
     'delete from xml_detail where FK_XML_MASTER=:id';
   dados.qryConsulta.Params[0].Value := dados.idUsuario;
   dados.qryConsulta.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   dados.qryExecute.Close; // apaga xml duplicata
   dados.qryExecute.SQL.Text :=
@@ -1877,7 +1877,7 @@ begin
       qryXMLDetail.Edit;
       qryXMLDetailID_PRODUTO_LOC.Value := dados.qryConsulta.Fields[0].Value;
       qryXMLDetail.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       qryXMLDetail.Next;
       exit;
     end;
@@ -1984,7 +1984,7 @@ begin
         qryXMLDetail.Edit;
       qryXMLDetailID_PRODUTO_LOC.Value := dados.vCodProduto;
       qryXMLDetail.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
   finally
     FrmCadProduto.DBEdit9.ReadOnly := false;
@@ -2015,7 +2015,7 @@ begin
         qryXMLDetail.Edit;
         qryXMLDetailID_PRODUTO_LOC.AsInteger := CadastroProduto;
         qryXMLDetail.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
       end;
       qryXMLDetail.Next;
@@ -2042,12 +2042,12 @@ begin
     dados.qryExecute.Params[0].Value := qryXmlMasterID_FORNECEDOR.Value;;
     dados.qryExecute.Params[1].Value := qryXMLDetailID_PRODUTO_LOC.Value;
     dados.qryExecute.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     qryXMLDetail.Edit;
     qryXMLDetailID_PRODUTO_LOC.Clear;
     qryXMLDetail.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
   finally
     btnDesvincular.Enabled := True;
@@ -2074,7 +2074,7 @@ begin
       dados.qryExecute.Params[0].Value := qryXmlMasterID_FORNECEDOR.Value;;
       dados.qryExecute.Params[1].Value := qryXMLDetailID_PRODUTO_LOC.Value;
       dados.qryExecute.ExecSQL;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       dados.qryExecute.Close;
       dados.qryExecute.SQL.Clear;
@@ -2082,7 +2082,7 @@ begin
         'update XML_DETAIL set ID_PRODUTO_LOC=null  where CODIGO=:id';
       dados.qryExecute.Params[0].Value := qryXMLDetailCODIGO.Value;
       dados.qryExecute.ExecSQL;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       qryXMLDetail.Next;
     end;

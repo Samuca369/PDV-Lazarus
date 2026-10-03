@@ -710,7 +710,7 @@ begin
 
   GravaLicenca;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Close;
 end;
@@ -996,7 +996,7 @@ begin
 
   if Dados.qryConfig.State in dsEditModes then
     Dados.qryConfig.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryConfig.Refresh;
 

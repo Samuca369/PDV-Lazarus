@@ -1,21 +1,14 @@
 unit Udados;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  System.SysUtils, Forms, dialogs, FireDAC.Stan.Intf,
-  FireDAC.Stan.Option,
-  Vcl.StdCtrls, Vcl.Buttons, Vcl.Menus, Vcl.Dbgrids, Vcl.ComCtrls, Vcl.Tabs,
-  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
-  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB, Math,
-  FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, FireDAC.Phys.IBBase, FireDAC.Comp.UI,
-  FireDAC.Comp.Client, Data.DB, FireDAC.Stan.Param, FireDAC.DatS, acbrutil,
-  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, IniFiles, WiniNet,
-  System.Threading, System.Types, Winapi.Windows, Tlhelp32, DateUtils,
-  Vcl.Themes, ACBrSATClass,
-
-  System.Classes, IdBaseComponent, IdComponent, IdIPWatch, IdTCPConnection,
-  IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, Vcl.AppEvnts,  System.Hash,Winapi.AclAPI, WinApi.ActiveX,Winapi.Messages, ShellApi, System.Rtti;
+  ActiveX, SysUtils, Forms, dialogs, StdCtrls, Buttons, Menus, DBGrids, ComCtrls, Math, DB,
+  acbrutil, IniFiles, WiniNet, Types, Windows, JwaTlHelp32, DateUtils, ACBrSATClass, Classes,
+  JwaAclApi, Messages, ShellApi, Rtti, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset,
+  ZAbstractConnection;
 
 type
 
@@ -47,10 +40,8 @@ type
   end;
 
   TDados = class(TDataModule)
-    Conexao: TFDConnection;
-    Transacao: TFDTransaction;
-    WaitCursor: TFDGUIxWaitCursor;
-    qryPessoas: TFDQuery;
+    Conexao: TZConnection;
+    qryPessoas: TZQuery;
     qryPessoasEMPRESA: TSmallintField;
     qryPessoasCODIGO: TIntegerField;
     qryPessoasTIPO: TStringField;
@@ -91,11 +82,11 @@ type
     qryPessoasTRAN: TStringField;
     qryPessoasADM: TStringField;
     qryPessoasATIVO: TStringField;
-    qryProdutos: TFDQuery;
-    qryGrupo: TFDQuery;
-    qryUnidade: TFDQuery;
-    qryNumerador: TFDQuery;
-    qryExecute: TFDQuery;
+    qryProdutos: TZQuery;
+    qryGrupo: TZQuery;
+    qryUnidade: TZQuery;
+    qryNumerador: TZQuery;
+    qryExecute: TZQuery;
     qryPessoasDT_ADMISSAO: TDateField;
     qryPessoasDT_DEMISSAO: TDateField;
     qryGrupoEMPRESA: TIntegerField;
@@ -104,17 +95,15 @@ type
     qryGrupoATIVO: TStringField;
     qryUnidadeCODIGO: TStringField;
     qryUnidadeDESCRICAO: TStringField;
-    qryFornecedor: TFDQuery;
+    qryFornecedor: TZQuery;
     qryFornecedorCODIGO: TIntegerField;
     qryFornecedorRAZAO: TStringField;
-    qryContas: TFDQuery;
-    qryPlano: TFDQuery;
+    qryContas: TZQuery;
+    qryPlano: TZQuery;
     qryPlanoCODIGO: TIntegerField;
     qryPlanoDC: TStringField;
-    qryCaixa: TFDQuery;
-    qryCaixaTSALDO: TExtendedField;
-    qryCaixaTENTRADA: TAggregateField;
-    qryCaixaTSAIDA: TAggregateField;
+    qryCaixa: TZQuery;
+    qryCaixaTSALDO: TFloatField;
     qryCaixaCODIGO: TIntegerField;
     qryCaixaEMISSAO: TDateField;
     qryCaixaDOC: TStringField;
@@ -126,12 +115,7 @@ type
     qryCaixaFKPAGAR: TIntegerField;
     qryCaixaFKRECEBER: TIntegerField;
     qryCaixaTRANSFERENCIA: TIntegerField;
-    qryCR: TFDQuery;
-    qryCRTTOTAL: TAggregateField;
-    qryCRTJUROS: TAggregateField;
-    qryCRTDESCONTO: TAggregateField;
-    qryCRTRECEBIDO: TAggregateField;
-    qryCRTSALDO: TAggregateField;
+    qryCR: TZQuery;
     qryCRCODIGO: TIntegerField;
     qryCRDATA: TDateField;
     qryCRFKCLIENTE: TIntegerField;
@@ -141,13 +125,8 @@ type
     qryCRDATA_RECEBIMENTO: TDateField;
     qryCRSITUACAO: TStringField;
     qryCRRAZAO: TStringField;
-    qrySomaRec: TFDQuery;
-    qryCP: TFDQuery;
-    AggregateField1: TAggregateField;
-    AggregateField2: TAggregateField;
-    AggregateField3: TAggregateField;
-    AggregateField4: TAggregateField;
-    AggregateField5: TAggregateField;
+    qrySomaRec: TZQuery;
+    qryCP: TZQuery;
     qryCPCODIGO: TIntegerField;
     qryCPDATA: TDateField;
     qryCPFKFORNECE: TIntegerField;
@@ -158,28 +137,28 @@ type
     qryCPSITUACAO: TStringField;
     qryCPFKEMPRESA: TIntegerField;
     qryCPRAZAO: TStringField;
-    qrySomaPaga: TFDQuery;
-    qryCompra: TFDQuery;
+    qrySomaPaga: TZQuery;
+    qryCompra: TZQuery;
     qryCompraID: TIntegerField;
     qryCompraEMPRESA: TSmallintField;
     qryCompraDTENTRADA: TDateField;
     qryCompraDTEMISSAO: TDateField;
     qryCompraFORNECEDOR: TIntegerField;
     qryCompraNR_NOTA: TStringField;
-    qryCompraFRETE: TFMTBCDField;
-    qryCompraDESPESAS: TFMTBCDField;
-    qryCompraDESCONTO: TFMTBCDField;
-    qryCompraBASE_IPI: TFMTBCDField;
-    qryCompraTOTAL_IPI: TFMTBCDField;
-    qryCompraBASE_ICM: TFMTBCDField;
-    qryCompraTOTAL_ICM: TFMTBCDField;
-    qryCompraBASE_ST: TFMTBCDField;
-    qryCompraTOTAL_ST: TFMTBCDField;
-    qryCompraBASE_PIS: TFMTBCDField;
-    qryCompraTOTAL_PIS: TFMTBCDField;
-    qryCompraBASE_COF: TFMTBCDField;
-    qryCompraTOTAL_COF: TFMTBCDField;
-    qryCompraTOTAL: TFMTBCDField;
+    qryCompraFRETE: TFloatField;
+    qryCompraDESPESAS: TFloatField;
+    qryCompraDESCONTO: TFloatField;
+    qryCompraBASE_IPI: TFloatField;
+    qryCompraTOTAL_IPI: TFloatField;
+    qryCompraBASE_ICM: TFloatField;
+    qryCompraTOTAL_ICM: TFloatField;
+    qryCompraBASE_ST: TFloatField;
+    qryCompraTOTAL_ST: TFloatField;
+    qryCompraBASE_PIS: TFloatField;
+    qryCompraTOTAL_PIS: TFloatField;
+    qryCompraBASE_COF: TFloatField;
+    qryCompraTOTAL_COF: TFloatField;
+    qryCompraTOTAL: TFloatField;
     qryCompraGERA_CP: TStringField;
     qryCompraGERA_ES: TStringField;
     qryCompraAJUSTA_PC: TStringField;
@@ -188,28 +167,27 @@ type
     qryCompraLEUXML: TStringField;
     qryCompraSTATUS: TStringField;
     qryCompraRAZAO: TStringField;
-    qryCompraTTOTAL: TAggregateField;
     qryCompraVIRTUAL_SITUACAO: TStringField;
     qryCompraVIRTUAL_FORNECE: TStringField;
     qryFornecedorUF: TStringField;
     qryFornecedorCNPJ: TStringField;
     qryCompraVIRTUAL_UF: TStringField;
     qryCompraVIRTUAL_CNPJ: TStringField;
-    qryProd: TFDQuery;
+    qryProd: TZQuery;
     qryProdCODIGO: TIntegerField;
     qryProdDESCRICAO: TStringField;
     qryProdREFERENCIA: TStringField;
     qryProdUNIDADE: TStringField;
-    qryEmpresa: TFDQuery;
+    qryEmpresa: TZQuery;
     qryCompraMODELO: TStringField;
     qryCompraSERIE: TStringField;
     qryCompraCHAVE: TStringField;
-    qryConsulta: TFDQuery;
-    qryUsuarios: TFDQuery;
-    qryOrcamento: TFDQuery;
-    qryVendedor: TFDQuery;
-    qryItensO: TFDQuery;
-    qryFPG: TFDQuery;
+    qryConsulta: TZQuery;
+    qryUsuarios: TZQuery;
+    qryOrcamento: TZQuery;
+    qryVendedor: TZQuery;
+    qryItensO: TZQuery;
+    qryFPG: TZQuery;
     qryFPGCODIGO: TIntegerField;
     qryFPGDESCRICAO: TStringField;
     qryFPGGERACR: TStringField;
@@ -218,8 +196,8 @@ type
     qryFPGUSAVD: TStringField;
     qryFPGUSACR: TStringField;
     qryFPGATIVO: TStringField;
-    qryTerminal: TFDQuery;
-    qryConfig: TFDQuery;
+    qryTerminal: TZQuery;
+    qryConfig: TZQuery;
     qryConfigEMPRESA: TSmallintField;
     qryConfigTIPO_EMISSAO: TSmallintField;
     qryConfigSENHACERTIFICADO: TStringField;
@@ -281,7 +259,7 @@ type
     qryCaixaBLOQUEADO: TStringField;
     qryCaixaFK_CONTA1: TIntegerField;
     qryCaixaFK_PAI: TIntegerField;
-    qryTransf: TFDQuery;
+    qryTransf: TZQuery;
     qryTransfCODIGO: TIntegerField;
     qryTransfEMISSAO: TDateField;
     qryTransfDOC: TStringField;
@@ -300,7 +278,7 @@ type
     qryConfigHTTPLIB: TStringField;
     qryConfigXMLSIGN: TStringField;
     qryProdCOD_BARRA_ATACADO: TStringField;
-    qryCidade: TFDQuery;
+    qryCidade: TZQuery;
     qryCidadeCODIGO: TIntegerField;
     qryCidadeDESCRICAO: TStringField;
     qryCidadeCODUF: TIntegerField;
@@ -323,18 +301,18 @@ type
     qryProdULT_COMPRA: TIntegerField;
     qryProdULT_COMPRA_ANTERIOR: TIntegerField;
     qryProdFORNECEDOR_SL: TStringField;
-    qryCFOP: TFDQuery;
+    qryCFOP: TZQuery;
     qryCFOPCODIGO: TIntegerField;
     qryCFOPDESCRICAO: TStringField;
     qryCFOPTIPO: TStringField;
-    qryChave: TFDQuery;
+    qryChave: TZQuery;
     qryCaixaECARTAO: TStringField;
-    qryResumoCaixa: TFDQuery;
+    qryResumoCaixa: TZQuery;
     qryResumoCaixaID_FORMA: TIntegerField;
     qryResumoCaixaDESCRICAO: TStringField;
     qryResumoCaixaTIPO: TStringField;
     qryResumoCaixaTOTAL: TBCDField;
-    qryTransp: TFDQuery;
+    qryTransp: TZQuery;
     qryTranspCODIGO: TIntegerField;
     qryTranspPESSOA: TStringField;
     qryTranspCNPJ: TStringField;
@@ -370,15 +348,15 @@ type
     qryVendedorNOME: TStringField;
     qryVendedorEMPRESA: TIntegerField;
     qryVendedorATIVO: TStringField;
-    qryVdd: TFDQuery;
+    qryVdd: TZQuery;
     IntegerField1: TIntegerField;
     StringField1: TStringField;
     IntegerField2: TIntegerField;
     StringField2: TStringField;
     qryConfigVENDEDOR_PADRAO: TIntegerField;
-    qryTelas: TFDQuery;
+    qryTelas: TZQuery;
     qryTelasCODIGO: TIntegerField;
-    qryPermissoes: TFDQuery;
+    qryPermissoes: TZQuery;
     qryPermissoesFKUSUARIO: TIntegerField;
     qryPermissoesFKTELA: TIntegerField;
     qryPermissoesVISUALIZAR: TStringField;
@@ -399,7 +377,7 @@ type
     qryCRFKCONTA: TIntegerField;
     qryFPGTIPO: TStringField;
     qryFPGFKCONTADESTINO: TIntegerField;
-    qryCartao: TFDQuery;
+    qryCartao: TZQuery;
     qryCartaoCODIGO: TIntegerField;
     qryCartaoPARCELA: TIntegerField;
     qryCartaoDOC: TStringField;
@@ -413,12 +391,11 @@ type
     qryCartaoSITUACAO: TStringField;
     qryCartaoFKEMPRESA: TIntegerField;
     qryCartaoHISTORICO: TStringField;
-    qryCartaoTVALOR: TAggregateField;
     qryProdCEST: TStringField;
     qryProdGRADE: TStringField;
     qryProdEFISCAL: TStringField;
-    qryNFCE_M: TFDQuery;
-    QRYNFCE_D: TFDQuery;
+    qryNFCE_M: TZQuery;
+    QRYNFCE_D: TZQuery;
     qryNFCE_MCODIGO: TIntegerField;
     qryNFCE_MNUMERO: TIntegerField;
     qryNFCE_MCHAVE: TStringField;
@@ -462,7 +439,7 @@ type
     QRYNFCE_DFLAG: TStringField;
     QRYNFCE_DUNIDADE: TStringField;
     QRYNFCE_DDESCRICAO: TStringField;
-    qryCC: TFDQuery;
+    qryCC: TZQuery;
     qryCCCODIGO: TIntegerField;
     qryCCFKPESSOA: TIntegerField;
     qryCCDATA_EMISSAO: TDateField;
@@ -470,7 +447,7 @@ type
     qryCCHISTORICO: TStringField;
     qryCCFKVENDA: TIntegerField;
     qryCCFKEMPRESA: TIntegerField;
-    qryCPPagamento: TFDQuery;
+    qryCPPagamento: TZQuery;
     qryCPPagamentoCODIGO: TIntegerField;
     qryCPPagamentoFKPAGAR: TIntegerField;
     qryCPPagamentoDATA: TDateField;
@@ -482,7 +459,7 @@ type
     NUMERO_CHEQUE: TIntegerField;
     qryCPPagamentoFKFORNECEDOR: TIntegerField;
     dsCP: TDataSource;
-    qryCRRecebimento: TFDQuery;
+    qryCRRecebimento: TZQuery;
     dsCR: TDataSource;
     qryCRRecebimentoCODIGO: TIntegerField;
     qryCRRecebimentoFKCLIENTE: TIntegerField;
@@ -497,7 +474,7 @@ type
     qryCaixaVIRTUAL_PLANO: TStringField;
     qryCaixaVIRTUAL_CONTA: TStringField;
     qryCaixaVIRTUAL_CONTA2: TStringField;
-    qryFichaCliente: TFDQuery;
+    qryFichaCliente: TZQuery;
     qryFichaClienteCODIGO: TIntegerField;
     qryFichaClienteFKPESSOA: TIntegerField;
     qryFichaClienteDATA_EMISSAO: TDateField;
@@ -508,15 +485,12 @@ type
     qryFichaClienteFKPLANO: TIntegerField;
     qryFichaClienteRAZAO: TStringField;
     qryFichaClienteBLOQUEADO: TStringField;
-    qryFichaClienteTENTRADA: TAggregateField;
-    qryFichaClienteTSAIDA: TAggregateField;
     qryFichaClienteDOCUMENTO: TStringField;
     qryCCDOCUMENTO: TStringField;
     qryCCFKPLANO: TIntegerField;
     qryCCBLOQUEADO: TStringField;
-    qryPV: TFDQuery;
-    qryPV_Itens: TFDQuery;
-    qryPVTTOTAL: TAggregateField;
+    qryPV: TZQuery;
+    qryPV_Itens: TZQuery;
     qryPVCODIGO: TIntegerField;
     qryPVDATA_EMISSAO: TDateField;
     qryPVDATA_SAIDA: TDateField;
@@ -553,25 +527,25 @@ type
     qryCRNBOLETO: TIntegerField;
     qryCRID_VENDEDOR: TIntegerField;
     qryCRVENDEDOR: TStringField;
-    qryPesqEmp: TFDQuery;
+    qryPesqEmp: TZQuery;
     qryPesqEmpCODIGO: TIntegerField;
     qryPesqEmpFANTASIA: TStringField;
     qryPessoasVIRTUAL_EMPRESA: TStringField;
     qryCaixaFK_FICHA_CLI: TIntegerField;
     qryCaixaVISIVEL: TStringField;
     qryCaixaDT_CADASTRO: TDateField;
-    qryCSOSN: TFDQuery;
+    qryCSOSN: TZQuery;
     qryCSOSNCODIGO: TStringField;
     qryCSOSNDESCRICAO: TStringField;
     qryCaixaFK_DEVOLUCAO: TIntegerField;
-    qryPesqProd: TFDQuery;
-    qryParametro: TFDQuery;
+    qryPesqProd: TZQuery;
+    qryParametro: TZQuery;
     qryTelasFLAG: TStringField;
     qryParametroVERSAO: TIntegerField;
     qryParametroDATA_SCRIPT: TDateField;
     qryPVVIRTUAL_SITUACAO: TStringField;
-    qryPesqProduto: TFDQuery;
-    qryAcerta: TFDQuery;
+    qryPesqProduto: TZQuery;
+    qryAcerta: TZQuery;
     qryAcertaCODIGO: TIntegerField;
     qryAcertaFKPRODUTO: TIntegerField;
     qryAcertaDATA: TDateField;
@@ -589,8 +563,7 @@ type
     qryConfigPATH_CCE_CTE: TStringField;
     qryConfigPROCESSO_EMISSAO_CTE: TIntegerField;
     qryConfigTIPO_CONTRIBUINTE_CTE: TIntegerField;
-    qryVersao: TFDQuery;
-    IdIPWatch1: TIdIPWatch;
+    qryVersao: TZQuery;
     qryVersaoIP: TStringField;
     qryVersaoNOME: TStringField;
     qryVersaoIMPRIME: TStringField;
@@ -609,12 +582,12 @@ type
     qryVersaoLOGADO: TStringField;
     qryVersaoEH_CAIXA: TStringField;
     qryVersaoVERSAO: TSmallintField;
-    qryTabPreco: TFDQuery;
+    qryTabPreco: TZQuery;
     qryTabPrecoCODIGO: TIntegerField;
     qryTabPrecoDESCRICAO: TStringField;
     qryTabPrecoFKEMPRESA: TIntegerField;
     qryTabPrecoATIVO: TStringField;
-    qryPedidoM: TFDQuery;
+    qryPedidoM: TZQuery;
     qryPedidoMCODIGO: TIntegerField;
     qryPedidoMFKEMPRESA: TIntegerField;
     qryPedidoMFKCLIENTE: TIntegerField;
@@ -640,11 +613,11 @@ type
     qryPedidoMGERENTE: TStringField;
     qryPedidoMFONE_BANCO: TStringField;
     qryPedidoMSITUACAO: TStringField;
-    qryPedidoD: TFDQuery;
+    qryPedidoD: TZQuery;
     qryPedidoDCODIGO: TIntegerField;
     qryPedidoDFKPEDIDO: TIntegerField;
     qryPedidoDFKPRODUTO: TIntegerField;
-    qryCobranca: TFDQuery;
+    qryCobranca: TZQuery;
     qryCobrancaFKCLIENTE: TIntegerField;
     qryCobrancaENDERECO: TStringField;
     qryCobrancaBAIRRO: TStringField;
@@ -653,7 +626,7 @@ type
     qryCobrancaUF: TStringField;
     qryCobrancaCEP: TStringField;
     qryCobrancaFONE: TStringField;
-    qryEntrega: TFDQuery;
+    qryEntrega: TZQuery;
     qryEntregaFKCLIENTE: TIntegerField;
     qryEntregaENDERECO: TStringField;
     qryEntregaCOMPLEMENTO: TStringField;
@@ -664,16 +637,15 @@ type
     qryEntregaFONE: TStringField;
     qryPedidoMREPRESENTANTE: TStringField;
     qryPedidoMDATA: TDateField;
-    qryPedidoMTTOTAL: TAggregateField;
     qryConfigTIPO_DACTE: TStringField;
     qryConfigVERSAOQRCODE: TSmallintField;
     qryConfigPREFIXO_BALANCA: TStringField;
     qryConfigTIPO_BALANCA: TSmallintField;
     qryConfigMODELO_BALANCA: TIntegerField;
-    qryBuscaIcms: TFDQuery;
+    qryBuscaIcms: TZQuery;
     qryBuscaIcmsORIGEM: TStringField;
-    qryVeiculos_cavalo: TFDQuery;
-    qryVeiculos_Reboque: TFDQuery;
+    qryVeiculos_cavalo: TZQuery;
+    qryVeiculos_Reboque: TZQuery;
     qryVeiculos_ReboqueCODIGO: TIntegerField;
     qryVeiculos_ReboquePLACA_CAVALO: TStringField;
     qryVeiculos_ReboquePLACA: TStringField;
@@ -689,7 +661,7 @@ type
     qryVeiculos_cavaloRNTC: TStringField;
     qryVeiculos_cavaloTIPO: TIntegerField;
     qryVeiculos_cavaloATIVO: TStringField;
-    qryRegistro: TFDQuery;
+    qryRegistro: TZQuery;
     qryPedidoMTIPO: TStringField;
     qryPedidoMPRAZO_ENTREGA: TStringField;
     qryPedidoMFORMA_ENTREGA: TStringField;
@@ -704,7 +676,7 @@ type
     qryPedidoMCLIENTE_CNPJ: TStringField;
     qryPedidoMCLIENTE_IE: TStringField;
     qryPedidoMCLIENTE_NOME: TStringField;
-    qrySped: TFDQuery;
+    qrySped: TZQuery;
     qrySpedCODIGO: TIntegerField;
     qrySpedDATA_INI: TDateField;
     qrySpedDATA_FIM: TDateField;
@@ -715,10 +687,10 @@ type
     qrySpedFK_CONTADOR: TIntegerField;
     qrySpedFK_EMPRESA: TIntegerField;
     qrySpedFK_USUARIO: TIntegerField;
-    qrySped_Config: TFDQuery;
-    qrySped_contador: TFDQuery;
-    qrySped_Produto: TFDQuery;
-    qrySped_Participante: TFDQuery;
+    qrySped_Config: TZQuery;
+    qrySped_contador: TZQuery;
+    qrySped_Produto: TZQuery;
+    qrySped_Participante: TZQuery;
     qrySped_ConfigFK_EMPRESA: TIntegerField;
     qrySped_ConfigIND_PERFIL: TStringField;
     qrySped_ConfigIND_ATIV: TStringField;
@@ -768,22 +740,22 @@ type
     qrySped_ParticipanteFK_SPED: TIntegerField;
     qrySped_ParticipanteFK_EMPRESA: TIntegerField;
     qrySped_ParticipanteFK_USUARIO: TIntegerField;
-    qrySped_Unidade: TFDQuery;
+    qrySped_Unidade: TZQuery;
     qrySped_UnidadeCODIGO: TIntegerField;
     qrySped_UnidadeUNIDADE: TStringField;
     qrySped_UnidadeDESCRICAO: TStringField;
     qrySped_UnidadeFK_SPED: TIntegerField;
     qrySped_UnidadeFK_EMPRESA: TIntegerField;
     qrySped_UnidadeFK_USUARIO: TIntegerField;
-    qrySped_H005: TFDQuery;
+    qrySped_H005: TZQuery;
     qrySped_H005CODIGO: TIntegerField;
-    qrySped_H010: TFDQuery;
-    qrySped_C100: TFDQuery;
-    qrySped_C170: TFDQuery;
-    qrySped_C190: TFDQuery;
+    qrySped_H010: TZQuery;
+    qrySped_C100: TZQuery;
+    qrySped_C170: TZQuery;
+    qrySped_C190: TZQuery;
     qryVeiculos_cavaloCARROCERIA: TIntegerField;
-    qryVeiculo_tipo: TFDQuery;
-    qryVeiculo_Carroceria: TFDQuery;
+    qryVeiculo_tipo: TZQuery;
+    qryVeiculo_Carroceria: TZQuery;
     qryVeiculo_CarroceriaCODIGO: TIntegerField;
     qryVeiculo_CarroceriaDESCRICAO: TStringField;
     qryVeiculo_tipoCODIGO: TIntegerField;
@@ -803,120 +775,120 @@ type
     qryTranspMOTORISTA: TStringField;
     qryTranspCPF_MOTORISTA: TStringField;
     qryPessoasATENDENTE: TStringField;
-    qryNFCe_OFF: TFDQuery;
+    qryNFCe_OFF: TZQuery;
     qrySped_ConfigCOD_REGIME_TRIBUTARIO: TStringField;
     qryCaixaFK_CARTAO: TIntegerField;
     qryCaixaVIRTUAL_EMPRESA: TStringField;
-    qryAjustaPreco: TFDQuery;
-    qryConfigCTE_PIS: TFMTBCDField;
-    qryConfigCTE_COFINS: TFMTBCDField;
-    qryConfigCTE_ALIQ_PIS: TFMTBCDField;
-    qryConfigCTE_ALIQ_COF: TFMTBCDField;
-    qryPessoasLIMITE: TFMTBCDField;
+    qryAjustaPreco: TZQuery;
+    qryConfigCTE_PIS: TBCDField;
+    qryConfigCTE_COFINS: TBCDField;
+    qryConfigCTE_ALIQ_PIS: TBCDField;
+    qryConfigCTE_ALIQ_COF: TBCDField;
+    qryPessoasLIMITE: TBCDField;
     qryPessoasBANCO: TStringField;
     SA: TStringField;
     qryPessoasGERENTE: TStringField;
     qryPessoasFONE_GERENTE: TStringField;
     qryPessoasPROPRIEDADE: TStringField;
-    qryPessoasSALARIO: TFMTBCDField;
+    qryPessoasSALARIO: TBCDField;
     qryPessoasTECNICO: TStringField;
-    qryCaixaENTRADA: TFMTBCDField;
-    qryCaixaSAIDA: TFMTBCDField;
-    qryCaixaSALDO: TFMTBCDField;
+    qryCaixaENTRADA: TBCDField;
+    qryCaixaSAIDA: TBCDField;
+    qryCaixaSALDO: TBCDField;
     qryCPVALOR: TCurrencyField;
     qryCPDESCONTO: TCurrencyField;
-    qryCPJUROS: TFMTBCDField;
+    qryCPJUROS: TBCDField;
     qryCPVLPAGO: TCurrencyField;
-    qryCPVL_RESTANTE: TFMTBCDField;
-    qryCPPagamentoVALOR_PARCELA: TFMTBCDField;
-    qryCPPagamentoPERC_JUROS: TFMTBCDField;
-    qryCPPagamentoJUROS: TFMTBCDField;
-    qryCPPagamentoPERC_DESCONTO: TFMTBCDField;
-    qryCPPagamentoDESCONTO: TFMTBCDField;
-    qryCPPagamentoVALOR_RECEBIDO: TFMTBCDField;
-    qrySomaPagaJUROS: TFMTBCDField;
-    qrySomaPagaDESCONTO: TFMTBCDField;
-    qrySomaPagaVALOR: TFMTBCDField;
-    qrySomaPagaRECEBIDO: TFMTBCDField;
+    qryCPVL_RESTANTE: TBCDField;
+    qryCPPagamentoVALOR_PARCELA: TBCDField;
+    qryCPPagamentoPERC_JUROS: TBCDField;
+    qryCPPagamentoJUROS: TBCDField;
+    qryCPPagamentoPERC_DESCONTO: TBCDField;
+    qryCPPagamentoDESCONTO: TBCDField;
+    qryCPPagamentoVALOR_RECEBIDO: TBCDField;
+    qrySomaPagaJUROS: TBCDField;
+    qrySomaPagaDESCONTO: TBCDField;
+    qrySomaPagaVALOR: TBCDField;
+    qrySomaPagaRECEBIDO: TBCDField;
     qryCRVALOR: TCurrencyField;
     qryCRDESCONTO: TCurrencyField;
-    qryCRJUROS: TFMTBCDField;
+    qryCRJUROS: TBCDField;
     qryCRVRECEBIDO: TCurrencyField;
-    qryCRVL_RESTANTE: TFMTBCDField;
-    qryCRRecebimentoVALOR_PARCELA: TFMTBCDField;
-    qryCRRecebimentoPERC_JUROS: TFMTBCDField;
-    qryCRRecebimentoJUROS: TFMTBCDField;
-    qryCRRecebimentoPERC_DESCONTO: TFMTBCDField;
-    qryCRRecebimentoDESCONTO: TFMTBCDField;
-    qryCRRecebimentoVALOR_RECEBIDO: TFMTBCDField;
-    qrySomaRecJUROS: TFMTBCDField;
-    qrySomaRecDESCONTO: TFMTBCDField;
-    qrySomaRecVALOR: TFMTBCDField;
-    qrySomaRecRECEBIDO: TFMTBCDField;
-    qryVendedorCMA: TFMTBCDField;
-    qryVendedorCMP: TFMTBCDField;
-    qryVddCMA: TFMTBCDField;
-    qryVddCMP: TFMTBCDField;
+    qryCRVL_RESTANTE: TBCDField;
+    qryCRRecebimentoVALOR_PARCELA: TBCDField;
+    qryCRRecebimentoPERC_JUROS: TBCDField;
+    qryCRRecebimentoJUROS: TBCDField;
+    qryCRRecebimentoPERC_DESCONTO: TBCDField;
+    qryCRRecebimentoDESCONTO: TBCDField;
+    qryCRRecebimentoVALOR_RECEBIDO: TBCDField;
+    qrySomaRecJUROS: TBCDField;
+    qrySomaRecDESCONTO: TBCDField;
+    qrySomaRecVALOR: TBCDField;
+    qrySomaRecRECEBIDO: TBCDField;
+    qryVendedorCMA: TBCDField;
+    qryVendedorCMP: TBCDField;
+    qryVddCMA: TBCDField;
+    qryVddCMP: TBCDField;
     qryProdALIQ_ICM: TCurrencyField;
     qryProdALIQ_PIS: TCurrencyField;
     qryProdALIQ_COF: TCurrencyField;
-    qryProdPR_CUSTO: TFMTBCDField;
+    qryProdPR_CUSTO: TBCDField;
     qryProdMARGEM: TCurrencyField;
-    qryProdPR_VENDA: TFMTBCDField;
-    qryProdQTD_ATUAL: TFMTBCDField;
-    qryProdQTD_MIN: TFMTBCDField;
-    qryProdE_MEDIO: TFMTBCDField;
+    qryProdPR_VENDA: TBCDField;
+    qryProdQTD_ATUAL: TFloatField;
+    qryProdQTD_MIN: TFloatField;
+    qryProdE_MEDIO: TBCDField;
     qryProdCOMISSAO: TCurrencyField;
     qryProdDESCONTO: TCurrencyField;
-    qryProdPR_CUSTO_ANTERIOR: TFMTBCDField;
-    qryProdPR_VENDA_ANTERIOR: TFMTBCDField;
-    qryProdPRECO_ATACADO: TFMTBCDField;
-    qryProdQTD_ATACADO: TFMTBCDField;
-    qryProdALIQ_IPI: TFMTBCDField;
+    qryProdPR_CUSTO_ANTERIOR: TBCDField;
+    qryProdPR_VENDA_ANTERIOR: TBCDField;
+    qryProdPRECO_ATACADO: TBCDField;
+    qryProdQTD_ATACADO: TBCDField;
+    qryProdALIQ_IPI: TBCDField;
     qryProdPAGA_COMISSAO: TStringField;
-    qryProdPESO: TFMTBCDField;
+    qryProdPESO: TBCDField;
     qryProdCOMPOSICAO: TStringField;
-    qryProdPRECO_PROMO_ATACADO: TFMTBCDField;
-    qryProdPRECO_PROMO_VAREJO: TFMTBCDField;
+    qryProdPRECO_PROMO_ATACADO: TBCDField;
+    qryProdPRECO_PROMO_VAREJO: TBCDField;
     qryProdINICIO_PROMOCAO: TDateField;
     qryProdFIM_PROMOCAO: TDateField;
-    qryProdESTOQUE_INICIAL: TFMTBCDField;
-    qryProdPR_VENDA_PRAZO: TFMTBCDField;
+    qryProdESTOQUE_INICIAL: TBCDField;
+    qryProdPR_VENDA_PRAZO: TBCDField;
     qryProdPRECO_VARIAVEL: TStringField;
     qryProdAPLICACAO: TStringField;
-    qryProdREDUCAO_BASE: TFMTBCDField;
-    qryProdMVA: TFMTBCDField;
-    qryProdFCP: TFMTBCDField;
+    qryProdREDUCAO_BASE: TBCDField;
+    qryProdMVA: TBCDField;
+    qryProdFCP: TBCDField;
     qryProdPRODUTO_PESADO: TStringField;
     qryProdSERVICO: TStringField;
     qryProdDT_CADASTRO: TDateField;
-    qryProdPR_CUSTO2: TFMTBCDField;
-    qryProdPERC_CUSTO: TFMTBCDField;
-    qryProdTOTAL_COMPRA: TFMTBCDField;
-    qryProdTOTAL_VENDA: TFMTBCDField;
-    qryTabPrecoACRESCIMO: TFMTBCDField;
-    qryFichaClienteENTRADA: TFMTBCDField;
-    qryFichaClienteSAIDA: TFMTBCDField;
-    qryPVSUBTOTAL: TFMTBCDField;
-    qryPVDESCONTO: TFMTBCDField;
-    qryPVTROCO: TFMTBCDField;
-    qryPVDINHEIRO: TFMTBCDField;
-    qryPVTOTAL: TFMTBCDField;
-    qryPVPERCENTUAL: TFMTBCDField;
+    qryProdPR_CUSTO2: TBCDField;
+    qryProdPERC_CUSTO: TBCDField;
+    qryProdTOTAL_COMPRA: TFloatField;
+    qryProdTOTAL_VENDA: TFloatField;
+    qryTabPrecoACRESCIMO: TBCDField;
+    qryFichaClienteENTRADA: TBCDField;
+    qryFichaClienteSAIDA: TBCDField;
+    qryPVSUBTOTAL: TBCDField;
+    qryPVDESCONTO: TBCDField;
+    qryPVTROCO: TBCDField;
+    qryPVDINHEIRO: TBCDField;
+    qryPVTOTAL: TBCDField;
+    qryPVPERCENTUAL: TBCDField;
     qryPVLOTE: TIntegerField;
     qryPVGERA_FINANCEIRO: TStringField;
-    qryPVPERCENTUAL_ACRESCIMO: TFMTBCDField;
-    qryPVACRESCIMO: TFMTBCDField;
+    qryPVPERCENTUAL_ACRESCIMO: TBCDField;
+    qryPVACRESCIMO: TBCDField;
     qryPVFK_TABELA: TIntegerField;
     qryPVPEDIDO: TStringField;
     qryFPGPARCELAS: TIntegerField;
     qryFPGINTERVALO: TIntegerField;
-    qryFPGTAXA: TFMTBCDField;
-    qryFPGENTRADA: TFMTBCDField;
+    qryFPGTAXA: TBCDField;
+    qryFPGENTRADA: TBCDField;
     qryFPGDIAS: TSmallintField;
-    qryTransfENTRADA: TFMTBCDField;
-    qryTransfSAIDA: TFMTBCDField;
-    qryTransfSALDO: TFMTBCDField;
+    qryTransfENTRADA: TBCDField;
+    qryTransfSAIDA: TBCDField;
+    qryTransfSALDO: TBCDField;
     qryTransfHORA_EMISSAO: TTimeField;
     qryTransfECARTAO: TStringField;
     qryTransfID_USUARIO: TIntegerField;
@@ -932,63 +904,63 @@ type
     qrySped_ProdutoCOD_BARRA: TStringField;
     qrySped_ProdutoTIPO_ITEM: TStringField;
     qrySped_ProdutoCOD_NCM: TStringField;
-    qrySped_ProdutoALIQ_ICMS: TFMTBCDField;
+    qrySped_ProdutoALIQ_ICMS: TBCDField;
     qrySped_ProdutoFK_UNIDADE: TSmallintField;
     qrySped_ProdutoFK_SPED: TIntegerField;
     qrySped_ProdutoFK_EMPRESA: TIntegerField;
     qrySped_ProdutoFK_USUARIO: TIntegerField;
-    qrySped_H005DT_INV: TFMTBCDField;
+    qrySped_H005DT_INV: TBCDField;
     qrySped_H005FK_SPED: TIntegerField;
     qrySped_H005FK_EMPRESA: TIntegerField;
     qrySped_H005FK_USUARIO: TIntegerField;
-    qryVeiculos_cavaloTARA: TFMTBCDField;
-    qryVeiculos_cavaloPESO: TFMTBCDField;
-    qryVeiculos_ReboquePESO: TFMTBCDField;
-    qryVeiculos_ReboqueTARA: TFMTBCDField;
-    qryAcertaQTD_F: TFMTBCDField;
-    qryAcertaQTD_A: TFMTBCDField;
-    qryNFCE_MSUBTOTAL: TFMTBCDField;
-    qryNFCE_MDESCONTO: TFMTBCDField;
-    qryNFCE_MTROCO: TFMTBCDField;
-    qryNFCE_MDINHEIRO: TFMTBCDField;
-    qryNFCE_MTOTAL: TFMTBCDField;
-    qryNFCE_MBASEICMS: TFMTBCDField;
-    qryNFCE_MTOTALICMS: TFMTBCDField;
-    qryNFCE_MBASEICMSPIS: TFMTBCDField;
-    qryNFCE_MTOTALICMSPIS: TFMTBCDField;
-    qryNFCE_MBASEICMSCOF: TFMTBCDField;
-    qryNFCE_MTOTALICMSCOFINS: TFMTBCDField;
-    qryNFCE_MBASEISS: TFMTBCDField;
-    qryNFCE_MTOTALISS: TFMTBCDField;
-    qryNFCE_MTRIB_MUN: TFMTBCDField;
-    qryNFCE_MTRIB_EST: TFMTBCDField;
-    qryNFCE_MTRIB_FED: TFMTBCDField;
-    qryNFCE_MTRIB_IMP: TFMTBCDField;
-    qryNFCE_MOUTROS: TFMTBCDField;
-    QRYNFCE_DQTD: TFMTBCDField;
-    QRYNFCE_DE_MEDIO: TFMTBCDField;
-    QRYNFCE_DPRECO: TFMTBCDField;
-    QRYNFCE_DVALOR_ITEM: TFMTBCDField;
-    QRYNFCE_DVDESCONTO: TFMTBCDField;
-    QRYNFCE_DBASE_ICMS: TFMTBCDField;
-    QRYNFCE_DALIQ_ICMS: TFMTBCDField;
-    QRYNFCE_DVALOR_ICMS: TFMTBCDField;
-    QRYNFCE_DP_REDUCAO_ICMS: TFMTBCDField;
-    QRYNFCE_DBASE_COFINS_ICMS: TFMTBCDField;
-    QRYNFCE_DALIQ_COFINS_ICMS: TFMTBCDField;
-    QRYNFCE_DVALOR_COFINS_ICMS: TFMTBCDField;
-    QRYNFCE_DBASE_PIS_ICMS: TFMTBCDField;
-    QRYNFCE_DALIQ_PIS_ICMS: TFMTBCDField;
-    QRYNFCE_DVALOR_PIS_ICMS: TFMTBCDField;
-    QRYNFCE_DBASE_ISS: TFMTBCDField;
-    QRYNFCE_DALIQ_ISS: TFMTBCDField;
-    QRYNFCE_DVALOR_ISS: TFMTBCDField;
-    QRYNFCE_DTRIB_MUN: TFMTBCDField;
-    QRYNFCE_DTRIB_EST: TFMTBCDField;
-    QRYNFCE_DTRIB_FED: TFMTBCDField;
-    QRYNFCE_DTRIB_IMP: TFMTBCDField;
-    QRYNFCE_DTOTAL: TFMTBCDField;
-    QRYNFCE_DOUTROS: TFMTBCDField;
+    qryVeiculos_cavaloTARA: TBCDField;
+    qryVeiculos_cavaloPESO: TBCDField;
+    qryVeiculos_ReboquePESO: TBCDField;
+    qryVeiculos_ReboqueTARA: TBCDField;
+    qryAcertaQTD_F: TBCDField;
+    qryAcertaQTD_A: TBCDField;
+    qryNFCE_MSUBTOTAL: TBCDField;
+    qryNFCE_MDESCONTO: TBCDField;
+    qryNFCE_MTROCO: TBCDField;
+    qryNFCE_MDINHEIRO: TBCDField;
+    qryNFCE_MTOTAL: TBCDField;
+    qryNFCE_MBASEICMS: TBCDField;
+    qryNFCE_MTOTALICMS: TBCDField;
+    qryNFCE_MBASEICMSPIS: TBCDField;
+    qryNFCE_MTOTALICMSPIS: TBCDField;
+    qryNFCE_MBASEICMSCOF: TBCDField;
+    qryNFCE_MTOTALICMSCOFINS: TBCDField;
+    qryNFCE_MBASEISS: TBCDField;
+    qryNFCE_MTOTALISS: TBCDField;
+    qryNFCE_MTRIB_MUN: TBCDField;
+    qryNFCE_MTRIB_EST: TBCDField;
+    qryNFCE_MTRIB_FED: TBCDField;
+    qryNFCE_MTRIB_IMP: TBCDField;
+    qryNFCE_MOUTROS: TBCDField;
+    QRYNFCE_DQTD: TBCDField;
+    QRYNFCE_DE_MEDIO: TBCDField;
+    QRYNFCE_DPRECO: TBCDField;
+    QRYNFCE_DVALOR_ITEM: TBCDField;
+    QRYNFCE_DVDESCONTO: TBCDField;
+    QRYNFCE_DBASE_ICMS: TBCDField;
+    QRYNFCE_DALIQ_ICMS: TBCDField;
+    QRYNFCE_DVALOR_ICMS: TBCDField;
+    QRYNFCE_DP_REDUCAO_ICMS: TBCDField;
+    QRYNFCE_DBASE_COFINS_ICMS: TBCDField;
+    QRYNFCE_DALIQ_COFINS_ICMS: TBCDField;
+    QRYNFCE_DVALOR_COFINS_ICMS: TBCDField;
+    QRYNFCE_DBASE_PIS_ICMS: TBCDField;
+    QRYNFCE_DALIQ_PIS_ICMS: TBCDField;
+    QRYNFCE_DVALOR_PIS_ICMS: TBCDField;
+    QRYNFCE_DBASE_ISS: TBCDField;
+    QRYNFCE_DALIQ_ISS: TBCDField;
+    QRYNFCE_DVALOR_ISS: TBCDField;
+    QRYNFCE_DTRIB_MUN: TBCDField;
+    QRYNFCE_DTRIB_EST: TBCDField;
+    QRYNFCE_DTRIB_FED: TBCDField;
+    QRYNFCE_DTRIB_IMP: TBCDField;
+    QRYNFCE_DTOTAL: TBCDField;
+    QRYNFCE_DOUTROS: TBCDField;
     QRYNFCE_DCST_COFINS: TStringField;
     qryOrcamentoCODIGO: TIntegerField;
     qryOrcamentoDATA: TDateField;
@@ -1007,15 +979,14 @@ type
     qryOrcamentoVALIDADE: TSmallintField;
     qryOrcamentoOBS: TMemoField;
     qryOrcamentoSITUACAO: TStringField;
-    qryOrcamentoTOTAL: TFMTBCDField;
+    qryOrcamentoTOTAL: TBCDField;
     qryOrcamentoCEP: TStringField;
     qryOrcamentoFKEMPRESA: TIntegerField;
-    qryOrcamentoSUBTOTAL: TFMTBCDField;
-    qryOrcamentoPERCENTUAL: TFMTBCDField;
-    qryOrcamentoDESCONTO: TFMTBCDField;
+    qryOrcamentoSUBTOTAL: TBCDField;
+    qryOrcamentoPERCENTUAL: TBCDField;
+    qryOrcamentoDESCONTO: TBCDField;
     qryOrcamentoVENDEDOR: TStringField;
     qryOrcamentoVIRTUAL_SITUACAO: TStringField;
-    qryOrcamentoTTOTAL: TAggregateField;
     qryPesqProdCODIGO: TIntegerField;
     qryPesqProdTIPO: TStringField;
     qryPesqProdCODBARRA: TStringField;
@@ -1027,12 +998,12 @@ type
     qryPesqProdALIQ_ICM: TCurrencyField;
     qryPesqProdALIQ_PIS: TCurrencyField;
     qryPesqProdALIQ_COF: TCurrencyField;
-    qryPesqProdPR_CUSTO: TFMTBCDField;
+    qryPesqProdPR_CUSTO: TBCDField;
     qryPesqProdMARGEM: TCurrencyField;
-    qryPesqProdPR_VENDA: TFMTBCDField;
-    qryPesqProdQTD_ATUAL: TFMTBCDField;
-    qryPesqProdQTD_MIN: TFMTBCDField;
-    qryPesqProdE_MEDIO: TFMTBCDField;
+    qryPesqProdPR_VENDA: TBCDField;
+    qryPesqProdQTD_ATUAL: TFloatField;
+    qryPesqProdQTD_MIN: TFloatField;
+    qryPesqProdE_MEDIO: TBCDField;
     qryPesqProdCSTICMS: TStringField;
     qryPesqProdCSTE: TStringField;
     qryPesqProdCSTS: TStringField;
@@ -1044,51 +1015,51 @@ type
     qryPesqProdFOTO: TBlobField;
     qryPesqProdATIVO: TStringField;
     qryPesqProdCFOP: TStringField;
-    qryPesqProdPR_CUSTO_ANTERIOR: TFMTBCDField;
-    qryPesqProdPR_VENDA_ANTERIOR: TFMTBCDField;
+    qryPesqProdPR_CUSTO_ANTERIOR: TBCDField;
+    qryPesqProdPR_VENDA_ANTERIOR: TBCDField;
     qryPesqProdULT_COMPRA: TIntegerField;
     qryPesqProdULT_COMPRA_ANTERIOR: TIntegerField;
-    qryPesqProdPRECO_ATACADO: TFMTBCDField;
-    qryPesqProdQTD_ATACADO: TFMTBCDField;
+    qryPesqProdPRECO_ATACADO: TBCDField;
+    qryPesqProdQTD_ATACADO: TBCDField;
     qryPesqProdCOD_BARRA_ATACADO: TStringField;
-    qryPesqProdALIQ_IPI: TFMTBCDField;
+    qryPesqProdALIQ_IPI: TBCDField;
     qryPesqProdEMPRESA: TSmallintField;
     qryPesqProdCEST: TStringField;
     qryPesqProdGRADE: TStringField;
     qryPesqProdEFISCAL: TStringField;
     qryPesqProdPAGA_COMISSAO: TStringField;
-    qryPesqProdPESO: TFMTBCDField;
+    qryPesqProdPESO: TBCDField;
     qryPesqProdCOMPOSICAO: TStringField;
-    qryPesqProdPRECO_PROMO_ATACADO: TFMTBCDField;
-    qryPesqProdPRECO_PROMO_VAREJO: TFMTBCDField;
+    qryPesqProdPRECO_PROMO_ATACADO: TBCDField;
+    qryPesqProdPRECO_PROMO_VAREJO: TBCDField;
     qryPesqProdINICIO_PROMOCAO: TDateField;
     qryPesqProdFIM_PROMOCAO: TDateField;
-    qryPesqProdESTOQUE_INICIAL: TFMTBCDField;
-    qryPesqProdPR_VENDA_PRAZO: TFMTBCDField;
+    qryPesqProdESTOQUE_INICIAL: TBCDField;
+    qryPesqProdPR_VENDA_PRAZO: TBCDField;
     qryPesqProdPRECO_VARIAVEL: TStringField;
     qryPesqProdAPLICACAO: TStringField;
-    qryPesqProdREDUCAO_BASE: TFMTBCDField;
-    qryPesqProdMVA: TFMTBCDField;
-    qryPesqProdFCP: TFMTBCDField;
+    qryPesqProdREDUCAO_BASE: TBCDField;
+    qryPesqProdMVA: TBCDField;
+    qryPesqProdFCP: TBCDField;
     qryPesqProdPRODUTO_PESADO: TStringField;
     qryPesqProdSERVICO: TStringField;
     qryPesqProdDESCRICAO: TStringField;
     qryPesqProdDT_CADASTRO: TDateField;
-    qryPesqProdPR_CUSTO2: TFMTBCDField;
-    qryPesqProdPERC_CUSTO: TFMTBCDField;
-    qryPesqProdTOTAL_COMPRA: TFMTBCDField;
-    qryPesqProdTOTAL_VENDA: TFMTBCDField;
+    qryPesqProdPR_CUSTO2: TBCDField;
+    qryPesqProdPERC_CUSTO: TBCDField;
+    qryPesqProdTOTAL_COMPRA: TFloatField;
+    qryPesqProdTOTAL_VENDA: TFloatField;
     qryPesqProdGRUPO_SL: TStringField;
     qryPesqProdFORNECEDOR_SL: TStringField;
     qryItensOCODIGO: TIntegerField;
     qryItensOFK_ORCAMENTO: TIntegerField;
     qryItensOFK_PRODUTO: TIntegerField;
-    qryItensOQTD: TFMTBCDField;
-    qryItensOPRECO: TFMTBCDField;
-    qryItensOTOTAL: TFMTBCDField;
+    qryItensOQTD: TBCDField;
+    qryItensOPRECO: TBCDField;
+    qryItensOTOTAL: TBCDField;
     qryItensOITEM: TSmallintField;
     qryItensOVIRTUAL_PRODUTO: TStringField;
-    qryItensOVIRTUAL_PRECO: TFMTBCDField;
+    qryItensOVIRTUAL_PRECO: TBCDField;
     qryItensOVIRTUAL_UNIDADE: TStringField;
     qryItensOVIRTUAL_LOCAL: TStringField;
     qryItensOVIRTUAL_REFERENCIA: TStringField;
@@ -1119,16 +1090,16 @@ type
     qryProdutosGRADE: TStringField;
     qryProdutosEFISCAL: TStringField;
     qryProdutosPAGA_COMISSAO: TStringField;
-    qryProdutosPESO: TFMTBCDField;
+    qryProdutosPESO: TBCDField;
     qryProdutosCOMPOSICAO: TStringField;
     qryProdutosINICIO_PROMOCAO: TDateField;
     qryProdutosFIM_PROMOCAO: TDateField;
-    qryProdutosESTOQUE_INICIAL: TFMTBCDField;
+    qryProdutosESTOQUE_INICIAL: TBCDField;
     qryProdutosPRECO_VARIAVEL: TStringField;
     qryProdutosAPLICACAO: TStringField;
-    qryProdutosREDUCAO_BASE: TFMTBCDField;
-    qryProdutosMVA: TFMTBCDField;
-    qryProdutosFCP: TFMTBCDField;
+    qryProdutosREDUCAO_BASE: TBCDField;
+    qryProdutosMVA: TBCDField;
+    qryProdutosFCP: TBCDField;
     qryProdutosPRODUTO_PESADO: TStringField;
     qryProdutosSERVICO: TStringField;
     qryProdutosDESCRICAO: TStringField;
@@ -1137,22 +1108,22 @@ type
     qryProdutosALIQ_ICM: TCurrencyField;
     qryProdutosALIQ_PIS: TCurrencyField;
     qryProdutosALIQ_COF: TCurrencyField;
-    qryProdutosPR_CUSTO: TFMTBCDField;
+    qryProdutosPR_CUSTO: TBCDField;
     qryProdutosMARGEM: TCurrencyField;
-    qryProdutosPR_VENDA: TFMTBCDField;
-    qryProdutosQTD_ATUAL: TFMTBCDField;
-    qryProdutosQTD_MIN: TFMTBCDField;
-    qryProdutosE_MEDIO: TFMTBCDField;
-    qryProdutosPR_CUSTO_ANTERIOR: TFMTBCDField;
-    qryProdutosPR_VENDA_ANTERIOR: TFMTBCDField;
-    qryProdutosPRECO_ATACADO: TFMTBCDField;
-    qryProdutosQTD_ATACADO: TFMTBCDField;
-    qryProdutosALIQ_IPI: TFMTBCDField;
-    qryProdutosPRECO_PROMO_ATACADO: TFMTBCDField;
-    qryProdutosPRECO_PROMO_VAREJO: TFMTBCDField;
-    qryProdutosPR_VENDA_PRAZO: TFMTBCDField;
-    qryProdutosPR_CUSTO2: TFMTBCDField;
-    qryProdutosPERC_CUSTO: TFMTBCDField;
+    qryProdutosPR_VENDA: TBCDField;
+    qryProdutosQTD_ATUAL: TFloatField;
+    qryProdutosQTD_MIN: TFloatField;
+    qryProdutosE_MEDIO: TBCDField;
+    qryProdutosPR_CUSTO_ANTERIOR: TBCDField;
+    qryProdutosPR_VENDA_ANTERIOR: TBCDField;
+    qryProdutosPRECO_ATACADO: TBCDField;
+    qryProdutosQTD_ATACADO: TBCDField;
+    qryProdutosALIQ_IPI: TBCDField;
+    qryProdutosPRECO_PROMO_ATACADO: TBCDField;
+    qryProdutosPRECO_PROMO_VAREJO: TBCDField;
+    qryProdutosPR_VENDA_PRAZO: TBCDField;
+    qryProdutosPR_CUSTO2: TBCDField;
+    qryProdutosPERC_CUSTO: TBCDField;
     qryEmpresaCODIGO: TIntegerField;
     qryEmpresaFANTASIA: TStringField;
     qryEmpresaRAZAO: TStringField;
@@ -1189,17 +1160,17 @@ type
     qryEmpresaCFOP: TStringField;
     qryEmpresaCSOSN: TStringField;
     qryEmpresaCST_ICMS: TStringField;
-    qryEmpresaALIQ_ICMS: TFMTBCDField;
+    qryEmpresaALIQ_ICMS: TBCDField;
     qryEmpresaCST_ENTRADA: TStringField;
     qryEmpresaCST_SAIDA: TStringField;
-    qryEmpresaALIQ_PIS: TFMTBCDField;
-    qryEmpresaALIQ_COF: TFMTBCDField;
+    qryEmpresaALIQ_PIS: TBCDField;
+    qryEmpresaALIQ_COF: TBCDField;
     qryEmpresaCST_IPI: TStringField;
-    qryEmpresaALIQ_IPI: TFMTBCDField;
+    qryEmpresaALIQ_IPI: TBCDField;
     qryEmpresaIMP_F5: TStringField;
     qryEmpresaIMP_F6: TStringField;
     qryEmpresaMOSTRA_RESUMO_CAIXA: TStringField;
-    qryEmpresaLIMITE_DIARIO: TFMTBCDField;
+    qryEmpresaLIMITE_DIARIO: TBCDField;
     qryEmpresaPRAZO_MAXIMO: TSmallintField;
     qryEmpresaID_PLA_CONTA_FICHA_CLI: TIntegerField;
     qryEmpresaID_PLANO_CONTA_RETIRADA: TIntegerField;
@@ -1220,14 +1191,14 @@ type
     qryEmpresaENVIAR_EMAIL_NFE: TStringField;
     qryEmpresaTRANSPORTADORA: TStringField;
     qryEmpresaTABELA_PRECO: TStringField;
-    qryEmpresaTAXA_VENDA_PRAZO: TFMTBCDField;
+    qryEmpresaTAXA_VENDA_PRAZO: TBCDField;
     qryEmpresaEMAIL_CONTADOR: TStringField;
     qryEmpresaAUTOPECAS: TStringField;
     qryEmpresaATUALIZA_PR_VENDA: TStringField;
     qryEmpresaINFORMAR_GTIN: TStringField;
     qryEmpresaRECOLHE_FCP: TStringField;
-    qryEmpresaDIFAL_ORIGEM: TFMTBCDField;
-    qryEmpresaDIFAL_DESTINO: TFMTBCDField;
+    qryEmpresaDIFAL_ORIGEM: TBCDField;
+    qryEmpresaDIFAL_DESTINO: TBCDField;
     qryEmpresaEXCLUI_PDV: TStringField;
     qryEmpresaVENDA_SEMENTE: TStringField;
     qryEmpresaEMAIL: TStringField;
@@ -1236,49 +1207,49 @@ type
     qryEmpresaTIPO_CONTRATO: TIntegerField;
     qryEmpresaVIRTUAL_ID_UF: TIntegerField;
     qryEmpresaVIRTUAL_UF: TStringField;
-    qryPedidoMTOTAL: TFMTBCDField;
-    qryPedidoDPRECO: TFMTBCDField;
-    qryPedidoDTOTAL: TFMTBCDField;
-    qryPedidoDVC: TFMTBCDField;
-    qryPedidoDPESO: TFMTBCDField;
-    qryPedidoDFRETE: TFMTBCDField;
-    qryPedidoDQUANTIDADE: TFMTBCDField;
-    qryPedidoDCAPACIDADE: TFMTBCDField;
+    qryPedidoMTOTAL: TBCDField;
+    qryPedidoDPRECO: TBCDField;
+    qryPedidoDTOTAL: TBCDField;
+    qryPedidoDVC: TBCDField;
+    qryPedidoDPESO: TBCDField;
+    qryPedidoDFRETE: TBCDField;
+    qryPedidoDQUANTIDADE: TBCDField;
+    qryPedidoDCAPACIDADE: TBCDField;
     qryChaveMAQUINA: TStringField;
     qryChaveCHAVEACESSO: TStringField;
     qryConfigEMAILUSER: TStringField;
-    qryCompraSUBTOTAL: TFMTBCDField;
+    qryCompraSUBTOTAL: TFloatField;
     qryCompraXML: TMemoField;
     qryCompraTIPO: TStringField;
-    qryCompraSEGURO: TFMTBCDField;
+    qryCompraSEGURO: TFloatField;
     qryConfigSSL_TIPO: TSmallintField;
-    qryBuscaIcmsAC: TFMTBCDField;
-    qryBuscaIcmsAL: TFMTBCDField;
-    qryBuscaIcmsAM: TFMTBCDField;
-    qryBuscaIcmsAP: TFMTBCDField;
-    qryBuscaIcmsBA: TFMTBCDField;
-    qryBuscaIcmsCE: TFMTBCDField;
-    qryBuscaIcmsDF: TFMTBCDField;
-    qryBuscaIcmsES: TFMTBCDField;
-    qryBuscaIcmsGO: TFMTBCDField;
-    qryBuscaIcmsMA: TFMTBCDField;
-    qryBuscaIcmsMG: TFMTBCDField;
-    qryBuscaIcmsMS: TFMTBCDField;
-    qryBuscaIcmsMT: TFMTBCDField;
-    qryBuscaIcmsPA: TFMTBCDField;
-    qryBuscaIcmsPB: TFMTBCDField;
-    qryBuscaIcmsPE: TFMTBCDField;
-    qryBuscaIcmsP_I: TFMTBCDField;
-    qryBuscaIcmsPR: TFMTBCDField;
-    qryBuscaIcmsRJ: TFMTBCDField;
-    qryBuscaIcmsRO: TFMTBCDField;
-    qryBuscaIcmsRN: TFMTBCDField;
-    qryBuscaIcmsRR: TFMTBCDField;
-    qryBuscaIcmsRS: TFMTBCDField;
-    qryBuscaIcmsSC: TFMTBCDField;
-    qryBuscaIcmsSE: TFMTBCDField;
-    qryBuscaIcmsSP: TFMTBCDField;
-    qryBuscaIcmsT_O: TFMTBCDField;
+    qryBuscaIcmsAC: TBCDField;
+    qryBuscaIcmsAL: TBCDField;
+    qryBuscaIcmsAM: TBCDField;
+    qryBuscaIcmsAP: TBCDField;
+    qryBuscaIcmsBA: TBCDField;
+    qryBuscaIcmsCE: TBCDField;
+    qryBuscaIcmsDF: TBCDField;
+    qryBuscaIcmsES: TBCDField;
+    qryBuscaIcmsGO: TBCDField;
+    qryBuscaIcmsMA: TBCDField;
+    qryBuscaIcmsMG: TBCDField;
+    qryBuscaIcmsMS: TBCDField;
+    qryBuscaIcmsMT: TBCDField;
+    qryBuscaIcmsPA: TBCDField;
+    qryBuscaIcmsPB: TBCDField;
+    qryBuscaIcmsPE: TBCDField;
+    qryBuscaIcmsP_I: TBCDField;
+    qryBuscaIcmsPR: TBCDField;
+    qryBuscaIcmsRJ: TBCDField;
+    qryBuscaIcmsRO: TBCDField;
+    qryBuscaIcmsRN: TBCDField;
+    qryBuscaIcmsRR: TBCDField;
+    qryBuscaIcmsRS: TBCDField;
+    qryBuscaIcmsSC: TBCDField;
+    qryBuscaIcmsSE: TBCDField;
+    qryBuscaIcmsSP: TBCDField;
+    qryBuscaIcmsT_O: TBCDField;
     qryTerminalIP: TStringField;
     qryTerminalNOME: TStringField;
     qryTerminalIMPRIME: TStringField;
@@ -1296,16 +1267,15 @@ type
     qryTerminalLOGADO: TStringField;
     qryTerminalEH_CAIXA: TStringField;
     qryTerminalVERSAO: TSmallintField;
-    FBDriver: TFDPhysFBDriverLink;
-    qryCCENTRADA: TFMTBCDField;
-    qryCCSAIDA: TFMTBCDField;
+    qryCCENTRADA: TBCDField;
+    qryCCSAIDA: TBCDField;
     qryEmpresaDATA_CADASTRO: TStringField;
     qryEmpresaDATA_VALIDADE: TStringField;
     qryEmpresaFLAG: TStringField;
     qryEmpresaCHECA: TStringField;
     qryPessoasCODIGO_WEB: TIntegerField;
     qryOrcamentoCODIGO_WEB: TIntegerField;
-    qryClientes: TFDQuery;
+    qryClientes: TZQuery;
     qryClientesCODIGO: TIntegerField;
     qryClientesRAZAO: TStringField;
     qryClientesCNPJ: TStringField;
@@ -1325,24 +1295,24 @@ type
     qrySped_C100CHV_NFE: TStringField;
     qrySped_C100DT_DOC: TDateField;
     qrySped_C100DT_E_S: TDateField;
-    qrySped_C100VL_DOC: TFMTBCDField;
+    qrySped_C100VL_DOC: TBCDField;
     qrySped_C100IND_PGTO: TStringField;
-    qrySped_C100VL_DESC: TFMTBCDField;
-    qrySped_C100VL_ABAT_NT: TFMTBCDField;
-    qrySped_C100VL_MERC: TFMTBCDField;
-    qrySped_C100IND_FRT: TFMTBCDField;
-    qrySped_C100VL_SEGURO: TFMTBCDField;
-    qrySped_C100VL_OUT_DA: TFMTBCDField;
-    qrySped_C100VL_BC_ICMS: TFMTBCDField;
-    qrySped_C100VL_ICMS: TFMTBCDField;
-    qrySped_C100VL_BC_ICMS_ST: TFMTBCDField;
-    qrySped_C100VL_ICMS_ST: TFMTBCDField;
-    qrySped_C100VL_IPI: TFMTBCDField;
-    qrySped_C100VL_PIS: TFMTBCDField;
-    qrySped_C100VL_COFINS: TFMTBCDField;
-    qrySped_C100VL_PIS_ST: TFMTBCDField;
-    qrySped_C100VL_COFINS_ST: TFMTBCDField;
-    qrySped_C100VL_FRETE: TFMTBCDField;
+    qrySped_C100VL_DESC: TBCDField;
+    qrySped_C100VL_ABAT_NT: TBCDField;
+    qrySped_C100VL_MERC: TBCDField;
+    qrySped_C100IND_FRT: TBCDField;
+    qrySped_C100VL_SEGURO: TBCDField;
+    qrySped_C100VL_OUT_DA: TBCDField;
+    qrySped_C100VL_BC_ICMS: TBCDField;
+    qrySped_C100VL_ICMS: TBCDField;
+    qrySped_C100VL_BC_ICMS_ST: TBCDField;
+    qrySped_C100VL_ICMS_ST: TBCDField;
+    qrySped_C100VL_IPI: TBCDField;
+    qrySped_C100VL_PIS: TBCDField;
+    qrySped_C100VL_COFINS: TBCDField;
+    qrySped_C100VL_PIS_ST: TBCDField;
+    qrySped_C100VL_COFINS_ST: TBCDField;
+    qrySped_C100VL_FRETE: TBCDField;
     qrySped_C100FK_PARTICIPANTES: TIntegerField;
     qrySped_C100FK_SPED: TIntegerField;
     qrySped_C100FK_EMPRESA: TIntegerField;
@@ -1351,39 +1321,39 @@ type
     qrySped_C100TABELA_CODIGO: TIntegerField;
     qrySped_C170CODIGO: TIntegerField;
     qrySped_C170DESCRICAO: TStringField;
-    qrySped_C170QTD: TFMTBCDField;
-    qrySped_C170VL_ITEM: TFMTBCDField;
-    qrySped_C170VL_DESC: TFMTBCDField;
+    qrySped_C170QTD: TBCDField;
+    qrySped_C170VL_ITEM: TBCDField;
+    qrySped_C170VL_DESC: TBCDField;
     qrySped_C170IND_MOV: TStringField;
     qrySped_C170CFOP: TStringField;
     qrySped_C170CST_ICMS: TStringField;
     qrySped_C170COD_NAT: TStringField;
-    qrySped_C170VL_BC_ICMS: TFMTBCDField;
-    qrySped_C170ALIQ_ICM: TFMTBCDField;
-    qrySped_C170VL_ICMS: TFMTBCDField;
-    qrySped_C170VL_BC_ICMS_ST: TFMTBCDField;
-    qrySped_C170ALIQ_ST: TFMTBCDField;
-    qrySped_C170VL_ICMS_ST: TFMTBCDField;
+    qrySped_C170VL_BC_ICMS: TBCDField;
+    qrySped_C170ALIQ_ICM: TBCDField;
+    qrySped_C170VL_ICMS: TBCDField;
+    qrySped_C170VL_BC_ICMS_ST: TBCDField;
+    qrySped_C170ALIQ_ST: TBCDField;
+    qrySped_C170VL_ICMS_ST: TBCDField;
     qrySped_C170IND_APUR: TStringField;
     qrySped_C170CST_IPI: TStringField;
     qrySped_C170COD_ENQ: TStringField;
-    qrySped_C170VL_BC_IPI: TFMTBCDField;
-    qrySped_C170ALIQ_IPI: TFMTBCDField;
-    qrySped_C170VL_IPI: TFMTBCDField;
+    qrySped_C170VL_BC_IPI: TBCDField;
+    qrySped_C170ALIQ_IPI: TBCDField;
+    qrySped_C170VL_IPI: TBCDField;
     qrySped_C170CST_PIS: TStringField;
-    qrySped_C170VL_BC_PIS: TFMTBCDField;
-    qrySped_C170ALIQ_PIS_PERC: TFMTBCDField;
-    qrySped_C170QUANT_BC_PIS: TFMTBCDField;
-    qrySped_C170ALIQ_PIS_R: TFMTBCDField;
-    qrySped_C170VL_PIS: TFMTBCDField;
+    qrySped_C170VL_BC_PIS: TBCDField;
+    qrySped_C170ALIQ_PIS_PERC: TBCDField;
+    qrySped_C170QUANT_BC_PIS: TBCDField;
+    qrySped_C170ALIQ_PIS_R: TBCDField;
+    qrySped_C170VL_PIS: TBCDField;
     qrySped_C170CST_COFINS: TStringField;
-    qrySped_C170VL_BC_COFINS: TFMTBCDField;
-    qrySped_C170ALIQ_COFINS_PERC: TFMTBCDField;
-    qrySped_C170QUANT_BC_COFINS: TFMTBCDField;
-    qrySped_C170ALIQ_COFINS_R: TFMTBCDField;
-    qrySped_C170VL_COFINS: TFMTBCDField;
+    qrySped_C170VL_BC_COFINS: TBCDField;
+    qrySped_C170ALIQ_COFINS_PERC: TBCDField;
+    qrySped_C170QUANT_BC_COFINS: TBCDField;
+    qrySped_C170ALIQ_COFINS_R: TBCDField;
+    qrySped_C170VL_COFINS: TBCDField;
     qrySped_C170COD_CTA: TStringField;
-    qrySped_C170VL_OPR: TFMTBCDField;
+    qrySped_C170VL_OPR: TBCDField;
     qrySped_C170FK_PRODUTO: TIntegerField;
     qrySped_C170FK_UNIDADE: TIntegerField;
     qrySped_C170FK_C100: TIntegerField;
@@ -1391,23 +1361,23 @@ type
     qrySped_C170FK_USUARIO: TIntegerField;
     qrySped_C190CODIGO: TIntegerField;
     qrySped_C190CST_ICMS: TStringField;
-    qrySped_C190ALIQ_ICMS: TFMTBCDField;
-    qrySped_C190VL_OPR: TFMTBCDField;
-    qrySped_C190VL_BC_ICMS: TFMTBCDField;
-    qrySped_C190VL_ICMS: TFMTBCDField;
-    qrySped_C190VL_BC_ICMS_ST: TFMTBCDField;
-    qrySped_C190VL_ICMS_ST: TFMTBCDField;
-    qrySped_C190VL_RED_BC: TFMTBCDField;
-    qrySped_C190VL_IPI: TFMTBCDField;
+    qrySped_C190ALIQ_ICMS: TBCDField;
+    qrySped_C190VL_OPR: TBCDField;
+    qrySped_C190VL_BC_ICMS: TBCDField;
+    qrySped_C190VL_ICMS: TBCDField;
+    qrySped_C190VL_BC_ICMS_ST: TBCDField;
+    qrySped_C190VL_ICMS_ST: TBCDField;
+    qrySped_C190VL_RED_BC: TBCDField;
+    qrySped_C190VL_IPI: TBCDField;
     qrySped_C190COD_OBS: TStringField;
     qrySped_C190CFOP: TStringField;
     qrySped_C190FK_C100: TIntegerField;
     qrySped_C190FK_EMPRESA: TIntegerField;
     qrySped_C190FK_USUARIO: TIntegerField;
     qrySped_H010CODIGO: TIntegerField;
-    qrySped_H010QTD: TFMTBCDField;
-    qrySped_H010VL_UNIT: TFMTBCDField;
-    qrySped_H010VL_ITEM: TFMTBCDField;
+    qrySped_H010QTD: TBCDField;
+    qrySped_H010VL_UNIT: TBCDField;
+    qrySped_H010VL_ITEM: TBCDField;
     qrySped_H010IND_PROP: TStringField;
     qrySped_H010COD_PART: TIntegerField;
     qrySped_H010TXT_COMPL: TStringField;
@@ -1417,14 +1387,14 @@ type
     qrySped_H010FK_UNIDADE: TIntegerField;
     qrySped_H010FK_EMPRESA: TIntegerField;
     qrySped_H010FK_USUARIO: TIntegerField;
-    qrySped_H005VL_INV: TFMTBCDField;
-    qryMesas: TFDQuery;
+    qrySped_H005VL_INV: TBCDField;
+    qryMesas: TZQuery;
     qryEmpresaBLOQUEAR_PRECO: TStringField;
     qryEmpresaEXIBE_RESUMO_CAIXA: TStringField;
     qryCaixaTIPO_MOVIMENTO: TStringField;
     qryUsuariosSENHA_APP: TStringField;
     qryContasVIRTUAL_SITUACAO: TStringField;
-    qryPesqUsuario: TFDQuery;
+    qryPesqUsuario: TZQuery;
     qryPesqUsuarioCODIGO: TSmallintField;
     qryPesqUsuarioLOGIN: TStringField;
     qryContasVIRTUAl_USUARIO: TStringField;
@@ -1433,14 +1403,14 @@ type
     qryEmpresaRESTAURANTE: TStringField;
     qryEmpresaPESQUISA_REFERENCIA: TStringField;
     qryPVCONTA: TStringField;
-    qryPrincipio: TFDQuery;
+    qryPrincipio: TZQuery;
     qryPrincipioCODIGO: TIntegerField;
     qryPrincipioDESCRICAO: TStringField;
-    qryMarca: TFDQuery;
+    qryMarca: TZQuery;
     qryMarcaCODIGO: TIntegerField;
     qryMarcaDESCRICAO: TStringField;
     qryMarcaATIVO: TStringField;
-    qryRespTecnico: TFDQuery;
+    qryRespTecnico: TZQuery;
     qryRespTecnicoCODIGO: TIntegerField;
     qryRespTecnicoCNPJ: TStringField;
     qryRespTecnicoNOME: TStringField;
@@ -1471,12 +1441,12 @@ type
     qryAjustaPrecoALIQ_ICM: TCurrencyField;
     qryAjustaPrecoALIQ_PIS: TCurrencyField;
     qryAjustaPrecoALIQ_COF: TCurrencyField;
-    qryAjustaPrecoPR_CUSTO: TFMTBCDField;
+    qryAjustaPrecoPR_CUSTO: TBCDField;
     qryAjustaPrecoMARGEM: TCurrencyField;
-    qryAjustaPrecoPR_VENDA: TFMTBCDField;
-    qryAjustaPrecoQTD_ATUAL: TFMTBCDField;
-    qryAjustaPrecoQTD_MIN: TFMTBCDField;
-    qryAjustaPrecoE_MEDIO: TFMTBCDField;
+    qryAjustaPrecoPR_VENDA: TBCDField;
+    qryAjustaPrecoQTD_ATUAL: TFloatField;
+    qryAjustaPrecoQTD_MIN: TFloatField;
+    qryAjustaPrecoE_MEDIO: TBCDField;
     qryAjustaPrecoCSTICMS: TStringField;
     qryAjustaPrecoCSTE: TStringField;
     qryAjustaPrecoCSTS: TStringField;
@@ -1488,38 +1458,38 @@ type
     qryAjustaPrecoFOTO: TBlobField;
     qryAjustaPrecoATIVO: TStringField;
     qryAjustaPrecoCFOP: TStringField;
-    qryAjustaPrecoPR_CUSTO_ANTERIOR: TFMTBCDField;
-    qryAjustaPrecoPR_VENDA_ANTERIOR: TFMTBCDField;
+    qryAjustaPrecoPR_CUSTO_ANTERIOR: TBCDField;
+    qryAjustaPrecoPR_VENDA_ANTERIOR: TBCDField;
     qryAjustaPrecoULT_COMPRA: TIntegerField;
     qryAjustaPrecoULT_COMPRA_ANTERIOR: TIntegerField;
-    qryAjustaPrecoPRECO_ATACADO: TFMTBCDField;
-    qryAjustaPrecoQTD_ATACADO: TFMTBCDField;
+    qryAjustaPrecoPRECO_ATACADO: TBCDField;
+    qryAjustaPrecoQTD_ATACADO: TBCDField;
     qryAjustaPrecoCOD_BARRA_ATACADO: TStringField;
-    qryAjustaPrecoALIQ_IPI: TFMTBCDField;
+    qryAjustaPrecoALIQ_IPI: TBCDField;
     qryAjustaPrecoEMPRESA: TSmallintField;
     qryAjustaPrecoCEST: TStringField;
     qryAjustaPrecoGRADE: TStringField;
     qryAjustaPrecoEFISCAL: TStringField;
     qryAjustaPrecoPAGA_COMISSAO: TStringField;
-    qryAjustaPrecoPESO: TFMTBCDField;
+    qryAjustaPrecoPESO: TBCDField;
     qryAjustaPrecoCOMPOSICAO: TStringField;
-    qryAjustaPrecoPRECO_PROMO_ATACADO: TFMTBCDField;
-    qryAjustaPrecoPRECO_PROMO_VAREJO: TFMTBCDField;
+    qryAjustaPrecoPRECO_PROMO_ATACADO: TBCDField;
+    qryAjustaPrecoPRECO_PROMO_VAREJO: TBCDField;
     qryAjustaPrecoINICIO_PROMOCAO: TDateField;
     qryAjustaPrecoFIM_PROMOCAO: TDateField;
-    qryAjustaPrecoESTOQUE_INICIAL: TFMTBCDField;
-    qryAjustaPrecoPR_VENDA_PRAZO: TFMTBCDField;
+    qryAjustaPrecoESTOQUE_INICIAL: TBCDField;
+    qryAjustaPrecoPR_VENDA_PRAZO: TBCDField;
     qryAjustaPrecoPRECO_VARIAVEL: TStringField;
     qryAjustaPrecoAPLICACAO: TStringField;
-    qryAjustaPrecoREDUCAO_BASE: TFMTBCDField;
-    qryAjustaPrecoMVA: TFMTBCDField;
-    qryAjustaPrecoFCP: TFMTBCDField;
+    qryAjustaPrecoREDUCAO_BASE: TBCDField;
+    qryAjustaPrecoMVA: TBCDField;
+    qryAjustaPrecoFCP: TBCDField;
     qryAjustaPrecoPRODUTO_PESADO: TStringField;
     qryAjustaPrecoSERVICO: TStringField;
     qryAjustaPrecoDT_CADASTRO: TDateField;
     qryAjustaPrecoDESCRICAO: TStringField;
-    qryAjustaPrecoPR_CUSTO2: TFMTBCDField;
-    qryAjustaPrecoPERC_CUSTO: TFMTBCDField;
+    qryAjustaPrecoPR_CUSTO2: TBCDField;
+    qryAjustaPrecoPERC_CUSTO: TBCDField;
     qryAjustaPrecoTEMPO_ESPERA: TIntegerField;
     qryAjustaPrecoCOMPLEMENTO: TStringField;
     qryAjustaPrecoRESTAUTANTE: TStringField;
@@ -1536,17 +1506,17 @@ type
     qryPesqProdutoCODIGO: TIntegerField;
     qryPesqProdutoCODBARRA: TStringField;
     qryPesqProdutoDESCRICAO: TStringField;
-    qryPesqProdutoPR_VENDA: TFMTBCDField;
+    qryPesqProdutoPR_VENDA: TBCDField;
     qryCaixaID_SUBCAIXA: TIntegerField;
     qryCaixaFPG: TIntegerField;
-    qryTipoTecido: TFDQuery;
+    qryTipoTecido: TZQuery;
     qryTipoTecidoCODIGO: TIntegerField;
     qryTipoTecidoDESCRICAO: TStringField;
     qryEmpresaTIPO_EMPRESA: TIntegerField;
     qryEmpresaQTD_MESAS: TSmallintField;
     qryEmpresaTIPO_JUROS: TStringField;
-    qryEmpresaJUROS_DIA: TFMTBCDField;
-    qryEmpresaJUROS_MES: TFMTBCDField;
+    qryEmpresaJUROS_DIA: TBCDField;
+    qryEmpresaJUROS_MES: TBCDField;
     qryEmpresaLOJA_ROUPA: TStringField;
     qryEmpresaEMITE_ECF: TStringField;
     qryTerminalTIPO_BROWSER: TStringField;
@@ -1561,24 +1531,24 @@ type
     qryCaixaFK_OS: TIntegerField;
     qryCRFK_OS: TIntegerField;
     qryPessoasDT_CADASTRO: TDateField;
-    qryEmpresaDESCONTO_MAXIMO: TFMTBCDField;
+    qryEmpresaDESCONTO_MAXIMO: TBCDField;
     qryEmpresaRESPONSAVEL_EMPRESA: TStringField;
     qryEmpresaPAGAMENTO_DINHEIRO: TStringField;
-    qryEtiqueta: TFDQuery;
+    qryEtiqueta: TZQuery;
     qryEtiquetaCODIGO: TIntegerField;
     qryEtiquetaDESCRICAO: TStringField;
-    qryEtiquetaLARGURA: TFMTBCDField;
-    qryEtiquetaALTURA: TFMTBCDField;
-    qryEtiquetaESQUERDA: TFMTBCDField;
-    qryEtiquetaTOPO: TFMTBCDField;
+    qryEtiquetaLARGURA: TBCDField;
+    qryEtiquetaALTURA: TBCDField;
+    qryEtiquetaESQUERDA: TBCDField;
+    qryEtiquetaTOPO: TBCDField;
     qryEtiquetaCOLUNAS: TIntegerField;
-    qryEtiquetaESPACAMENTO: TFMTBCDField;
-    qryEtiquetaBARRA_ALTURA: TFMTBCDField;
-    qryEtiquetaBARRA_LARGURA: TFMTBCDField;
-    qryEtiquetaBARRA_FINA: TFMTBCDField;
+    qryEtiquetaESPACAMENTO: TBCDField;
+    qryEtiquetaBARRA_ALTURA: TBCDField;
+    qryEtiquetaBARRA_LARGURA: TBCDField;
+    qryEtiquetaBARRA_FINA: TBCDField;
     qryEtiquetaPORTA: TStringField;
     qryEtiquetaMODELO: TStringField;
-    qryEtq_Campos: TFDQuery;
+    qryEtq_Campos: TZQuery;
     qryOrcamentoNCONTROLE: TIntegerField;
     qryOrcamentoFK_TRANSP: TIntegerField;
     qryOrcamentoTRANSPORTADOR: TStringField;
@@ -1604,8 +1574,8 @@ type
     qryClientesCELULAR1: TStringField;
     qryParametroSENHA_LI: TStringField;
     qryParametroTELA_ABERTURA: TStringField;
-    qryTerminalDATA_VERSAO: TSQLTimeStampField;
-    qryDesoneracao: TFDQuery;
+    qryTerminalDATA_VERSAO: TDateTimeField;
+    qryDesoneracao: TZQuery;
     qryDesoneracaoCODIGO: TIntegerField;
     qryDesoneracaoDESCRICAO: TStringField;
     qryEmpresaHABILITA_DESCONTO_PDV: TStringField;
@@ -1627,7 +1597,7 @@ type
     qryEmpresaLANCAR_CARTAO_CR: TStringField;
     qryEtiquetaDPI: TStringField;
     qryEtiquetaBACKFEED: TStringField;
-    qryEtq_impressao: TFDQuery;
+    qryEtq_impressao: TZQuery;
     qryEtq_impressaoCODIGO: TIntegerField;
     qryEtq_impressaoFK_PRODUTO: TIntegerField;
     qryEtq_impressaoFK_EMPRESA: TIntegerField;
@@ -1655,10 +1625,10 @@ type
     qryConfigCFE_VERSAO: TStringField;
     qryConfigCFE_IDENTAR: TStringField;
     qryConfigCFE_TAMANHOIDENTACA: TIntegerField;
-    qryEntregador: TFDQuery;
+    qryEntregador: TZQuery;
     qryEntregadorCODIGO: TIntegerField;
     qryEntregadorNOME: TStringField;
-    qryUpdate: TFDQuery;
+    qryUpdate: TZQuery;
     qryNFCE_MSAT_NUMERO_CFE: TIntegerField;
     qryNFCE_MSAT_NUMERO_SERIE: TStringField;
     qryEmpresaCNAE: TStringField;
@@ -1671,11 +1641,11 @@ type
     qryPessoasREFERENCIA: TIntegerField;
     qryConfigSAFT_HASH: TStringField;
     qryConfigSAFT_REGISTRO: TIntegerField;
-    qryPaises: TFDQuery;
+    qryPaises: TZQuery;
     qryPaisesCODIGO: TIntegerField;
     qryPaisesNOME: TStringField;
     qryPaisesFK_EMPRESA: TIntegerField;
-    qryTradutor: TFDQuery;
+    qryTradutor: TZQuery;
     qryTradutorCODIGO: TIntegerField;
     qryTradutorCODIGO_IDIOMA: TIntegerField;
     qryTradutorTELA: TStringField;
@@ -1685,13 +1655,13 @@ type
     qryEmpresaCODIGO_PAIS: TIntegerField;
     qryConfigCAMINHO_DLL_SAT: TStringField;
     qryConfigSTRESH_IMG_MENU: TStringField;
-    qryLCP: TFDQuery;
+    qryLCP: TZQuery;
     qryLCPCODIGO: TStringField;
     qryLCPDESCRICAO: TStringField;
     qryLCPATIVO: TStringField;
     qryConfigFK_IDIOMA: TIntegerField;
     qryConfigPATH_SCHEMA_NFSE: TStringField;
-    qryIdiomas: TFDQuery;
+    qryIdiomas: TZQuery;
     qryIdiomasCODIGO: TIntegerField;
     qryIdiomasDESCRICAO: TStringField;
     qryEmpresaMULTI_IDIOMA: TStringField;
@@ -1700,17 +1670,17 @@ type
     qryEmpresaCOD_FPG_DINHEIRO: TIntegerField;
     qryTerminalDATA_SISTEMA: TDateField;
     qryTerminalIMPRIME_DUAS_LINHAS: TStringField;
-    qryTerminalMARGEM_DIREITA: TFMTBCDField;
-    qryTerminalMARGEM_ESQUERDA: TFMTBCDField;
-    qryTerminalMARGEM_INFERIOR: TFMTBCDField;
-    qryTerminalMARGEM_SUPERIOR: TFMTBCDField;
+    qryTerminalMARGEM_DIREITA: TBCDField;
+    qryTerminalMARGEM_ESQUERDA: TBCDField;
+    qryTerminalMARGEM_INFERIOR: TBCDField;
+    qryTerminalMARGEM_SUPERIOR: TBCDField;
     qryTerminalLARGURA_BOBINA: TIntegerField;
     qryTerminalESPACO_ENTRE_LINHAS: TStringField;
     qryTerminalLINHAS_ENTRE_CUPOM: TStringField;
     qryEmpresaCSOSN_EXTERNO: TStringField;
     qryEmpresaCST_EXTERNO: TStringField;
-    qryEmpresaALIQ_ICMS_EXTERNO: TFMTBCDField;
-    qryTerminalDT_ULTIMA_ATUALIZACAO: TSQLTimeStampField;
+    qryEmpresaALIQ_ICMS_EXTERNO: TBCDField;
+    qryTerminalDT_ULTIMA_ATUALIZACAO: TDateTimeField;
     qryTerminalTAMANHO_FONTE: TIntegerField;
     qryConfigVERSAO_BROWSER: TStringField;
     qryParametroLINK_VENDA: TStringField;
@@ -1740,7 +1710,7 @@ type
     qryCRREMESSA_ARQUIVO: TStringField;
     qryAjustaPrecoDATA_PRECO: TDateField;
     qryEmpresaAUTO_CADASTRO_PRODUTO: TStringField;
-    qryProdutosQTD_FISCAL: TFMTBCDField;
+    qryProdutosQTD_FISCAL: TBCDField;
     qryEmpresaEXIBE_ESTOQUE_FISCAL: TStringField;
     qryCaixaRESUMO_CAIXA: TStringField;
     qryCRFK_NFE: TIntegerField;
@@ -1748,18 +1718,18 @@ type
     qryEmpresaOCULTAR_SALDO_ANTERIOR: TStringField;
     qryEmpresaNFE_SERIE: TIntegerField;
     qryParametroTELA_FUNDO_LOGIN: TStringField;
-    qryEmpresaLUCRO_PADRAO: TFMTBCDField;
+    qryEmpresaLUCRO_PADRAO: TBCDField;
     qryPessoasPARC: TStringField;
     qryPessoasTIPO_RECEBIMENTO: TStringField;
     qryEmpresaTRANSMITIR_CARTAO_AUTO: TStringField;
     qryEmpresaSERVIDOR_SMTP_PROPRIO: TStringField;
-    qryNumeroBoleto: TFDQuery;
-    qryEmpresaALIQUOTA_SIMPLES: TFMTBCDField;
+    qryNumeroBoleto: TZQuery;
+    qryEmpresaALIQUOTA_SIMPLES: TBCDField;
     qryPessoasREGIME_TRIBUTARIO: TStringField;
     qryPessoasWHATSAPP: TStringField;
     qryEmpresaMENSAGEM_COBRANCA: TMemoField;
     qryConfigEMAILTLS: TStringField;
-    qryMotorista: TFDQuery;
+    qryMotorista: TZQuery;
     qryMotoristaCODIGO: TIntegerField;
     qryMotoristaFK_TRANSPORTADORA: TIntegerField;
     qryMotoristaNOME: TStringField;
@@ -1770,11 +1740,11 @@ type
     qryFPGUSA_TEF: TStringField;
     qryMesasCODIGO: TIntegerField;
     qryMesasSITUACAO: TStringField;
-    qryMesasTOTAL: TSingleField;
+    qryMesasTOTAL: TFloatField;
     qryMesasFK_EMPRESA: TIntegerField;
     qryMesasVIRTUAL_SITUACAO: TStringField;
     qryMesasVIRTUAL_MESA: TStringField;
-    qryAtualiza: TFDQuery;
+    qryAtualiza: TZQuery;
     qryTerminalPARAMETROS_ADICIONAIS: TStringField;
     qryTerminalQRCODE_LATERAL: TStringField;
     qryTerminalCOLUNAS: TIntegerField;
@@ -1791,12 +1761,12 @@ type
     qryCRFLAG: TStringField;
     qryCPFLAG: TStringField;
     qryFPGFK_BANDEIRA: TIntegerField;
-    qryTerminalDATA_SCRIPT: TSQLTimeStampField;
+    qryTerminalDATA_SCRIPT: TDateTimeField;
     qryTerminalEMPRESA_ATIVA: TIntegerField;
     qryTerminalTEF_LOG: TStringField;
     qryTerminalTEF_GERENCIADOR: TIntegerField;
     qryTerminalTEF_MAX_CARTOES: TIntegerField;
-    qryTerminalTEF_TROCO_MAXIMO: TSingleField;
+    qryTerminalTEF_TROCO_MAXIMO: TFloatField;
     qryTerminalTEF_SOFT_HOUSE: TStringField;
     qryTerminalTEF_REGISTRO: TStringField;
     qryTerminalTEF_APLICACAO: TStringField;
@@ -1819,7 +1789,7 @@ type
     qryConfigMDFE_NUMERO: TIntegerField;
     qryPlanoCONTA_COMPLETA: TStringField;
     qryPlanoDESCRICAO: TStringField;
-    qryMensagemZap: TFDQuery;
+    qryMensagemZap: TZQuery;
     qryMensagemZapCODIGO: TIntegerField;
     qryMensagemZapDATA: TDateField;
     qryMensagemZapORIGEM: TStringField;
@@ -1833,7 +1803,7 @@ type
     qryMensagemZapMENSAGEM_PADRAO: TMemoField;
     qryMensagemZapCAMINHO_ANEXO: TStringField;
     qryEmpresaBLOQUEAR_CPF: TStringField;
-    qrySabores: TFDQuery;
+    qrySabores: TZQuery;
     qrySaboresCODIGO: TIntegerField;
     qrySaboresDESCRICAO: TStringField;
     qrySaboresATIVO: TStringField;
@@ -1841,7 +1811,7 @@ type
     qryConfigCAMINHO_ENDERECO: TStringField;
     qryConfigAUTORIZAR_ZAP: TStringField;
     qryConfigTIPO_CHATBOOT: TStringField;
-    qryPermissoesBotao: TFDQuery;
+    qryPermissoesBotao: TZQuery;
     qryPermissoesBotaoVISUALIZAR: TStringField;
     qryPermissoesBotaoEDITAR: TStringField;
     qryPermissoesBotaoINCLUIR: TStringField;
@@ -1853,29 +1823,29 @@ type
     qryPV_ItensID_PRODUTO: TIntegerField;
     qryPV_ItensITEM: TSmallintField;
     qryPV_ItensCOD_BARRA: TStringField;
-    qryPV_ItensQTD: TFMTBCDField;
-    qryPV_ItensE_MEDIO: TFMTBCDField;
-    qryPV_ItensPRECO: TFMTBCDField;
-    qryPV_ItensVALOR_ITEM: TFMTBCDField;
-    qryPV_ItensVDESCONTO: TFMTBCDField;
-    qryPV_ItensTOTAL: TFMTBCDField;
+    qryPV_ItensQTD: TBCDField;
+    qryPV_ItensE_MEDIO: TBCDField;
+    qryPV_ItensPRECO: TBCDField;
+    qryPV_ItensVALOR_ITEM: TBCDField;
+    qryPV_ItensVDESCONTO: TBCDField;
+    qryPV_ItensTOTAL: TBCDField;
     qryPV_ItensSITUACAO: TStringField;
     qryPV_ItensUNIDADE: TStringField;
-    qryPV_ItensQTD_DEVOLVIDA: TFMTBCDField;
-    qryPV_ItensACRESCIMO: TFMTBCDField;
+    qryPV_ItensQTD_DEVOLVIDA: TBCDField;
+    qryPV_ItensACRESCIMO: TBCDField;
     qryPV_ItensOS: TStringField;
     qryPV_ItensFK_GRADE: TIntegerField;
     qryPV_ItensID_PRODUTO_SIMILAR: TIntegerField;
     qryPV_ItensID_SERIAL: TIntegerField;
     qryPV_ItensFK_MESA: TIntegerField;
-    qryPV_ItensQTD_RESTANTE: TFMTBCDField;
+    qryPV_ItensQTD_RESTANTE: TBCDField;
     qryPV_ItensOBSERVACAO: TStringField;
     qryPV_ItensPRODUTO: TStringField;
     qryPV_ItensDESCRICAO_SL: TStringField;
     qryPV_ItensUNIDADE_1: TStringField;
     qryPessoasFLAG: TStringField;
-    qryPessoasCOMISSAOPERCENT: TFMTBCDField;
-    qryPessoasCOMISSAOVALOR: TFMTBCDField;
+    qryPessoasCOMISSAOPERCENT: TBCDField;
+    qryPessoasCOMISSAOVALOR: TBCDField;
     qryProdutosRESTAUTANTE: TStringField;
     qryProdutosTEMPO_ESPERA: TIntegerField;
     qryProdutosCOMPLEMENTO: TStringField;
@@ -1889,39 +1859,39 @@ type
     qryProdutosETQ: TStringField;
     qryProdutosCSOSN_EXTERNO: TStringField;
     qryProdutosCST_EXTERNO: TStringField;
-    qryProdutosALIQ_ICMS_EXTERNO: TFMTBCDField;
+    qryProdutosALIQ_ICMS_EXTERNO: TBCDField;
     qryProdutosORIGEM: TIntegerField;
-    qryProdutosGLP: TFMTBCDField;
-    qryProdutosGNN: TFMTBCDField;
-    qryProdutosGNI: TFMTBCDField;
-    qryProdutosPESO_LIQ: TFMTBCDField;
+    qryProdutosGLP: TBCDField;
+    qryProdutosGNN: TBCDField;
+    qryProdutosGNI: TBCDField;
+    qryProdutosPESO_LIQ: TBCDField;
     qryProdutosANP: TStringField;
     qryProdutosCOMBUSTIVEL: TStringField;
     qryProdutosFK_LCP: TStringField;
-    qryProdutosISSQN: TFMTBCDField;
+    qryProdutosISSQN: TBCDField;
     qryProdutosTIPO_TRIBUTACAO: TStringField;
     qryProdutosID_PRODUTO_SIMILAR: TIntegerField;
     qryProdutosDATA_PRECO: TDateField;
     qryProdutosTRIBUTACAO_MONOFASICA: TStringField;
     qryProdutosID_MENU: TIntegerField;
-    qryProdutosVALOR_PEQUENA: TFMTBCDField;
-    qryProdutosVALOR_MEDIA: TFMTBCDField;
-    qryProdutosVALOR_GRANDE: TFMTBCDField;
+    qryProdutosVALOR_PEQUENA: TBCDField;
+    qryProdutosVALOR_MEDIA: TBCDField;
+    qryProdutosVALOR_GRANDE: TBCDField;
     qryProdutosTIPO_ALIMENTO: TStringField;
     qryProdutosSERIAL: TStringField;
-    qryProdutosMVA_NORMAL: TFMTBCDField;
+    qryProdutosMVA_NORMAL: TBCDField;
     qryProdutosIMPRIME_TICKET: TStringField;
-    qryProdutosICMS_DIFERIDO: TFMTBCDField;
+    qryProdutosICMS_DIFERIDO: TBCDField;
     qryProdutosQTD_SABORES: TIntegerField;
     qryProdutosCOD_ENQ_IPI: TStringField;
-    qryProdutosALIQ_DESON: TFMTBCDField;
+    qryProdutosALIQ_DESON: TBCDField;
     qryProdutosMOTIVO_DESONERACAO: TIntegerField;
     qryProdutosCOD_BENEFICIO: TStringField;
-    qryProdutosPESO_L: TFMTBCDField;
-    qryProdutosPESO_B: TFMTBCDField;
+    qryProdutosPESO_L: TBCDField;
+    qryProdutosPESO_B: TBCDField;
     qryProdutosCHATBOOT: TStringField;
     qryProdutosFABRICADO: TStringField;
-    qryProdutosCOMISSAOPERCENTUAL: TFMTBCDField;
+    qryProdutosCOMISSAOPERCENTUAL: TBCDField;
     qryPV_ItensFOTO: TBlobField;
     procedure DataModuleCreate(Sender: TObject);
     procedure serial;
@@ -2057,6 +2027,8 @@ type
     procedure limpaFlagCP(codigo: Integer);
     procedure limpaFlagCR(codigo: Integer);
     procedure ConfiguraEstilo(Estilo: String);
+    procedure Confirmar;
+    procedure Desfazer;
     function Truncar(Valor: Extended; casas: Integer): Extended;
     function PegaNomePessoa(id: Integer): String;
     function BuscaCodigoIbge(cidade, uf: string): Integer;
@@ -2098,7 +2070,7 @@ type
     procedure UpdateTela(aform: string);
     function ExecutaeAguarda(const strCommandLine : String; intVisibility: Integer = SW_SHOW) : Cardinal;
     function ExecutaNormal (sExeName, sparametro, sCaminho: String) : Boolean;       // nome do executavel e o caminho dele separadamente
-    function ProcessoRodando (sExeName: String) : Boolean;      // N„o precisa passar o caminho, sÛ o nome do exe
+    function ProcessoRodando (sExeName: String) : Boolean;      // N√£o precisa passar o caminho, s√≥ o nome do exe
     function ChecaServidorRest: boolean;
     // retorno o numero de todos os boletos
     { Public declarations }
@@ -2121,9 +2093,46 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses serial, uDadosWeb, uConexaoBD;
+uses
+  serial, uConexaoBD, WinSock;
 
-{$R *.dfm}
+{$R *.lfm}
+
+{ IP da m√°quina na rede local (no Delphi vinha do componente TIdIPWatch). }
+function IpLocal: string;
+var
+  Wsa: TWSAData;
+  Nome: array [0 .. 255] of AnsiChar;
+  Host: PHostEnt;
+begin
+  Result := '';
+  if WSAStartup($0101, Wsa) <> 0 then
+    exit;
+  try
+    if gethostname(Nome, SizeOf(Nome)) <> 0 then
+      exit;
+    Host := gethostbyname(Nome);
+    if (Host <> nil) and (Host^.h_addr_list^ <> nil) then
+      Result := string(inet_ntoa(PInAddr(Host^.h_addr_list^)^));
+  finally
+    WSACleanup;
+  end;
+end;
+
+{ Com AutoCommit ligado o Zeos grava cada comando na hora; s√≥ h√° o que confirmar quando uma tela abriu
+  uma transa√ß√£o com StartTransaction. Substitui o CommitRetaining do FireDAC. }
+procedure TDados.Confirmar;
+begin
+  if Conexao.InTransaction then
+    Conexao.Commit;
+end;
+
+{ Par do Confirmar: substitui o RollbackRetaining do FireDAC. }
+procedure TDados.Desfazer;
+begin
+  if Conexao.InTransaction then
+    Conexao.Rollback;
+end;
 
 function TDados.ChecaValidade: boolean;
 var
@@ -2134,11 +2143,11 @@ begin
     (qryEmpresaDATA_CADASTRO.IsNull) then
   begin
     Result := true;
-    ChamaContato('AtenÁ„o!' + sLineBreak + 'Chave de registro inv·lida!');
+    ChamaContato('Aten√ß√£o!' + sLineBreak + 'Chave de registro inv√°lida!');
     Dados.qryEmpresa.Edit;
     Dados.qryEmpresaNSERIE.Value := '...';
     Dados.qryEmpresa.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     ApagaNumeroSerie;
     exit;
   end;
@@ -2155,16 +2164,16 @@ begin
     'update cbr_remessa set CANCELADA=''S'' where ID_CBR_REMESSA_UUID=:ID';
   Dados.qryUpdate.Params[0].Value := Arquivo;
   Dados.qryUpdate.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
 procedure TDados.UpdateTela(aform: string);
 var
-  qryTela: TFDQuery;
+  qryTela: TZQuery;
 begin
   try
-    qryTela := TFDQuery.Create(Self);
+    qryTela := TZQuery.Create(Self);
     qryTela.Connection := Conexao;
 
     qryTela.Close;
@@ -2173,9 +2182,9 @@ begin
     qryTela.Params[0].Value := aform;
     qryTela.Params[1].Value := Dados.aMenu;
     qryTela.ExecSQL;
-    Conexao.CommitRetaining;
+    Confirmar;
   except
-    Conexao.RollbackRetaining;
+    Desfazer;
   end;
 end;
 
@@ -2196,7 +2205,7 @@ begin
   Dados.qryExecute.sql.Text := 'DELETE FROM CAIXA WHERE FKRECEBER=:CODIGO';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TDados.ChecaPDV;
@@ -2409,7 +2418,7 @@ begin
     'update produto set data_preco=current_date where codigo=:codigo';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TDados.CriaPastas;
@@ -2536,7 +2545,7 @@ begin
   Dados.qryConsulta.Params[0].Value := idSerial;
   Dados.qryConsulta.Prepare;
   Dados.qryConsulta.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -2654,7 +2663,7 @@ begin
       qryUsuariosSENHA.Value := Senha;
       qryUsuariosECAIXA.Value := 'C';
       qryUsuarios.Post;
-      Conexao.CommitRetaining;
+      Confirmar;
     end;
     qryUsuarios.Next;
   end;
@@ -2668,7 +2677,7 @@ begin
 
   if not Dados.qryChave.IsEmpty then
     Dados.qryChave.Delete;
-  Conexao.CommitRetaining;
+  Confirmar;
 
 end;
 
@@ -2687,7 +2696,7 @@ begin
     Dados.qryEmpresaNSERIE.Value := '...';
     Dados.qryEmpresaDATA_VALIDADE.Value := Dados.Crypt('C', '01/01/1900');
     Dados.qryEmpresa.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     end;
 
     if Dados.Crypt('D', Dados.qryEmpresaCSENHA.AsString) = 'S' then
@@ -2698,7 +2707,7 @@ begin
     Dados.qryEmpresaNSERIE.Value := '...';
     Dados.qryEmpresaDATA_VALIDADE.Value := Dados.Crypt('C', '01/01/1900');
     Dados.qryEmpresa.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     Dados.ApagaNumeroSerie;
 
     end;
@@ -2711,7 +2720,7 @@ begin
     Dados.qryEmpresaNSERIE.Value := '...';
     Dados.qryEmpresaDATA_VALIDADE.Value := Dados.Crypt('C', '01/01/1900');
     Dados.qryEmpresa.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     Dados.ApagaNumeroSerie;
     end;
 
@@ -2722,7 +2731,7 @@ begin
     Dados.qryEmpresa.Edit;
     Dados.qryEmpresaDATA_VALIDADE.Value := Dados.Crypt('C', '01/01/1900');
     Dados.qryEmpresa.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     end;
 
     if (DataValidade < Date) then // data de validade vencida
@@ -2732,7 +2741,7 @@ begin
     Dados.qryEmpresaNSERIE.Value := '...';
     Dados.qryEmpresaDATA_VALIDADE.Value := Dados.Crypt('C', '01/01/1900');
     Dados.qryEmpresa.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     ApagaNumeroSerie;
     end;
 
@@ -2786,7 +2795,7 @@ begin
     if Dados.qryTerminal.Locate('NOME', Dados.nometerminal, []) then
     begin
       Dados.qryTerminal.Edit;
-      Dados.qryTerminalIP.Value := IdIPWatch1.LocalIP;
+      Dados.qryTerminalIP.Value := IpLocal;
 
       if Dados.qryTerminal.FieldByName('RETAGUARDA').IsNull then
       begin
@@ -2811,7 +2820,7 @@ begin
     begin
       Dados.qryTerminal.Insert;
       Dados.qryTerminalNOME.Value := Dados.nometerminal;
-      Dados.qryTerminalIP.Value := IdIPWatch1.LocalIP;
+      Dados.qryTerminalIP.Value := IpLocal;
       Dados.qryTerminalIMPRIME.Value := 'S';
       Dados.qryTerminalUSAGAVETA.Value := 'N';
       Dados.qryTerminalSERIE.Value := '1';
@@ -2833,7 +2842,7 @@ begin
       Dados.qryTerminal.Post;
     end;
 
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     Dados.qryTerminal.Refresh;
   except
     // faz nada
@@ -2935,7 +2944,7 @@ begin
       while ExitCode = STILL_ACTIVE do
       begin
         Application.ProcessMessages;
-        // Check here if the ¥wait¥ is cancelled and call exit;
+        // Check here if the ¬¥wait¬¥ is cancelled and call exit;
         GetExitCodeProcess(tPI.hProcess, ExitCode);
       end;
     finally
@@ -2982,84 +2991,7 @@ end;
 
 procedure TDados.ConfiguraEstilo(Estilo: String);
 begin
-  try
-
-    if Estilo = 'Amethyst Kamri' then
-      TStyleManager.TrySetStyle('Amethyst Kamri')
-    else
-
-      if Estilo = 'Aqua Light Slate' then
-      TStyleManager.TrySetStyle('Aqua Light Slate')
-    else
-
-      if Estilo = 'Luna' then
-      TStyleManager.TrySetStyle('Luna')
-    else
-
-      if Estilo = 'Cyan Dusk' then
-      TStyleManager.TrySetStyle('Cyan Dusk')
-    else
-
-      if Estilo = 'Emerald Light Slate' then
-      TStyleManager.TrySetStyle('Emerald Light Slate')
-    else
-
-      if Estilo = 'Iceberg Classico' then
-      TStyleManager.TrySetStyle('Iceberg Classico')
-    else
-
-      if Estilo = 'Lavender Classico' then
-      TStyleManager.TrySetStyle('Lavender Classico')
-    else
-
-      if Estilo = 'Light' then
-      TStyleManager.TrySetStyle('Light')
-    else
-
-      if Estilo = 'Luna' then
-      TStyleManager.TrySetStyle('Luna')
-    else
-
-      if Estilo = 'Sapphire Kamri' then
-      TStyleManager.TrySetStyle('Sapphire Kamri')
-    else
-
-      if Estilo = 'Silver' then
-      TStyleManager.TrySetStyle('Silver')
-    else
-
-      if Estilo = 'Glossy' then
-      TStyleManager.TrySetStyle('Glossy')
-    else
-
-      if Estilo = 'Onyx Blue' then
-      TStyleManager.TrySetStyle('Onyx Blue')
-    else
-
-     if Estilo = 'Windows 10 Dark' then
-      TStyleManager.TrySetStyle('Windows 10 Dark')
-    else
-
-     if Estilo = 'Windows 10 Blue' then
-      TStyleManager.TrySetStyle('Windows 10 Blue')
-    else
-
-      if Estilo = 'Sky' then
-      TStyleManager.TrySetStyle('Sky')
-    else
-
-      if Estilo = 'Slate Classico' then
-      TStyleManager.TrySetStyle('Slate Classico')
-    else
-
-      if Estilo = 'Smokey Quartz Kamri' then
-      TStyleManager.TrySetStyle('Smokey Quartz Kamri')
-    else
-      TStyleManager.TrySetStyle('Windows');
-  except
-    TStyleManager.TrySetStyle('Windows');
-  end;
-
+  // O Lazarus n√£o tem os estilos visuais do Delphi (VCL Styles). O visual volta no roadmap 18.
 end;
 
 function TDados.GetBuildInfo(Prog: string): string;
@@ -3092,7 +3024,7 @@ end;
 
 procedure TDados.CadastraObjeto(Formulario, objeto, Valor: String);
 begin
-  if not qryTradutor.Locate('objeto', objeto) then
+  if not qryTradutor.Locate('objeto', objeto, []) then
   begin
     if trim(Valor) <> '' then
     begin
@@ -3104,7 +3036,7 @@ begin
       qryTradutorOBJETO.Value := objeto;
       qryTradutorTEXTO_PT_BR.Value := Valor;
       qryTradutor.Post;
-      Conexao.CommitRetaining;
+      Confirmar;
     end;
   end;
 
@@ -3273,7 +3205,7 @@ begin
   Dados.qryExecute.Params[1].Value := Getcomputer;
   Dados.qryExecute.ExecSQL;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -3329,7 +3261,7 @@ begin
     Dados.qryUpdate.ParamByName('codigo').Value := codigo;
     Dados.qryUpdate.ParamByName('nboleto').Value := Dados.RetornoNumeroBoleto;
     Dados.qryUpdate.ExecSQL;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
 end;
@@ -3367,7 +3299,7 @@ begin
           ('codigo').AsString;
         Dados.qryUpdate.Prepare;
         Dados.qryUpdate.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         Dados.qryConsulta.Next;
       end;
 
@@ -3393,7 +3325,7 @@ begin
         Dados.qryUpdate.Params[1].Value := Dados.qryConsulta.FieldByName
           ('codigo').AsInteger;
         Dados.qryUpdate.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         Dados.qryConsulta.Next;
       end;
 
@@ -3424,7 +3356,7 @@ begin
         Dados.qryUpdate.Params[1].AsInteger := Dados.qryConsulta.FieldByName
           ('codigo').AsInteger;
         Dados.qryUpdate.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         Dados.qryConsulta.Next;
       end;
 
@@ -3450,7 +3382,7 @@ begin
         Dados.qryUpdate.Params[1].Value := Dados.qryConsulta.FieldByName
           ('codigo').AsInteger;
         Dados.qryUpdate.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         Dados.qryConsulta.Next;
       end;
 
@@ -3481,7 +3413,7 @@ begin
         Dados.qryUpdate.Params[1].Value := Dados.qryConsulta.FieldByName
           ('codigo').AsInteger;
         Dados.qryUpdate.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         Dados.qryConsulta.Next;
       end;
 
@@ -3507,7 +3439,7 @@ begin
         Dados.qryUpdate.Params[1].Value := Dados.qryConsulta.FieldByName
           ('codigo').AsInteger;
         Dados.qryUpdate.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         Dados.qryConsulta.Next;
       end;
 
@@ -3538,7 +3470,7 @@ begin
         Dados.qryUpdate.Params[1].Value := Dados.qryConsulta.FieldByName
           ('codigo').AsInteger;
         Dados.qryUpdate.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         Dados.qryConsulta.Next;
       end;
 
@@ -3564,7 +3496,7 @@ begin
         Dados.qryUpdate.Params[1].Value := Dados.qryConsulta.FieldByName
           ('codigo').AsInteger;
         Dados.qryUpdate.ExecSQL;
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         Dados.qryConsulta.Next;
       end;
 
@@ -3605,7 +3537,7 @@ begin
   Dados.qryMensagemZapORIGEM.Value := Origem;
   Dados.qryMensagemZap.Post;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TDados.DataModuleCreate(Sender: TObject);
@@ -3613,19 +3545,24 @@ procedure TDados.DataModuleCreate(Sender: TObject);
 var
   iArq: TIniFile;
   nTentativas: word;
+  Servidor: string;
 begin
 
+  iArq := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'Banco.ini');
   try
 
-
-
     nTentativas := 1;
-    iArq := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'Banco.ini');
+    Servidor := Trim(iArq.ReadString('BD', 'IP', ''));
 
-    Conexao.Params.Values['DriverID'] := 'FB';
-    Conexao.Params.Values['Server'] := iArq.ReadString('BD', 'IP', '');
-    Conexao.Params.Values['Database'] := iArq.ReadString('BD', 'Path', '');
-    FBDriver.VendorLib := ExtractFilePath(Application.ExeName) + 'fbclient.dll';
+    Conexao.HostName := Servidor;
+    Conexao.Database := Trim(iArq.ReadString('BD', 'Path', ''));
+    Conexao.User := Trim(iArq.ReadString('BD', 'Usuario', 'GESTOR'));
+    Conexao.Password := iArq.ReadString('BD', 'Senha', '');
+    Conexao.LibraryLocation := ExtractFilePath(Application.ExeName) + 'fbclient.dll';
+
+    // S√≥ espera o Firebird subir quando o banco est√° nesta m√°quina; num terminal da rede n√£o h√° o que esperar.
+    if not ((Servidor = '') or SameText(Servidor, 'localhost') or (Servidor = '127.0.0.1')) then
+      nTentativas := 13;
 
     while nTentativas <= 12 do
     begin
@@ -3653,12 +3590,14 @@ begin
     try
       Conexao.Connected := true;
     Except
-      ShowMessage('N„o foi possivel conectar na base de dados!' + sLineBreak +
-        'Tente novamente, se o erro persistir entre em contato com o Suporte.' +
-        sLineBreak + ' Fone: ' + qryParametroFONE1.Value + ' ' +
-        qryParametroFONE2.Value);
-      Dados.vFechaPrograma := true;
-      Application.Terminate;
+      on E: Exception do
+      begin
+        ShowMessage('N√£o foi poss√≠vel conectar na base de dados!' + sLineBreak +
+          'Confira o arquivo Banco.ini (IP, Path, Usuario e Senha).' + sLineBreak +
+          sLineBreak + E.Message);
+        Dados.vFechaPrograma := true;
+        Application.Terminate;
+      end;
     end;
 
   Finally
@@ -3700,7 +3639,7 @@ begin
     'UPDATE VENDAS_FPG SET NSU=null, INDICE=null, REDE=null, REDECNPJ=null, FEZ_TEF=''N'' WHERE NSU=:ID';
   Dados.qryExecute.ParamByName('ID').AsString := NSU;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 function TDados.Numerador(Tabela, Campo, filtra, where, Valor: String): Integer;
@@ -3731,7 +3670,7 @@ begin
     'SELECT REMESSA_ARQUIVO, ID_CBR_REMESSA_UUID FROM CRECEBER WHERE FK_VENDA=:VD';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.Open;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   DeletaRemessa(Dados.qryExecute.FieldByName('REMESSA_ARQUIVO').AsString,
     Dados.qryExecute.FieldByName('ID_CBR_REMESSA_UUID').AsString);
@@ -3740,25 +3679,25 @@ begin
   Dados.qryExecute.sql.Text := 'DELETE FROM CAIXA WHERE FKVENDA=:VD';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.sql.Text := 'DELETE FROM CRECEBER WHERE FK_VENDA=:VD';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.sql.Text := 'DELETE FROM PESSOA_CONTA WHERE FKVENDA=:VD';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   Dados.qryExecute.Close;
   Dados.qryExecute.sql.Text := 'DELETE FROM CONTAS_MOVIMENTO WHERE FKVENDA=:VD';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -3775,14 +3714,14 @@ begin
     Dados.qryExecute.Params[1].Value := QtdFiscal;
     Dados.qryExecute.Params[2].Value := codigo;
     Dados.qryExecute.ExecSQL;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 end;
 
 procedure TDados.qryCaixaAfterPost(DataSet: TDataSet);
 begin
 
-  Conexao.CommitRetaining;
+  Confirmar;
 
   Dados.qryTransf.Close;
   Dados.qryTransf.Open;
@@ -3796,7 +3735,7 @@ begin
     Dados.qryTransfDOC.Value := 'TRF.' + Dados.qryCaixaCODIGO.AsString;
     Dados.qryTransfFKPLANO.Value := 0;
     Dados.qryTransfFKCONTA.Value := Dados.qryCaixaFK_CONTA1.Value;
-    Dados.qryTransfHISTORICO.Value := 'TRANSFERENCIA P/ CAIXA N∫' +
+    Dados.qryTransfHISTORICO.Value := 'TRANSFERENCIA P/ CAIXA N¬∫' +
       Dados.qryCaixaFKCONTA.AsString;
     Dados.qryTransfENTRADA.Value := qryCaixaSAIDA.AsFloat;;
     Dados.qryTransfSAIDA.Value := qryCaixaENTRADA.AsFloat;
@@ -3814,7 +3753,7 @@ begin
     Dados.qryTransf.Post;
   end;
 
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryCaixaBeforePost(DataSet: TDataSet);
@@ -3844,12 +3783,12 @@ begin
   qryEmpresaCHECA.Value := Crypt('C', 'PRODUCAO');
   qryEmpresaNSERIE.Value := '...';
   qryEmpresa.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TDados.qryConfigBeforeDelete(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 
 end;
 
@@ -3862,7 +3801,7 @@ procedure TDados.qryConfigCODIGO_ATIVACAOValidate(Sender: TField);
 begin
   if Length(trim(qryConfigCODIGO_ATIVACAO.AsString)) < 8 then
     raise Exception.Create
-      ('Tamanho do cÛdigo de ativaÁ„o n„o pode ter menos de oito caracteres!');
+      ('Tamanho do c√≥digo de ativa√ß√£o n√£o pode ter menos de oito caracteres!');
 end;
 
 procedure TDados.qryConfigNewRecord(DataSet: TDataSet);
@@ -3930,7 +3869,7 @@ begin
     'NFE\enviadas';
   Dados.qryConfigSERIE.Value := '1';
 
-  Dados.qryConfigPESQUISA.Value := 'DESCRI«√O';
+  Dados.qryConfigPESQUISA.Value := 'DESCRI√á√ÉO';
   Dados.qryConfigCLIENTE_PADRAO.Value := 1;
   Dados.qryConfigVENDEDOR_PADRAO.Value := 1;
   Dados.qryConfigCRYPTLIB.Value := '3';
@@ -3947,7 +3886,7 @@ end;
 
 procedure TDados.qryConfiguracaoAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryContasCalcFields(DataSet: TDataSet);
@@ -3966,7 +3905,7 @@ end;
 
 procedure TDados.qryCPAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryCRAfterOpen(DataSet: TDataSet);
@@ -3977,7 +3916,7 @@ end;
 
 procedure TDados.qryCRAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryEmpresaBeforePost(DataSet: TDataSet);
@@ -4012,7 +3951,7 @@ begin
   qryEmpresaCRT.Value := 1;
   qryEmpresaID_PLANO_VENDA.Value := 2;
   qryEmpresaOBSFISCO.Value :=
-    'I - "DOCUMENTO EMITIDO POR ME OU EPP OPTANTE PELO SIMPLES NACIONAL"; e II - "N√O GERA DIREITO A CR…DITO FISCAL DE ISS E DE IPI".';
+    'I - "DOCUMENTO EMITIDO POR ME OU EPP OPTANTE PELO SIMPLES NACIONAL"; e II - "N√ÉO GERA DIREITO A CR√âDITO FISCAL DE ISS E DE IPI".';
   qryEmpresaCFOP.Value := '5102';
   qryEmpresaCSOSN.Value := '102';
   qryEmpresaCST_ICMS.Value := '041';
@@ -4034,7 +3973,7 @@ begin
   qryEmpresaEXIBE_RESUMO_CAIXA.Value := 'S';
   qryEmpresaRECOLHE_FCP.Value := 'N';
   qryEmpresaRECIBO_VIAS.Value := '1';
-  qryEmpresaOBS_CARNE.Value := 'OBRIGADO PELA PREFER NCIA!';
+  qryEmpresaOBS_CARNE.Value := 'OBRIGADO PELA PREFER√äNCIA!';
   qryEmpresaCAIXA_UNICO.Value := 'N';
   qryEmpresaCHECA_ESTOQUE_FISCAL.Value := 'S';
   qryEmpresaBLOQUEAR_PRECO.Value := 'N';
@@ -4059,7 +3998,7 @@ end;
 
 procedure TDados.qryEtiquetaAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryEtiquetaNewRecord(DataSet: TDataSet);
@@ -4071,7 +4010,7 @@ end;
 
 procedure TDados.qryEtq_CamposAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryEtq_CamposBeforeInsert(DataSet: TDataSet);
@@ -4084,22 +4023,22 @@ end;
 
 procedure TDados.qryEtq_CamposBeforePost(DataSet: TDataSet);
 begin
-  if qryEtq_CamposDESCRICAO.Value = 'C”DIGO' then
+  if qryEtq_CamposDESCRICAO.Value = 'C√ìDIGO' then
     qryEtq_CamposCAMPO.Value := 'FK_PRODUTO';
 
-  if qryEtq_CamposDESCRICAO.Value = 'DESCRI«√O' then
+  if qryEtq_CamposDESCRICAO.Value = 'DESCRI√á√ÉO' then
     qryEtq_CamposCAMPO.Value := 'DESCRICAO';
 
-  if qryEtq_CamposDESCRICAO.Value = 'C”DIGO DE BARRA' then
+  if qryEtq_CamposDESCRICAO.Value = 'C√ìDIGO DE BARRA' then
     qryEtq_CamposCAMPO.Value := 'CODBARRA';
 
-  if qryEtq_CamposDESCRICAO.Value = 'REFER NCIA' then
+  if qryEtq_CamposDESCRICAO.Value = 'REFER√äNCIA' then
     qryEtq_CamposCAMPO.Value := 'REFERENCIA';
 
-  if qryEtq_CamposDESCRICAO.Value = 'PRE«O' then
+  if qryEtq_CamposDESCRICAO.Value = 'PRE√áO' then
     qryEtq_CamposCAMPO.Value := 'PR_VENDA';
 
-  if qryEtq_CamposDESCRICAO.Value = 'PRE«O ATACADO' then
+  if qryEtq_CamposDESCRICAO.Value = 'PRE√áO ATACADO' then
     qryEtq_CamposCAMPO.Value := 'PRECO_ATACADO';
 
   if qryEtq_CamposDESCRICAO.Value = 'UNIDADE' then
@@ -4108,7 +4047,7 @@ begin
   if qryEtq_CamposDESCRICAO.Value = 'GRUPO' then
     qryEtq_CamposCAMPO.Value := 'GRUPO';
 
-  if qryEtq_CamposDESCRICAO.Value = 'LOCALIZA«√O' then
+  if qryEtq_CamposDESCRICAO.Value = 'LOCALIZA√á√ÉO' then
     qryEtq_CamposCAMPO.Value := 'LOCALIZACAO';
 
 end;
@@ -4135,7 +4074,7 @@ begin
 
     qryAjustaPrecoPR_CUSTO.Value := preco;
 
-    { TODO -oUdados -cAjustaPreco :18-07-2019 - funÁ„o simpleroundto para gravar duas casas decimais no campo }
+    { TODO -oUdados -cAjustaPreco :18-07-2019 - fun√ß√£o simpleroundto para gravar duas casas decimais no campo }
 
     qryAjustaPrecoPR_CUSTO2.AsFloat :=
       SimpleRoundTo(qryAjustaPrecoPR_CUSTO.AsFloat +
@@ -4150,29 +4089,29 @@ begin
 
     qryAjustaPreco.FieldByName('ULT_COMPRA').Value := compra;
     qryAjustaPreco.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     if qryAjustaPrecoPR_VENDA.AsFloat <> vPrecoAnterior then
       AlteraDataPreco(qryAjustaPrecoCODIGO.AsInteger);
 
   except
-    Dados.Conexao.RollbackRetaining;
+    Dados.Desfazer;
   end;
 end;
 
 procedure TDados.qryFichaClienteAfterDelete(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TDados.qryFichaClienteAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TDados.qryFPGAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryFPGBeforePost(DataSet: TDataSet);
@@ -4190,7 +4129,7 @@ end;
 
 procedure TDados.qryGrupoAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryGrupoBeforePost(DataSet: TDataSet);
@@ -4203,7 +4142,7 @@ end;
 
 procedure TDados.qryIdiomasAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryIdiomasNewRecord(DataSet: TDataSet);
@@ -4213,7 +4152,7 @@ end;
 
 procedure TDados.qryItensCompraAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryItensCompraBeforeOpen(DataSet: TDataSet);
@@ -4246,12 +4185,12 @@ end;
 
 procedure TDados.qryMotoristaAfterDelete(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryMotoristaAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryMotoristaBeforeInsert(DataSet: TDataSet);
@@ -4289,12 +4228,12 @@ end;
 
 procedure TDados.qryNFCE_MAfterDelete(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryNFCE_MAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryNFCE_MBeforePost(DataSet: TDataSet);
@@ -4316,12 +4255,12 @@ end;
 
 procedure TDados.qryParametroAfterDelete(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryParametroAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryParametroBeforeEdit(DataSet: TDataSet);
@@ -4361,7 +4300,7 @@ begin
     Dados.qryAtualiza.ParamByName('COD').Value := Dados.qryEmpresaCODIGO.Value;
     Dados.qryAtualiza.Prepare;
     Dados.qryAtualiza.ExecSQL;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     on e: Exception do
       raise Exception.Create(e.Message);
@@ -4371,20 +4310,18 @@ end;
 
 procedure TDados.qryPermissoesAfterDelete(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryPermissoesAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryPessoasAfterPost(DataSet: TDataSet);
-var
-  aTask: ITask;
 begin
 
-  Conexao.CommitRetaining;
+  Confirmar;
 
   if TiraPontos(Dados.qryEmpresaCNPJ.Value) <> '24397931000133' then
     exit;
@@ -4431,7 +4368,7 @@ end;
 
 procedure TDados.qryPlanoAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryProdutosBeforeOpen(DataSet: TDataSet);
@@ -4449,8 +4386,8 @@ end;
 procedure TDados.qryProdutosCFOPValidate(Sender: TField);
 begin
   if Length(qryProdutosCFOP.Value) <> 4 then
-    raise Exception.Create('CFOP inv·lido!' + #13 +
-      'Em caso de d˙vida entre em contato com seu contador!');
+    raise Exception.Create('CFOP inv√°lido!' + #13 +
+      'Em caso de d√∫vida entre em contato com seu contador!');
 
 end;
 
@@ -4469,8 +4406,8 @@ begin
       ;
   else
     begin
-      raise Exception.Create('CSOSN inv·lido!' + #13 +
-        'Em caso de d˙vida entre em contato com seu contador!');
+      raise Exception.Create('CSOSN inv√°lido!' + #13 +
+        'Em caso de d√∫vida entre em contato com seu contador!');
     end;
 
   end;
@@ -4480,16 +4417,16 @@ end;
 procedure TDados.qryProdutosCSTICMSValidate(Sender: TField);
 begin
   if Length(qryProdutosCSTICMS.Value) <> 3 then
-    raise Exception.Create('CST inv·lido. o CST deve ter 3 n˙mero!' + #13 +
-      'Em caso de d˙vida entre em contato com seu contador!');
+    raise Exception.Create('CST inv√°lido. o CST deve ter 3 n√∫mero!' + #13 +
+      'Em caso de d√∫vida entre em contato com seu contador!');
 
 end;
 
 procedure TDados.qryProdutosNCMValidate(Sender: TField);
 begin
   if Length(qryProdutosNCM.Value) <> 8 then
-    raise Exception.Create('NCM inv·lido. O NCM deve ter 8 n˙meros!' + #13 +
-      'Em caso de d˙vida entre em contato com seu contador!');
+    raise Exception.Create('NCM inv√°lido. O NCM deve ter 8 n√∫meros!' + #13 +
+      'Em caso de d√∫vida entre em contato com seu contador!');
 
 end;
 
@@ -4513,12 +4450,12 @@ end;
 
 procedure TDados.qryTelasAfterDelete(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryTelasAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryTerminalNewRecord(DataSet: TDataSet);
@@ -4536,7 +4473,7 @@ end;
 
 procedure TDados.qryTranspAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryTranspBeforePost(DataSet: TDataSet);
@@ -4558,18 +4495,18 @@ end;
 procedure TDados.qryVendedorAfterPost(DataSet: TDataSet);
 begin
 
-  Conexao.CommitRetaining;
+  Confirmar;
 
 end;
 
 procedure TDados.qryXMLProdutoAfterDelete(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 procedure TDados.qryXMLProdutoAfterPost(DataSet: TDataSet);
 begin
-  Conexao.CommitRetaining;
+  Confirmar;
 end;
 
 Procedure TDados.serial;
@@ -4668,7 +4605,7 @@ begin
     'update creceber set flag=''N'' where fkcliente=:id';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -4680,7 +4617,7 @@ begin
     'update cpagar set flag=''N'' where FKFORNECE=:id';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -4708,7 +4645,7 @@ begin
   if not qryConsulta.IsEmpty then
     Result := qryConsulta.Fields[0].AsInteger
   else
-    raise Exception.Create('Produto n„o encontrado!');
+    raise Exception.Create('Produto n√£o encontrado!');
 end;
 
 procedure TDados.InsereCaixa(Empresa, IDCR, FKPLANO, FKCONTA,
@@ -4821,7 +4758,7 @@ begin
 end;
 
 
-function TDados.ProcessoRodando (sExeName: String) : Boolean;      // N„o precisa passar o caminho, sÛ o nome do exe
+function TDados.ProcessoRodando (sExeName: String) : Boolean;      // N√£o precisa passar o caminho, s√≥ o nome do exe
 var
    hSnapShot : THandle;
    ProcessEntry32 : TProcessEntry32;
@@ -4855,7 +4792,7 @@ var
    hSnapShot : THandle;
    ProcessEntry32 : TProcessEntry32;
    Handle: THandle;
-   Programa : PWideChar;
+   Programa : PChar;
 begin
   Programa :=  pchar(sCaminho + sExename);
   ShellExecute(Handle, 'open',
@@ -4890,7 +4827,7 @@ end;
 function TDados.ChecaServidorRest:boolean;
 begin
  if not ProcessoRodando('ServidorRest.exe') then begin
- // if application.messagebox('Servidor de dados n„o est· em execuÁ„o. Tentaremos iniciar autom·ticamente, ok?',
+ // if application.messagebox('Servidor de dados n√£o est√° em execu√ß√£o. Tentaremos iniciar autom√°ticamente, ok?',
  //   'Confirmar', mb_yesno + mb_iconquestion) = 6 Then
  // begin
      ExecutaNormal('ServidorRest.exe', 'm', ExtractFilePath(Application.ExeName));
@@ -4901,7 +4838,7 @@ begin
  // else
  // begin
 //  if not ProcessoRodando('ServidorRest.exe') then
- //   ShowMessage('A aplicaÁ„o sÛ pode ser iniciada caso o servidor de dados esteja em execuÁ„o.');
+ //   ShowMessage('A aplica√ß√£o s√≥ pode ser iniciada caso o servidor de dados esteja em execu√ß√£o.');
  //   Application.Terminate;
   end;
 end;

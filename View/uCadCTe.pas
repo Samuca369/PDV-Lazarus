@@ -899,12 +899,12 @@ end;
 
 procedure TfrmCadCTe.QryFaturaAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCTe.QryFaturaAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 function TfrmCadCTe.ValidaNegocios: boolean;
@@ -1009,7 +1009,7 @@ begin
       qryCTE_M.Edit;
       qryCTE_MSITUACAO.Value := 'D';
       qryCTE_M.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       exit;
     end;
   end;
@@ -1283,7 +1283,7 @@ end;
 
 procedure TfrmCadCTe.qryCTE_DAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCTe.qryCTE_DAfterEdit(DataSet: TDataSet);
@@ -1300,7 +1300,7 @@ end;
 
 procedure TfrmCadCTe.qryCTE_DAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -1329,7 +1329,7 @@ end;
 
 procedure TfrmCadCTe.qryCTE_MAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCTe.qryCTE_MAfterOpen(DataSet: TDataSet);
@@ -1348,7 +1348,7 @@ end;
 
 procedure TfrmCadCTe.qryCTE_MAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCTe.qryCTE_MALIQUOTA_ICMSChange(Sender: TField);
@@ -1407,19 +1407,19 @@ end;
 
 procedure TfrmCadCTe.qryCte_SeguradoraAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCTe.qryCte_SeguradoraAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCTe.qryCte_SeguradoraBeforeInsert(DataSet: TDataSet);
 begin
   if qryCTE_M.State in dsEditmodes then
     qryCTE_M.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCTe.qryCte_SeguradoraBeforePost(DataSet: TDataSet);

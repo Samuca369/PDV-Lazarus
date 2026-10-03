@@ -597,7 +597,7 @@ end;
 
 procedure TfrmCadCompra.qryCompraAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCompra.qryCompraBeforePost(DataSet: TDataSet);
@@ -729,13 +729,13 @@ end;
 
 procedure TfrmCadCompra.qryItensCompraAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
 end;
 
 procedure TfrmCadCompra.qryItensCompraAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
   vLetras := '';
   qryProd.Filtered := false;
@@ -800,7 +800,7 @@ begin
               dados.qryExecute.Params[2].Value := qryCompraID.AsInteger;
               dados.qryExecute.Params[3].Value := Imposto.ICMS.vBCST;
               dados.qryExecute.ExecSQL;
-              dados.Conexao.CommitRetaining;
+              Dados.Confirmar;
             end;
           end;
         end;
@@ -1091,14 +1091,14 @@ begin
             dados.qryExecute.SQL.Text := 'DELETE FROM CAIXA WHERE FKCOMPRA=:ID';
             dados.qryExecute.Params[0].Value := dados.qryCompraID.Value;
             dados.qryExecute.ExecSQL;
-            dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
 
             dados.qryExecute.Close;
             dados.qryExecute.SQL.Text :=
               'DELETE FROM CPAGAR WHERE FK_COMPRA=:ID';
             dados.qryExecute.Params[0].Value := dados.qryCompraID.Value;
             dados.qryExecute.ExecSQL;
-            dados.Conexao.CommitRetaining;
+            Dados.Confirmar;
 
             frmCPParcela := tfrmCPParcela.Create(Application);
             frmCPParcela.edtParcela.Text := '1';
@@ -1540,7 +1540,7 @@ begin
   dados.qryupdate.ParamByName('VL_ITEM').AsFloat := vQtd * FPrecoCusto;
   dados.qryupdate.Prepare;
   dados.qryupdate.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   // dados.AtualizaEstoque(vQtd, dados.qryupdate.ParamByName('FK_PRODUTO').Value);
 

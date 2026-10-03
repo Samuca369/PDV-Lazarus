@@ -3,20 +3,20 @@
 // unit:   uEnums
 // Classe: TCEnums
 //
-// Data de criaÁ„o  : 10/05/2019
+// Data de cria√ß√£o  : 10/05/2019
 // Autor            :
-// DescriÁ„o        : Classe contendo estrutura de Enum para todos Retornos
-// da dll de integraÁ„o Pay&Go
+// Descri√ß√£o        : Classe contendo estrutura de Enum para todos Retornos
+// da dll de integra√ß√£o Pay&Go
 // *****************************************************************************/
 unit uEnums;
+
+{$mode delphi}{$H+}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, System.StrUtils, System.AnsiStrings,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  System.Types, System.TypInfo;
+  Windows, Messages, SysUtils, Variants, Classes, StrUtils, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, Types, TypInfo;
 
 type
 
@@ -30,7 +30,7 @@ type
 
 
     // ==========================================================================================
-    // DefiniÁ„o da vers„o do aplicativo
+    // Defini√ß√£o da vers√£o do aplicativo
     // ==========================================================================================
 
     PGWEBLIBTEST_VERSION = '2.0.1';
@@ -40,43 +40,43 @@ type
     PGWEBLIBTEST_AUTHTECHUSER = 'PRODOSISTEMA';
 
     // ==========================================================================================
-    // CÛdigos de ConfirmaÁ„o de TransaÁ„o
+    // C√≥digos de Confirma√ß√£o de Transa√ß√£o
     // ==========================================================================================
     PWCNF_CNF_AUTO = 289;
-    // A transaÁ„o foi confirmada pelo Ponto de Captura, sem intervenÁ„o do usu·rio.
+    // A transa√ß√£o foi confirmada pelo Ponto de Captura, sem interven√ß√£o do usu√°rio.
     PWCNF_CNF_MANU_AUT = 12833;
-    // A transaÁ„o foi confirmada manualmente na AutomaÁ„o.*/
+    // A transa√ß√£o foi confirmada manualmente na Automa√ß√£o.*/
     PWCNF_REV_MANU_AUT = 12849;
-    // A transaÁ„o foi desfeita manualmente na AutomaÁ„o.*/
+    // A transa√ß√£o foi desfeita manualmente na Automa√ß√£o.*/
     PWCNF_REV_PRN_AUT = 78129;
-    // A transaÁ„o foi desfeita pela AutomaÁ„o, devido a uma falha na impress„o do comprovante (n„o fiscal). A priori, n„o usar. Falhas na impress„o n„o devem gerar desfazimento, deve ser solicitada a reimpress„o da transaÁ„o.*/
+    // A transa√ß√£o foi desfeita pela Automa√ß√£o, devido a uma falha na impress√£o do comprovante (n√£o fiscal). A priori, n√£o usar. Falhas na impress√£o n√£o devem gerar desfazimento, deve ser solicitada a reimpress√£o da transa√ß√£o.*/
     PWCNF_REV_DISP_AUT = 143665;
-    // A transaÁ„o foi desfeita pela AutomaÁ„o, devido a uma falha no mecanismo de liberaÁ„o da mercadoria.*/
+    // A transa√ß√£o foi desfeita pela Automa√ß√£o, devido a uma falha no mecanismo de libera√ß√£o da mercadoria.*/
     PWCNF_REV_COMM_AUT = 209201;
-    // A transaÁ„o foi desfeita pela AutomaÁ„o, devido a uma falha de comunicaÁ„o/integraÁ„o com o ponto de captura (Cliente Muxx).*/
+    // A transa√ß√£o foi desfeita pela Automa√ß√£o, devido a uma falha de comunica√ß√£o/integra√ß√£o com o ponto de captura (Cliente Muxx).*/
     PWCNF_REV_ABORT = 274737;
-    // A transaÁ„o n„o foi finalizada, foi interrompida durante a captura de dados.*/
+    // A transa√ß√£o n√£o foi finalizada, foi interrompida durante a captura de dados.*/
     PWCNF_REV_OTHER_AUT = 471345;
-    // A transaÁ„o foi desfeita a pedido da AutomaÁ„o, por um outro motivo n„o previsto.*/
+    // A transa√ß√£o foi desfeita a pedido da Automa√ß√£o, por um outro motivo n√£o previsto.*/
     PWCNF_REV_PWR_AUT = 536881;
-    // A transaÁ„o foi desfeita automaticamente pela AutomaÁ„o, devido a uma queda de energia (reinÌcio abrupto do sistema).*/
+    // A transa√ß√£o foi desfeita automaticamente pela Automa√ß√£o, devido a uma queda de energia (rein√≠cio abrupto do sistema).*/
     PWCNF_REV_FISC_AUT = 602417;
-    // A transaÁ„o foi desfeita automaticamente pela AutomaÁ„o, devido a uma falha de registro no sistema fiscal (impressora S@T, on-line, etc.).*/
+    // A transa√ß√£o foi desfeita automaticamente pela Automa√ß√£o, devido a uma falha de registro no sistema fiscal (impressora S@T, on-line, etc.).*/
 
     // =========================================================================================
-    // Tipos de evento a serem ativados para monitoraÁ„o no PIN-pad
+    // Tipos de evento a serem ativados para monitora√ß√£o no PIN-pad
     // ==========================================================================================
     PWPPEVTIN_KEYS = 1; // Acionamento de teclas
-    PWPPEVTIN_MAG = 2; // Passagem de cart„o magnÈtico
-    PWPPEVTIN_ICC = 4; // InserÁ„o de cart„o com chip.
-    PWPPEVTIN_CTLS = 8; // AproximaÁ„o de um cart„o sem contato
+    PWPPEVTIN_MAG = 2; // Passagem de cart√£o magn√©tico
+    PWPPEVTIN_ICC = 4; // Inser√ß√£o de cart√£o com chip.
+    PWPPEVTIN_CTLS = 8; // Aproxima√ß√£o de um cart√£o sem contato
 
     // ==========================================================================================
     // Tipos de evento retornados pelo PIN-pad
     // ==========================================================================================
-    PWPPEVT_MAGSTRIPE = 1; // 01h Foi passado um cart„o magnÈtico.
-    PWPPEVT_ICC = 2; // 02h Foi detectada a presenÁa de um cart„o com chip.
-    PWPPEVT_CTLS = 3; // 03h Foi detectada a presenÁa de um cart„o sem contato.
+    PWPPEVT_MAGSTRIPE = 1; // 01h Foi passado um cart√£o magn√©tico.
+    PWPPEVT_ICC = 2; // 02h Foi detectada a presen√ßa de um cart√£o com chip.
+    PWPPEVT_CTLS = 3; // 03h Foi detectada a presen√ßa de um cart√£o sem contato.
     PWPPEVT_KEYCONF = 17; // 11h Foi pressionada a tecla [OK].
     PWPPEVT_KEYBACKSP = 18; // 12h Foi pressionada a tecla [CORRIGE].
     PWPPEVT_KEYCANC = 19; // 13h Foi pressionada a tecla [CANCELA].
@@ -86,297 +86,297 @@ type
     PWPPEVT_KEYF4 = 36; // 24h Foi pressionada a tecla [F4].
 
     // ==========================================================================================
-    // N˙mero maximo de itens em um menu de seleÁ„o
+    // N√∫mero maximo de itens em um menu de sele√ß√£o
     // ==========================================================================================
     PWMENU_MAXINTENS = 40;
 
     // ==========================================================================================
-    // Tabela de CÛdigos de retorno das transaÁıes
+    // Tabela de C√≥digos de retorno das transa√ß√µes
     // ==========================================================================================
-    PWOPER_NULL = 0; // Testa comunicaÁ„o com a infraestrutura do Pay&Go Web
+    PWOPER_NULL = 0; // Testa comunica√ß√£o com a infraestrutura do Pay&Go Web
     PWOPER_INSTALL = 1;
-    // Registra o Ponto de Captura perante a infraestrutura do Pay&Go Web, para que seja autorizado a realizar transaÁıes
+    // Registra o Ponto de Captura perante a infraestrutura do Pay&Go Web, para que seja autorizado a realizar transa√ß√µes
     PWOPER_PARAMUPD = 2;
-    // ObtÈm da infraestrutura do Pay&Go Web os par‚metros de operaÁ„o atualizados do Ponto de Captura.
-    PWOPER_REPRINT = 16; // ObtÈm o ˙ltimo comprovante gerado por uma transaÁ„o
+    // Obt√©m da infraestrutura do Pay&Go Web os par√¢metros de opera√ß√£o atualizados do Ponto de Captura.
+    PWOPER_REPRINT = 16; // Obt√©m o √∫ltimo comprovante gerado por uma transa√ß√£o
     PWOPER_RPTTRUNC = 17;
-    // ObtÈm um relatÛrio sintÈtico das transaÁıes realizadas desde a ˙ltima obtenÁ„o deste relatÛrio
+    // Obt√©m um relat√≥rio sint√©tico das transa√ß√µes realizadas desde a √∫ltima obten√ß√£o deste relat√≥rio
     PWOPER_RPTDETAIL = 18;
-    // RelatÛrio detalhado das transaÁıes realizadas na data informada, ou data atual.
+    // Relat√≥rio detalhado das transa√ß√µes realizadas na data informada, ou data atual.
     PWOPER_ADMIN = 32;
-    // Acessa qualquer transaÁ„o que n„o seja disponibilizada pelo comando PWOPER_SALE. Um menu È apresentado para o operador selecionar a transaÁ„o desejada.
+    // Acessa qualquer transa√ß√£o que n√£o seja disponibilizada pelo comando PWOPER_SALE. Um menu √© apresentado para o operador selecionar a transa√ß√£o desejada.
     PWOPER_SALE = 33;
-    // (Venda) Realiza o pagamento de mercadorias e/ou serviÁos vendidos pelo Estabelecimento ao Cliente (tipicamente, com cart„o de crÈdito/dÈbito), transferindo fundos entre as respectivas contas.
+    // (Venda) Realiza o pagamento de mercadorias e/ou servi√ßos vendidos pelo Estabelecimento ao Cliente (tipicamente, com cart√£o de cr√©dito/d√©bito), transferindo fundos entre as respectivas contas.
     PWOPER_SALEVOID = 34;
-    // (Cancelamento de venda) Cancela uma transaÁ„o PWOPER_SALE, realizando a transferÍncia de fundos inversa
+    // (Cancelamento de venda) Cancela uma transa√ß√£o PWOPER_SALE, realizando a transfer√™ncia de fundos inversa
     PWOPER_PREPAID = 35;
-    // Realiza a aquisiÁ„o de crÈditos prÈ-pagos (por exemplo, recarga de celular).
+    // Realiza a aquisi√ß√£o de cr√©ditos pr√©-pagos (por exemplo, recarga de celular).
     PWOPER_CHECKINQ = 36; // Consulta a validade de um cheque papel
     PWOPER_RETBALINQ = 37;
-    // Consulta o saldo/limite do Estabelecimento (tipicamente, limite de crÈdito para venda de crÈditos prÈ-pagos).
-    PWOPER_CRDBALINQ = 38; // Consulta o saldo do cart„o do Cliente
+    // Consulta o saldo/limite do Estabelecimento (tipicamente, limite de cr√©dito para venda de cr√©ditos pr√©-pagos).
+    PWOPER_CRDBALINQ = 38; // Consulta o saldo do cart√£o do Cliente
     PWOPER_INITIALIZ = 39;
-    // (InicializaÁ„o/abertura) Inicializa a operaÁ„o junto ao Provedor e/ou obtÈm/atualiza os par‚metros de operaÁ„o mantidos por este
+    // (Inicializa√ß√£o/abertura) Inicializa a opera√ß√£o junto ao Provedor e/ou obt√©m/atualiza os par√¢metros de opera√ß√£o mantidos por este
     PWOPER_SETTLEMNT = 40;
-    // (Fechamento/finalizaÁ„o) Finaliza a operaÁ„o junto ao Provedor
+    // (Fechamento/finaliza√ß√£o) Finaliza a opera√ß√£o junto ao Provedor
     PWOPER_PREAUTH = 41;
-    // (PrÈ-autorizaÁ„o) Reserva o valor correspondente a uma venda no limite do cart„o de crÈdito de um Cliente, porÈm sem efetivar a transferÍncia de fundos.
+    // (Pr√©-autoriza√ß√£o) Reserva o valor correspondente a uma venda no limite do cart√£o de cr√©dito de um Cliente, por√©m sem efetivar a transfer√™ncia de fundos.
     PWOPER_PREAUTVOID = 42;
-    // (Cancelamento de prÈ-autorizaÁ„o) Cancela uma transaÁ„o PWOPER_PREAUTH, liberando o valor reservado no limite do cart„o de crÈdito
+    // (Cancelamento de pr√©-autoriza√ß√£o) Cancela uma transa√ß√£o PWOPER_PREAUTH, liberando o valor reservado no limite do cart√£o de cr√©dito
     PWOPER_CASHWDRWL = 43;
-    // (Saque) Registra a retirada de um valor em espÈcie pelo Cliente no Estabelecimento, para transferÍncia de fundos nas respectivas contas
+    // (Saque) Registra a retirada de um valor em esp√©cie pelo Cliente no Estabelecimento, para transfer√™ncia de fundos nas respectivas contas
     PWOPER_LOCALMAINT = 44;
-    // (Baixa tÈcnica) Registra uma intervenÁ„o tÈcnica no estabelecimento perante o Provedor.
+    // (Baixa t√©cnica) Registra uma interven√ß√£o t√©cnica no estabelecimento perante o Provedor.
     PWOPER_FINANCINQ = 45;
-    // Consulta as taxas de financiamento referentes a uma possÌvel venda parcelada, sem efetivar a transferÍncia de fundos ou impactar o limite de crÈdito do Cliente
-    PWOPER_ADDRVERIF = 46; // Verifica junto ao Provedor o endereÁo do Cliente
+    // Consulta as taxas de financiamento referentes a uma poss√≠vel venda parcelada, sem efetivar a transfer√™ncia de fundos ou impactar o limite de cr√©dito do Cliente
+    PWOPER_ADDRVERIF = 46; // Verifica junto ao Provedor o endere√ßo do Cliente
     PWOPER_SALEPRE = 47;
-    // Efetiva uma prÈ-autorizaÁ„o (PWOPER_PREAUTH), previamente realizada, realizando a transferÍncia de fundos entre as contas do Estabelecimento e do Cliente
+    // Efetiva uma pr√©-autoriza√ß√£o (PWOPER_PREAUTH), previamente realizada, realizando a transfer√™ncia de fundos entre as contas do Estabelecimento e do Cliente
     PWOPER_LOYCREDIT = 48;
-    // Registra o ac˙mulo de pontos pelo Cliente, a partir de um programa de fidelidade.
-    PWOPER_LOYCREDVOID = 49; // Cancela uma transaÁ„o PWOPER_LOYCREDIT
+    // Registra o ac√∫mulo de pontos pelo Cliente, a partir de um programa de fidelidade.
+    PWOPER_LOYCREDVOID = 49; // Cancela uma transa√ß√£o PWOPER_LOYCREDIT
     PWOPER_LOYDEBIT = 50;
-    // Registra o resgate de pontos/prÍmio pelo Cliente, a partir de um programa de fidelidade.
-    PWOPER_LOYDEBVOID = 51; // Cancela uma transaÁ„o PWOPER_LOYDEBIT
+    // Registra o resgate de pontos/pr√™mio pelo Cliente, a partir de um programa de fidelidade.
+    PWOPER_LOYDEBVOID = 51; // Cancela uma transa√ß√£o PWOPER_LOYDEBIT
     PWOPER_VOID = 57;
-    // Exibe um menu com os cancelamentos disponÌveis, caso sÛ exista um tipo, este È selecionado automaticamente
+    // Exibe um menu com os cancelamentos dispon√≠veis, caso s√≥ exista um tipo, este √© selecionado automaticamente
     PWOPER_VERSION = 252;
-    // (Vers„o) Permite consultar a vers„o da biblioteca atualmente em uso.
+    // (Vers√£o) Permite consultar a vers√£o da biblioteca atualmente em uso.
     PWOPER_CONFIG = 253;
-    // (ConfiguraÁ„o) Visualiza e altera os par‚metros de operaÁ„o locais da biblioteca
+    // (Configura√ß√£o) Visualiza e altera os par√¢metros de opera√ß√£o locais da biblioteca
     PWOPER_MAINTENANCE = 254;
-    // (ManutenÁ„o) Apaga todas as configuraÁıes do Ponto de Captura, devendo ser novamente realizada uma transaÁ„o de InstalaÁ„o.
+    // (Manuten√ß√£o) Apaga todas as configura√ß√µes do Ponto de Captura, devendo ser novamente realizada uma transa√ß√£o de Instala√ß√£o.
 
     // ==========================================================================================
-    // Tipos de dados que podem ser informados pela AutomaÁ„o
+    // Tipos de dados que podem ser informados pela Automa√ß√£o
     // ==========================================================================================
     PWINFO_OPERATION = 2;
-    // Tipo de transaÁ„o (PWOPER_xxx). Consultar os valores possÌveis na descriÁ„o da funÁ„o PW_iNewTransac
+    // Tipo de transa√ß√£o (PWOPER_xxx). Consultar os valores poss√≠veis na descri√ß√£o da fun√ß√£o PW_iNewTransac
     PWINFO_POSID = 17; // Identificador do Ponto de Captura.
-    PWINFO_AUTNAME = 21; // Nome do aplicativo de AutomaÁ„o
-    PWINFO_AUTVER = 22; // Vers„o do aplicativo de AutomaÁ„o
-    PWINFO_AUTDEV = 23; // Empresa desenvolvedora do aplicativo de AutomaÁ„o.
+    PWINFO_AUTNAME = 21; // Nome do aplicativo de Automa√ß√£o
+    PWINFO_AUTVER = 22; // Vers√£o do aplicativo de Automa√ß√£o
+    PWINFO_AUTDEV = 23; // Empresa desenvolvedora do aplicativo de Automa√ß√£o.
     PWINFO_DESTTCPIP = 27;
-    // EndereÁo TCP/IP para comunicaÁ„o com a infraestrutura Pay&Go Web, no formato <endereÁo IP>:<porta TCP> ou <nome do servidor>:<porta TCP>
+    // Endere√ßo TCP/IP para comunica√ß√£o com a infraestrutura Pay&Go Web, no formato <endere√ßo IP>:<porta TCP> ou <nome do servidor>:<porta TCP>
     PWINFO_MERCHCNPJCPF = 28;
-    // CNPJ (ou CPF) do Estabelecimento, sem formataÁ„o. No caso de estarem sendo utilizadas afiliaÁıes de mais de um estabelecimento, este dado pode ser adicionado pela automaÁ„o para selecionar previamente o estabelecimento a ser utilizado para determinada transaÁ„o. Caso este dado n„o seja informado, ser· solicitada a exibiÁ„o de um menu para a escolha dentre os v·rios estabelecimentos disponÌveis.
+    // CNPJ (ou CPF) do Estabelecimento, sem formata√ß√£o. No caso de estarem sendo utilizadas afilia√ß√µes de mais de um estabelecimento, este dado pode ser adicionado pela automa√ß√£o para selecionar previamente o estabelecimento a ser utilizado para determinada transa√ß√£o. Caso este dado n√£o seja informado, ser√° solicitada a exibi√ß√£o de um menu para a escolha dentre os v√°rios estabelecimentos dispon√≠veis.
     PWINFO_AUTCAP = 36;
-    // Capacidades da AutomaÁ„o (soma dos valores abaixo): 1: funcionalidade de troco/saque; 2: funcionalidade de desconto; 4: valor fixo, sempre incluir; 8: impress„o das vias diferenciadas do comprovante para Cliente/Estabelecimento; 16: impress„o do cupom reduzido. 32: utilizaÁ„o de saldo total do voucher para abatimento do valor da compra.
+    // Capacidades da Automa√ß√£o (soma dos valores abaixo): 1: funcionalidade de troco/saque; 2: funcionalidade de desconto; 4: valor fixo, sempre incluir; 8: impress√£o das vias diferenciadas do comprovante para Cliente/Estabelecimento; 16: impress√£o do cupom reduzido. 32: utiliza√ß√£o de saldo total do voucher para abatimento do valor da compra.
     PWINFO_TOTAMNT = 37;
-    // Valor total da operaÁ„o, considerando PWINFO_CURREXP (em centavos se igual a 2), incluindo desconto, saque, gorjeta, taxa de embarque, etc.
-    PWINFO_CURRENCY = 38; // Moeda (padr„o ISO4217, 986 para o Real)
+    // Valor total da opera√ß√£o, considerando PWINFO_CURREXP (em centavos se igual a 2), incluindo desconto, saque, gorjeta, taxa de embarque, etc.
+    PWINFO_CURRENCY = 38; // Moeda (padr√£o ISO4217, 986 para o Real)
     PWINFO_CURREXP = 39; // Expoente da moeda (2 para centavos)
     PWINFO_FISCALREF = 40; // Identificador do documento fiscal
     PWINFO_CARDTYPE = 41;
-    // Tipo de cart„o utilizado (PW_iGetResult), ou tipos de cart„o aceitos (soma dos valores abaixo, PW_iAddParam): 1: crÈdito 2: dÈbito 4: voucher/PAT 8: outros
+    // Tipo de cart√£o utilizado (PW_iGetResult), ou tipos de cart√£o aceitos (soma dos valores abaixo, PW_iAddParam): 1: cr√©dito 2: d√©bito 4: voucher/PAT 8: outros
     PWINFO_PRODUCTNAME = 42;
     // Nome/tipo do produto utilizado, na nomenclatura do Provedor.
     PWINFO_DATETIME = 49;
-    // Data e hora local da transaÁ„o, no formato ìAAAAMMDDhhmmssî
-    PWINFO_REQNUM = 50; // ReferÍncia local da transaÁ„o
+    // Data e hora local da transa√ß√£o, no formato ‚ÄúAAAAMMDDhhmmss‚Äù
+    PWINFO_REQNUM = 50; // Refer√™ncia local da transa√ß√£o
     PWINFO_AUTHSYST = 53;
-    // Nome do Provedor: ìELAVONî; ìFILLIPî; ìLIBERCARDî; ìRVî; etc
+    // Nome do Provedor: ‚ÄúELAVON‚Äù; ‚ÄúFILLIP‚Äù; ‚ÄúLIBERCARD‚Äù; ‚ÄúRV‚Äù; etc
     PWINFO_VIRTMERCH = 54; // Identificador do Estabelecimento
     PWINFO_AUTMERCHID = 56;
-    // Identificador do estabelecimento para o Provedor (cÛdigo de afiliaÁ„o).
+    // Identificador do estabelecimento para o Provedor (c√≥digo de afilia√ß√£o).
     PWINFO_PHONEFULLNO = 58;
-    // N˙mero do telefone, com o DDD (10 ou 11 dÌgitos).
+    // N√∫mero do telefone, com o DDD (10 ou 11 d√≠gitos).
     PWINFO_FINTYPE = 59;
-    // Modalidade de financiamento da transaÁ„o: 1: ‡ vista 2: parcelado pelo emissor 4: parcelado pelo estabelecimento 8: prÈ-datado
+    // Modalidade de financiamento da transa√ß√£o: 1: √† vista 2: parcelado pelo emissor 4: parcelado pelo estabelecimento 8: pr√©-datado
     PWINFO_INSTALLMENTS = 60; // Quantidade de parcelas
     PWINFO_INSTALLMDATE = 61;
-    // Data de vencimento do prÈ-datado, ou da primeira parcela. Formato ìDDMMAA
+    // Data de vencimento do pr√©-datado, ou da primeira parcela. Formato ‚ÄúDDMMAA
     PWINFO_PRODUCTID = 62;
-    // IdentificaÁ„o do produto utilizado, de acordo com a nomenclatura do Provedor.
+    // Identifica√ß√£o do produto utilizado, de acordo com a nomenclatura do Provedor.
     PWINFO_RESULTMSG = 66;
-    // Mensagem descrevendo o resultado final da transaÁ„o, seja esta bem ou mal sucedida (conforme ì4.3.Interface com o usu·rioî, p·gina 8
+    // Mensagem descrevendo o resultado final da transa√ß√£o, seja esta bem ou mal sucedida (conforme ‚Äú4.3.Interface com o usu√°rio‚Äù, p√°gina 8
     PWINFO_CNFREQ = 67;
-    // Necessidade de confirmaÁ„o: 0: n„o requer confirmaÁ„o; 1: requer confirmaÁ„o.
+    // Necessidade de confirma√ß√£o: 0: n√£o requer confirma√ß√£o; 1: requer confirma√ß√£o.
     PWINFO_AUTLOCREF = 68;
-    // ReferÍncia da transaÁ„o para a infraestrutura Pay&Go Web
+    // Refer√™ncia da transa√ß√£o para a infraestrutura Pay&Go Web
     PWINFO_AUTEXTREF = 69;
-    // ReferÍncia da transaÁ„o para o Provedor (NSU host).
-    PWINFO_AUTHCODE = 70; // CÛdigo de autorizaÁ„o
+    // Refer√™ncia da transa√ß√£o para o Provedor (NSU host).
+    PWINFO_AUTHCODE = 70; // C√≥digo de autoriza√ß√£o
     PWINFO_AUTRESPCODE = 71;
-    // CÛdigo de resposta da transaÁ„o (campo ISO8583:39)
+    // C√≥digo de resposta da transa√ß√£o (campo ISO8583:39)
     PWINFO_AUTDATETIME = 72;
-    // Data/hora da transaÁ„o para o Provedor, formato ìAAAAMMDDhhmmssî.
+    // Data/hora da transa√ß√£o para o Provedor, formato ‚ÄúAAAAMMDDhhmmss‚Äù.
     PWINFO_DISCOUNTAMT = 73;
-    // Valor do desconto concedido pelo Provedor, considerando PWINFO_CURREXP, j· deduzido em PWINFO_TOTAMNT
+    // Valor do desconto concedido pelo Provedor, considerando PWINFO_CURREXP, j√° deduzido em PWINFO_TOTAMNT
     PWINFO_CASHBACKAMT = 74;
-    // Valor do saque/troco, considerando PWINFO_CURREXP, j· incluÌdo em PWINFO_TOTAMNT
-    PWINFO_CARDNAME = 75; // Nome do cart„o ou do emissor do cart„o
-    PWINFO_ONOFF = 76; // Modalidade da transaÁ„o: 1: online 2: off-line
+    // Valor do saque/troco, considerando PWINFO_CURREXP, j√° inclu√≠do em PWINFO_TOTAMNT
+    PWINFO_CARDNAME = 75; // Nome do cart√£o ou do emissor do cart√£o
+    PWINFO_ONOFF = 76; // Modalidade da transa√ß√£o: 1: online 2: off-line
     PWINFO_BOARDINGTAX = 77;
-    // Valor da taxa de embarque, considerando PWINFO_CURREXP, j· incluÌdo em PWINFO_TOTAMNT
+    // Valor da taxa de embarque, considerando PWINFO_CURREXP, j√° inclu√≠do em PWINFO_TOTAMNT
     PWINFO_TIPAMOUNT = 78;
-    // Valor da taxa de serviÁo (gorjeta), considerando PWINFO_CURREXP, j· incluÌdo em PWINFO_TOTAMNT
+    // Valor da taxa de servi√ßo (gorjeta), considerando PWINFO_CURREXP, j√° inclu√≠do em PWINFO_TOTAMNT
     PWINFO_INSTALLM1AMT = 79;
-    // Valor da entrada para um pagamento parcelado, considerando PWINFO_CURREXP, j· incluÌdo em PWINFO_TOTAMNT
+    // Valor da entrada para um pagamento parcelado, considerando PWINFO_CURREXP, j√° inclu√≠do em PWINFO_TOTAMNT
     PWINFO_INSTALLMAMNT = 80;
-    // Valor da parcela, considerando PWINFO_CURREXP, j· incluÌdo em PWINFO_TOTAMNT
+    // Valor da parcela, considerando PWINFO_CURREXP, j√° inclu√≠do em PWINFO_TOTAMNT
     PWINFO_RCPTFULL = 82;
-    // Comprovante para impress„o ñ Via completa. AtÈ 40 colunas, quebras de linha identificadas pelo caractere 0Dh
+    // Comprovante para impress√£o ‚Äì Via completa. At√© 40 colunas, quebras de linha identificadas pelo caractere 0Dh
     PWINFO_RCPTMERCH = 83;
-    // Comprovante para impress„o ñ Via diferenciada para o Estabelecimento. AtÈ 40 colunas, quebras de linha identificadas pelo caractere 0Dh.
+    // Comprovante para impress√£o ‚Äì Via diferenciada para o Estabelecimento. At√© 40 colunas, quebras de linha identificadas pelo caractere 0Dh.
     PWINFO_RCPTCHOLDER = 84;
-    // Comprovante para impress„o ñ Via diferenciada para o Cliente. AtÈ 40 colunas, quebras de linha identificadas pelo caractere 0Dh.
+    // Comprovante para impress√£o ‚Äì Via diferenciada para o Cliente. At√© 40 colunas, quebras de linha identificadas pelo caractere 0Dh.
     PWINFO_RCPTCHSHORT = 85;
-    // Comprovante para impress„o ñ Cupom reduzido (para o Cliente). AtÈ 40 colunas, quebras de linha identificadas pelo caractere 0Dh
+    // Comprovante para impress√£o ‚Äì Cupom reduzido (para o Cliente). At√© 40 colunas, quebras de linha identificadas pelo caractere 0Dh
     PWINFO_TRNORIGDATE = 87;
-    // Data da transaÁ„o original, no caso de um cancelamento ou uma confirmaÁ„o de prÈ-autorizaÁ„o (formato ìDDMMAAî).
+    // Data da transa√ß√£o original, no caso de um cancelamento ou uma confirma√ß√£o de pr√©-autoriza√ß√£o (formato ‚ÄúDDMMAA‚Äù).
     PWINFO_TRNORIGNSU = 88;
-    // NSU da transaÁ„o original, no caso de um cancelamento ou uma confirmaÁ„o de prÈ-autorizaÁ„
-    PWINFO_SALDOVOUCHER = 89; // Saldo do cart„o voucher recebido do autorizador
+    // NSU da transa√ß√£o original, no caso de um cancelamento ou uma confirma√ß√£o de pr√©-autoriza√ß√£
+    PWINFO_SALDOVOUCHER = 89; // Saldo do cart√£o voucher recebido do autorizador
     PWINFO_TRNORIGAMNT = 96;
-    // Valor da transaÁ„o original, no caso de um cancelamento ou uma confirmaÁ„o de prÈ-autorizaÁ„o.
+    // Valor da transa√ß√£o original, no caso de um cancelamento ou uma confirma√ß√£o de pr√©-autoriza√ß√£o.
     PWINFO_TRNORIGAUTH = 98;
-    // CÛdigo de autorizaÁ„o da transaÁ„o original, no caso de um cancelamento ou uma confirmaÁ„o de prÈ-autorizaÁ„o
+    // C√≥digo de autoriza√ß√£o da transa√ß√£o original, no caso de um cancelamento ou uma confirma√ß√£o de pr√©-autoriza√ß√£o
     PWINFO_LANGUAGE = 108;
-    // Idioma a ser utilizado para a interface com o cliente: 0: PortuguÍs 1: InglÍs 2: Espanhol
+    // Idioma a ser utilizado para a interface com o cliente: 0: Portugu√™s 1: Ingl√™s 2: Espanhol
     PWINFO_PROCESSMSG = 111;
-    // Mensagem a ser exibida para o cliente durante o processamento da transaÁ„o
+    // Mensagem a ser exibida para o cliente durante o processamento da transa√ß√£o
     PWINFO_TRNORIGREQNUM = 114;
-    // N˙mero da solicitaÁ„o da transaÁ„o original, no caso de um cancelamento ou uma confirmaÁ„o de prÈ-autorizaÁ„o
+    // N√∫mero da solicita√ß√£o da transa√ß√£o original, no caso de um cancelamento ou uma confirma√ß√£o de pr√©-autoriza√ß√£o
     PWINFO_TRNORIGTIME = 115;
-    // Hora da transaÁ„o original, no caso de um cancelamento ou uma confirmaÁ„o de prÈ-autorizaÁ„o (formato ìHHMMSSî).
+    // Hora da transa√ß√£o original, no caso de um cancelamento ou uma confirma√ß√£o de pr√©-autoriza√ß√£o (formato ‚ÄúHHMMSS‚Äù).
     PWINFO_CNCDSPMSG = 116;
-    // Mensagem a ser exibida para o operador no terminal no caso da transaÁ„o ser abortada (cancelamento ou timeout).
+    // Mensagem a ser exibida para o operador no terminal no caso da transa√ß√£o ser abortada (cancelamento ou timeout).
     PWINFO_CNCPPMSG = 117;
-    // Mensagem a ser exibida para o portador no PIN-pad no caso da transaÁ„o ser abortada (cancelamento ou timeout).
+    // Mensagem a ser exibida para o portador no PIN-pad no caso da transa√ß√£o ser abortada (cancelamento ou timeout).
     PWINFO_CARDENTMODE = 192;
-    // Modo(s) de entrada do cart„o: 1: digitado 2: tarja magnÈtica 4: chip com contato 16: fallback de chip para tarja 32: chip sem contato simulando tarja (cliente informa tipo efetivamente utilizado) 64: chip sem contato EMV (cliente informa tipo efetivamente utilizado) 256: fallback de tarja para digitado
+    // Modo(s) de entrada do cart√£o: 1: digitado 2: tarja magn√©tica 4: chip com contato 16: fallback de chip para tarja 32: chip sem contato simulando tarja (cliente informa tipo efetivamente utilizado) 64: chip sem contato EMV (cliente informa tipo efetivamente utilizado) 256: fallback de tarja para digitado
     PWINFO_CARDFULLPAN = 193;
-    // N˙mero do cart„o completo, para transaÁ„o digitada. Este dado n„o pode ser recuperado pela funÁ„o PW_iGetResult
-    PWINFO_CARDEXPDATE = 194; // Data de vencimento do cart„o (formato ìMMAAî).
-    PWINFO_CARDPARCPAN = 200; // N˙mero do cart„o, truncado ou mascarado
+    // N√∫mero do cart√£o completo, para transa√ß√£o digitada. Este dado n√£o pode ser recuperado pela fun√ß√£o PW_iGetResult
+    PWINFO_CARDEXPDATE = 194; // Data de vencimento do cart√£o (formato ‚ÄúMMAA‚Äù).
+    PWINFO_CARDPARCPAN = 200; // N√∫mero do cart√£o, truncado ou mascarado
     PWINFO_CHOLDVERIF = 207;
-    // VerificaÁ„o do portador, soma dos seguintes valores: ì1î: Assinatura do portador em papel. ì2î: Senha verificada off-line. ì4î: Senha off-line bloqueada no decorrer desta transaÁ„o. ì8î: Senha verificada online
-    PWINFO_AID = 216; // AplicaÁ„o do cart„o utilizada durante a transaÁ„o
+    // Verifica√ß√£o do portador, soma dos seguintes valores: ‚Äú1‚Äù: Assinatura do portador em papel. ‚Äú2‚Äù: Senha verificada off-line. ‚Äú4‚Äù: Senha off-line bloqueada no decorrer desta transa√ß√£o. ‚Äú8‚Äù: Senha verificada online
+    PWINFO_AID = 216; // Aplica√ß√£o do cart√£o utilizada durante a transa√ß√£o
     PWINFO_BARCODENTMODE = 233;
-    // Modo(s) de entrada do cÛdigo de barras: 1:  digitado; 2:  lido atravÈs de dispositivo eletrÙnico.
-    PWINFO_BARCODE = 234; // CÛdigo de barras completo, lido ou digitado
+    // Modo(s) de entrada do c√≥digo de barras: 1:  digitado; 2:  lido atrav√©s de dispositivo eletr√¥nico.
+    PWINFO_BARCODE = 234; // C√≥digo de barras completo, lido ou digitado
     PWINFO_MERCHADDDATA1 = 240;
-    // Dados adicionais relevantes para a AutomaÁ„o (#1)
+    // Dados adicionais relevantes para a Automa√ß√£o (#1)
     PWINFO_MERCHADDDATA2 = 241;
-    // Dados adicionais relevantes para a AutomaÁ„o (#2)
+    // Dados adicionais relevantes para a Automa√ß√£o (#2)
     PWINFO_MERCHADDDATA3 = 242;
-    // Dados adicionais relevantes para a AutomaÁ„o (#3)
+    // Dados adicionais relevantes para a Automa√ß√£o (#3)
     PWINFO_MERCHADDDATA4 = 243;
-    // Dados adicionais relevantes para a AutomaÁ„o (#4)
+    // Dados adicionais relevantes para a Automa√ß√£o (#4)
     PWINFO_RCPTPRN = 244;
-    // Indica quais vias de comprovante devem ser impressas: 0: n„o h· comprovante 1: imprimir somente a via do Cliente 2: imprimir somente a via do Estabelecimento 3: imprimir ambas as vias do Cliente e do Estabelecimento
+    // Indica quais vias de comprovante devem ser impressas: 0: n√£o h√° comprovante 1: imprimir somente a via do Cliente 2: imprimir somente a via do Estabelecimento 3: imprimir ambas as vias do Cliente e do Estabelecimento
     PWINFO_AUTHMNGTUSER = 245;
-    // Identificador do usu·rio autenticado com a senha do lojista
+    // Identificador do usu√°rio autenticado com a senha do lojista
     PWINFO_AUTHTECHUSER = 246;
-    // Identificador do usu·rio autenticado com a senha tÈcnica.
+    // Identificador do usu√°rio autenticado com a senha t√©cnica.
     PWINFO_PAYMNTTYPE = 7969;
-    // Modalidade de pagamento: 1: cart„o 2: dinheiro 3: cheque
+    // Modalidade de pagamento: 1: cart√£o 2: dinheiro 3: cheque
     PWINFO_USINGPINPAD = 32513;
-    // Indica se o ponto de captura faz ou n„o o uso de PIN-pad: 0: N„o utiliza PIN-pad; 1: Utiliza PIN-pad.
+    // Indica se o ponto de captura faz ou n√£o o uso de PIN-pad: 0: N√£o utiliza PIN-pad; 1: Utiliza PIN-pad.
     PWINFO_PPCOMMPORT = 32514;
-    // N˙mero da porta serial ‡ qual o PIN-pad est· conectado. O valor 0 (zero) indica uma busca autom·tica desta porta
+    // N√∫mero da porta serial √† qual o PIN-pad est√° conectado. O valor 0 (zero) indica uma busca autom√°tica desta porta
     PWINFO_IDLEPROCTIME = 32516;
-    // PrÛxima data e hor·rio em que a funÁ„o PW_iIdleProc deve ser chamada pela AutomaÁ„o. Formato ìAAMMDDHHMMSSî
+    // Pr√≥xima data e hor√°rio em que a fun√ß√£o PW_iIdleProc deve ser chamada pela Automa√ß√£o. Formato ‚ÄúAAMMDDHHMMSS‚Äù
     PWINFO_PNDAUTHSYST = 32517;
-    // Nome do provedor para o qual existe uma transaÁ„o pendente.
+    // Nome do provedor para o qual existe uma transa√ß√£o pendente.
     PWINFO_PNDVIRTMERCH = 32518;
-    // Identificador do Estabelecimento para o qual existe uma transaÁ„o pendente
+    // Identificador do Estabelecimento para o qual existe uma transa√ß√£o pendente
     PWINFO_PNDREQNUM = 32519;
-    // ReferÍncia local da transaÁ„o que est· pendente.
+    // Refer√™ncia local da transa√ß√£o que est√° pendente.
     PWINFO_PNDAUTLOCREF = 32520;
-    // ReferÍncia para a infraestrutura Pay&Go Web da transaÁ„o que est· pendente.
+    // Refer√™ncia para a infraestrutura Pay&Go Web da transa√ß√£o que est√° pendente.
     PWINFO_PNDAUTEXTREF = 32521;
-    // ReferÍncia para o Provedor da transaÁ„o que est· pendente
+    // Refer√™ncia para o Provedor da transa√ß√£o que est√° pendente
     PWINFO_LOCALINFO1 = 32522;
-    // Texto exibido para um item de menu selecionado pelo usu·rio
+    // Texto exibido para um item de menu selecionado pelo usu√°rio
     PWINFO_SERVERPND = 32523;
-    // Indica se o ponto de captura possui alguma pendÍncia a ser resolvida com o Pay&Go Web: 0: n„o possui pendÍncia; 1: possui pendÍncia
+    // Indica se o ponto de captura possui alguma pend√™ncia a ser resolvida com o Pay&Go Web: 0: n√£o possui pend√™ncia; 1: possui pend√™ncia
     PWINFO_PPINFO = '0x7F15';
-    // InformaÁıes do PIN-pad conectado, seguindo o padr„o posiÁ„o/informaÁ„o abaixo: 001-020 / Nome do fabricante do PIN-pad. 021-039 / Modelo/vers„o do hardware. 040 / Se o PIN-pad suporta cart„o com chip sem contato, este campo deve conter a letra ìCî, caso contr·rio um espaÁo em branco. 041-060 / Vers„o do software b·sico/firmware. 061-064 / Vers„o da especificaÁ„o, no formato ìV.VVî. 065-080 / Vers„o da aplicaÁ„o b·sica, no formato ìVVV.VV AAMMDDî (com 3 espaÁos ‡ direita). 081-100 / N˙mero de sÈrie do PIN-pad (com espaÁos ‡ direita)
+    // Informa√ß√µes do PIN-pad conectado, seguindo o padr√£o posi√ß√£o/informa√ß√£o abaixo: 001-020 / Nome do fabricante do PIN-pad. 021-039 / Modelo/vers√£o do hardware. 040 / Se o PIN-pad suporta cart√£o com chip sem contato, este campo deve conter a letra ‚ÄúC‚Äù, caso contr√°rio um espa√ßo em branco. 041-060 / Vers√£o do software b√°sico/firmware. 061-064 / Vers√£o da especifica√ß√£o, no formato ‚ÄúV.VV‚Äù. 065-080 / Vers√£o da aplica√ß√£o b√°sica, no formato ‚ÄúVVV.VV AAMMDD‚Äù (com 3 espa√ßos √† direita). 081-100 / N√∫mero de s√©rie do PIN-pad (com espa√ßos √† direita)
     PWINFO_DUEAMNT = '0xBF06';
-    // Valor devido pelo usu·rio, considerando PWINFO_CURREXP, j· deduzido em PWINFO_TOTAMNT
+    // Valor devido pelo usu√°rio, considerando PWINFO_CURREXP, j√° deduzido em PWINFO_TOTAMNT
     PWINFO_READJUSTEDAMNT = '0xBF09';
-    // Valor total da transaÁ„o reajustado, este campo ser· utilizado caso o autorizador, por alguma regra de negÛcio especÌfica dele, resolva alterar o valor total que foi solicitado para a transaÁ„o
+    // Valor total da transa√ß√£o reajustado, este campo ser√° utilizado caso o autorizador, por alguma regra de neg√≥cio espec√≠fica dele, resolva alterar o valor total que foi solicitado para a transa√ß√£o
     PWINFO_CHOLDERNAME = '0x1F38';
-    // Nome do portador do cart„o utilizado, o tamanho segue o mesmo padr„o da tag 5F20 EMV.
+    // Nome do portador do cart√£o utilizado, o tamanho segue o mesmo padr√£o da tag 5F20 EMV.
     PWINFO_CARDNAMESTD = 196;
-    // DescriÁ„o do produto bandeira padr„o relacionado ao BIN.
+    // Descri√ß√£o do produto bandeira padr√£o relacionado ao BIN.
 
     // ===========================================================
-    // Tabela de CÛdigos de Erro de Retorno da Biblioteca
+    // Tabela de C√≥digos de Erro de Retorno da Biblioteca
     // ===========================================================
-    PWRET_OK = 0; // OperaÁ„o bem sucedida
+    PWRET_OK = 0; // Opera√ß√£o bem sucedida
     PWRET_FROMHOSTPENDTRN = -2599;
-    // Existe uma transaÁ„o pendente, È necess·rio confirmar ou desfazer essa transaÁ„o atravÈs de PW_iConfirmation.
+    // Existe uma transa√ß√£o pendente, √© necess√°rio confirmar ou desfazer essa transa√ß√£o atrav√©s de PW_iConfirmation.
     PWRET_FROMHOSTPOSAUTHERR = -2598;
-    // Falha de autenticaÁ„o do ponto de captura com a infraestrutura do Pay&Go Web.
-    PWRET_FROMHOSTUSRAUTHERR = -2597; // Falha de autenticaÁ„o do usu·rio
+    // Falha de autentica√ß√£o do ponto de captura com a infraestrutura do Pay&Go Web.
+    PWRET_FROMHOSTUSRAUTHERR = -2597; // Falha de autentica√ß√£o do usu√°rio
     PWRET_FROMHOST = -2596;
-    // Erro retornado pela infraestrutura do Pay&Go Web. Verificar a mensagem (PWINFO_RESULTMSG) para mais informaÁıes
+    // Erro retornado pela infraestrutura do Pay&Go Web. Verificar a mensagem (PWINFO_RESULTMSG) para mais informa√ß√µes
     PWRET_TLVERR = -2595;
-    // Falha de comunicaÁ„o com a infraestrutura do Pay&Go Web (codificaÁ„o da mensagem).
+    // Falha de comunica√ß√£o com a infraestrutura do Pay&Go Web (codifica√ß√£o da mensagem).
     PWRET_SRVINVPARAM = -2594;
-    // Falha de comunicaÁ„o com a infraestrutura do Pay&Go Web (par‚metro inv·lido).
+    // Falha de comunica√ß√£o com a infraestrutura do Pay&Go Web (par√¢metro inv√°lido).
     PWRET_REQPARAM = -2593;
-    // Falha de comunicaÁ„o com a infraestrutura do Pay&Go Web (falta par‚metro obrigatÛrio).
-    PWRET_HOSTCONNUNK = -2592; // Erro interno da biblioteca (conex„o ao host).
+    // Falha de comunica√ß√£o com a infraestrutura do Pay&Go Web (falta par√¢metro obrigat√≥rio).
+    PWRET_HOSTCONNUNK = -2592; // Erro interno da biblioteca (conex√£o ao host).
     PWRET_INTERNALERR = -2591; // Erro interno da biblioteca
     PWRET_BLOCKED = -2590; // O ponto de captura foi bloqueado para uso
     PWRET_FROMHOSTTRNNFOUND = -2589;
-    // A transaÁ„o referenciada (cancelamento, confirmaÁ„o, etc.) n„o foi encontrada.
+    // A transa√ß√£o referenciada (cancelamento, confirma√ß√£o, etc.) n√£o foi encontrada.
     PWRET_PARAMSFILEERR = -2588;
-    // InconsistÍncia dos par‚metros de operaÁ„o recebidos da infraestrutura do Pay&Go Web
+    // Inconsist√™ncia dos par√¢metros de opera√ß√£o recebidos da infraestrutura do Pay&Go Web
     PWRET_NOCARDENTMODE = -2587;
-    // O Ponto de Captura n„o tem a capacidade de efetuar a captura do cart„o atravÈs dos tipos de entrada especificados pelo Pay&Go Web
+    // O Ponto de Captura n√£o tem a capacidade de efetuar a captura do cart√£o atrav√©s dos tipos de entrada especificados pelo Pay&Go Web
     PWRET_INVALIDVIRTMERCH = -2586;
-    // Falha de comunicaÁ„o com a infraestrutura do Pay&Go Web (cÛdigo de afiliaÁ„o inv·lido).
+    // Falha de comunica√ß√£o com a infraestrutura do Pay&Go Web (c√≥digo de afilia√ß√£o inv√°lido).
     PWRET_HOSTTIMEOUT = -2585;
-    // Falha de comunicaÁ„o com a infraestrutura do Pay&Go Web (tempo de resposta esgotado).
+    // Falha de comunica√ß√£o com a infraestrutura do Pay&Go Web (tempo de resposta esgotado).
     PWRET_CONFIGREQUIRED = -2584;
-    // Erro de configuraÁ„o. … necess·rio acionar a funÁ„o de configuraÁ„o.
+    // Erro de configura√ß√£o. √â necess√°rio acionar a fun√ß√£o de configura√ß√£o.
     PWRET_HOSTCONNERR = -2583;
-    // Falha de conex„o ‡ infraestrutura do Pay&Go Web
+    // Falha de conex√£o √† infraestrutura do Pay&Go Web
     PWRET_HOSTCONNLOST = -2582;
-    // A conex„o com a infraestrutura do Pay&Go Web foi interrompida
+    // A conex√£o com a infraestrutura do Pay&Go Web foi interrompida
     PWRET_FILEERR = -2581;
-    // Falha no acesso aos arquivos da biblioteca de integraÁ„o
-    PWRET_PINPADERR = -2580; // Falha de comunicaÁ„o com o PIN-pad (aplicaÁ„o).
-    PWRET_MAGSTRIPEERR = -2579; // Formato de tarja magnÈtica n„o reconhecido
+    // Falha no acesso aos arquivos da biblioteca de integra√ß√£o
+    PWRET_PINPADERR = -2580; // Falha de comunica√ß√£o com o PIN-pad (aplica√ß√£o).
+    PWRET_MAGSTRIPEERR = -2579; // Formato de tarja magn√©tica n√£o reconhecido
     PWRET_PPCRYPTERR = -2578;
-    // Falha de comunicaÁ„o com o PIN-pad (comunicaÁ„o segura).
+    // Falha de comunica√ß√£o com o PIN-pad (comunica√ß√£o segura).
     PWRET_SSLCERTERR = -2577; // Falha no certificado SSL
-    PWRET_SSLNCONN = -2576; // Falha ao tentar estabelecer conex„o SSL
+    PWRET_SSLNCONN = -2576; // Falha ao tentar estabelecer conex√£o SSL
     PWRET_GPRSATTACHFAILED = -2575; // Falha no registro GPRS.
-    PWRET_INVPARAM = -2499; // Par‚metro inv·lido passado ‡ funÁ„o
+    PWRET_INVPARAM = -2499; // Par√¢metro inv√°lido passado √† fun√ß√£o
     PWRET_NOTINST = -2498;
-    // Ponto de Captura n„o instalado. … necess·rio acionar a funÁ„o de InstalaÁ„o.
+    // Ponto de Captura n√£o instalado. √â necess√°rio acionar a fun√ß√£o de Instala√ß√£o.
     PWRET_MOREDATA = -2497;
-    // Ainda existem dados que precisam ser capturados para a transaÁ„o poder ser realizada
-    PWRET_NODATA = -2496; // A informaÁ„o solicitada n„o est· disponÌvel.
+    // Ainda existem dados que precisam ser capturados para a transa√ß√£o poder ser realizada
+    PWRET_NODATA = -2496; // A informa√ß√£o solicitada n√£o est√° dispon√≠vel.
     PWRET_DISPLAY = -2495;
-    // A AutomaÁ„o deve apresentar uma mensagem para o operador
-    PWRET_INVCALL = -2494; // FunÁ„o chamada no momento incorreto
+    // A Automa√ß√£o deve apresentar uma mensagem para o operador
+    PWRET_INVCALL = -2494; // Fun√ß√£o chamada no momento incorreto
     PWRET_NOTHING = -2493; // Nada a fazer, continuar o processamento
     PWRET_BUFOVFLW = -2492;
-    // O tamanho da ·rea de memÛria informado È insuficiente.
-    PWRET_CANCEL = -2491; // OperaÁ„o cancelada pelo operador
-    PWRET_TIMEOUT = -2490; // Tempo limite excedido para aÁ„o do operador
-    PWRET_PPNOTFOUND = -2489; // PIN-pad n„o encontrado na busca efetuada.
-    PWRET_TRNNOTINIT = -2488; // N„o foi chamada a funÁ„o PW_iNewTransac
-    PWRET_DLLNOTINIT = -2487; // N„o foi chamada a funÁ„o PW_iInit
+    // O tamanho da √°rea de mem√≥ria informado √© insuficiente.
+    PWRET_CANCEL = -2491; // Opera√ß√£o cancelada pelo operador
+    PWRET_TIMEOUT = -2490; // Tempo limite excedido para a√ß√£o do operador
+    PWRET_PPNOTFOUND = -2489; // PIN-pad n√£o encontrado na busca efetuada.
+    PWRET_TRNNOTINIT = -2488; // N√£o foi chamada a fun√ß√£o PW_iNewTransac
+    PWRET_DLLNOTINIT = -2487; // N√£o foi chamada a fun√ß√£o PW_iInit
     PWRET_FALLBACK = -2486;
-    // Ocorreu um erro no cart„o magnÈtico, passar a aceitar o cart„o digitado, caso j· n„o esteja sendo aceito
-    PWRET_WRITERR = -2485; // Falha de gravaÁ„o no diretÛrio de trabalho.
-    PWRET_PPCOMERR = -2484; // Falha na comunicaÁ„o com o PIN-pad (protocolo).
+    // Ocorreu um erro no cart√£o magn√©tico, passar a aceitar o cart√£o digitado, caso j√° n√£o esteja sendo aceito
+    PWRET_WRITERR = -2485; // Falha de grava√ß√£o no diret√≥rio de trabalho.
+    PWRET_PPCOMERR = -2484; // Falha na comunica√ß√£o com o PIN-pad (protocolo).
     PWRET_NOMANDATORY = -2483;
-    // Algum dos par‚metros obrigatÛrios n„o foi adicionado
+    // Algum dos par√¢metros obrigat√≥rios n√£o foi adicionado
     PWRET_INVALIDTRN = -2482;
-    // A transaÁ„o informada para confirmaÁ„o n„o existe ou j· foi confirmada anteriormente.
-    PWRET_PPS_XXX = -2200; // Erros retornados pelo PIN-pad, conforme seÁ„o 10.2
+    // A transa√ß√£o informada para confirma√ß√£o n√£o existe ou j√° foi confirmada anteriormente.
+    PWRET_PPS_XXX = -2200; // Erros retornados pelo PIN-pad, conforme se√ß√£o 10.2
 
     // ==========================================================
-    // Erros especÌficos da biblioteca compartilhada de PIN-pad
+    // Erros espec√≠ficos da biblioteca compartilhada de PIN-pad
     // ==========================================================
     PWRET_PPS_MAX = -2100;
     PWRET_PPS_MIN = PWRET_PPS_MAX - 100;
@@ -384,29 +384,29 @@ type
     // ==========================================================================================
     // Tipos utilizados na captura de dados dinamica
     // ==========================================================================================
-    PWDAT_MENU = 1; // menu de opÁıes
+    PWDAT_MENU = 1; // menu de op√ß√µes
     PWDAT_TYPED = 2; // entrada digitada
-    PWDAT_CARDINF = 3; // dados de cart„o
+    PWDAT_CARDINF = 3; // dados de cart√£o
     PWDAT_PPENTRY = 5; // entrada digitada no PIN-pad
     PWDAT_PPENCPIN = 6; // senha criptografada
-    PWDAT_CARDOFF = 9; // processamento off-line de cart„o com chip
-    PWDAT_CARDONL = 10; // processamento on-line de cart„o com chip
-    PWDAT_PPCONF = 11; // confirmaÁ„o de informaÁ„o no PIN-pad
-    PWDAT_BARCODE = 12; // CÛdigo de barras, lido ou digitado
-    PWDAT_PPREMCRD = 13; // RemoÁ„o do cart„o do PIN-pad.
-    PWDAT_PPGENCMD = 14; // comando propriet·rio da rede no PIN-pad.
-    PWDAT_PPDATAPOSCNF = 16; // confirmaÁ„o positiva de dados no PIN-pad.
-    PWDAT_USERAUTH = 17; // validaÁ„o da senha.
+    PWDAT_CARDOFF = 9; // processamento off-line de cart√£o com chip
+    PWDAT_CARDONL = 10; // processamento on-line de cart√£o com chip
+    PWDAT_PPCONF = 11; // confirma√ß√£o de informa√ß√£o no PIN-pad
+    PWDAT_BARCODE = 12; // C√≥digo de barras, lido ou digitado
+    PWDAT_PPREMCRD = 13; // Remo√ß√£o do cart√£o do PIN-pad.
+    PWDAT_PPGENCMD = 14; // comando propriet√°rio da rede no PIN-pad.
+    PWDAT_PPDATAPOSCNF = 16; // confirma√ß√£o positiva de dados no PIN-pad.
+    PWDAT_USERAUTH = 17; // valida√ß√£o da senha.
 
     // ==========================================================================================
-    // Tipos de operaÁ„o, utilizados na funÁ„o PW_iGetOperations
+    // Tipos de opera√ß√£o, utilizados na fun√ß√£o PW_iGetOperations
     // ==========================================================================================
     PWOPTYPE_ADMIN = 1;
-    // OperaÁıes administrativas (relatÛrio, reimpress„o, etc).
-    PWOPTYPE_SALE = 2; // OperaÁıes financeiras.
+    // Opera√ß√µes administrativas (relat√≥rio, reimpress√£o, etc).
+    PWOPTYPE_SALE = 2; // Opera√ß√µes financeiras.
 
     // ==========================================================================================
-    // Dados digitado pelo portador do cart„o no PIN-pad.
+    // Dados digitado pelo portador do cart√£o no PIN-pad.
     // ==========================================================================================
     DIGITE_O_DDD = 1;
     REDIGITE_O_DDD = 2;
@@ -422,7 +422,7 @@ type
     DIGITE_CODIGO_DE_SEGURANCA = 12;
 
     // ==========================================================================================
-    // Tipos de Cartıes
+    // Tipos de Cart√µes
     // ==========================================================================================
     naoDefinido = 0;
     credito = 1;
@@ -444,9 +444,9 @@ type
 
     { }
 
-    Constructor Create; // declaraÁ„o do metodo construtor
+    Constructor Create; // declara√ß√£o do metodo construtor
 
-    Destructor Destroy; Override; // declaraÁ„o do metodo destrutor
+    Destructor Destroy; Override; // declara√ß√£o do metodo destrutor
 
     // Exemplos de Retorno do Nome da Constante;
     Function E_PWRET(PWRET: Integer): String;
@@ -481,7 +481,7 @@ end;
 // ========================================
 
 // =========================================================
-// ConfirmaÁ„o de TransaÁ„o
+// Confirma√ß√£o de Transa√ß√£o
 // =========================================================
 Function TCEnums.E_PWCNF(PWCNF: Integer): String;
 begin
@@ -529,7 +529,7 @@ begin
 end;
 
 // =========================================================
-// Tipos de Cartıes
+// Tipos de Cart√µes
 // =========================================================
 Function TCEnums.E_PWCardTypes(PWCardTypes: Integer): String;
 begin
@@ -548,7 +548,7 @@ begin
 end;
 
 // =========================================================
-// Retorno das TransaÁıes
+// Retorno das Transa√ß√µes
 // =========================================================
 Function TCEnums.E_PWOPER(PWOPER: Integer): String;
 begin

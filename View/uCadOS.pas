@@ -603,7 +603,7 @@ begin
         if Application.messagebox('Deseja Excluir Item?', 'Confirmação',
           mb_yesno) = mrYes then
           qryOS_Detalhe.delete;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         exit;
       end;
   end;
@@ -756,12 +756,12 @@ end;
 
 procedure TfrmCadOS.qryPessoa_CobrancaAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadOS.qryPessoa_entregaAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadOS.TabControl1Change(Sender: TObject);
@@ -793,7 +793,7 @@ end;
 
 procedure TfrmCadOS.qryOS_DetalheAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
 end;
 
@@ -811,7 +811,7 @@ procedure TfrmCadOS.qryOS_DetalheAfterPost(DataSet: TDataSet);
 begin
   // pesquisa parte
   vletras := '';
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
 end;
 
@@ -954,7 +954,7 @@ end;
 
 procedure TfrmCadOS.qryOS_MasterAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadOS.qryOS_MasterAfterOpen(DataSet: TDataSet);
@@ -973,7 +973,7 @@ end;
 
 procedure TfrmCadOS.qryOS_MasterAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadOS.qryOS_MasterBeforePost(DataSet: TDataSet);
@@ -1045,7 +1045,7 @@ end;
 
 procedure TfrmCadOS.qryItensAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
 end;
 
@@ -1299,7 +1299,7 @@ begin
     end;
 
     qryOS_Detalhe.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     qryOS_Detalhe.Last;
   except

@@ -855,7 +855,7 @@ begin
       '.', ',', [])) * QRYNFCE_DTOTAL.AsFloat) / 100, -2);
 
     QRYNFCE_D.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     i := i + 1;
     QRYNFCE_D.Next;
   end;
@@ -1094,7 +1094,7 @@ begin
       '.', ',', [])) * qryItemTOTAL.AsFloat) / 100, -2);
 
     QRYNFCE_D.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     i := i + 1;
     qryItensPedido.Next;
   end;
@@ -1212,7 +1212,7 @@ begin
       '.', ',', [])) * qryItemTOTAL.AsFloat) / 100, -2);
 
     QRYNFCE_D.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     i := i + 1;
     qryItensOrcamento.Next;
   end;
@@ -1340,7 +1340,7 @@ procedure TfrmNFCe.btnCorrecaoClick(Sender: TObject);
 begin
   if (qryCorrecao.State in dsEditmodes) then
     qryCorrecao.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   dmnfe.ACBrNFe.EventoNFe.Evento.Clear;
   with dmnfe.ACBrNFe.EventoNFe.Evento.Add do
@@ -2168,7 +2168,7 @@ begin
   end;
 
   Chaveatual := copy(Trim(ChaveTemp), 1, pos(']', ChaveTemp) - 1);
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   if Chaveatual <> '' then
   begin
 
@@ -2181,7 +2181,7 @@ begin
     Dados.qryExecute.ParamByName('CHAVE').AsString := Chaveatual;
     Dados.qryExecute.ParamByName('CODIGO').Value := qryVendaCODIGO.Value;
     Dados.qryExecute.ExecSQL;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 end;
 
@@ -2213,7 +2213,7 @@ begin
     qryVendaHORA_SAIDA.Value := dmnfe.ACBrNFe.NotasFiscais.Items[0]
       .NFe.ide.hSaiEnt;
     qryVenda.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     dmnfe.ACBrNFe.NotasFiscais.Items[0].GravarXML();
 
     dmnfe.ACBrNFe.DANFE := dmnfe.ACBrNFeDANFCeFortesA41;
@@ -2250,7 +2250,7 @@ begin
     .NFe.procNFe.nProt;
   qryVendaXML.Value := dmnfe.ACBrNFe.NotasFiscais.Items[0].XML;
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   // atualiza status da nfce
   if dmnfe.ACBrNFe.webservices.Enviar.cStat = 100 then
   begin
@@ -2275,7 +2275,7 @@ begin
       .NFe.ide.hSaiEnt;
     qryVendaFK_VENDA.Value := qryVendaCODIGO.Value;
     qryVenda.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     dmEstoque.AtualizaEstoqueFiscal('NFCE', qryVendaCODIGO.Value, 'S',
       Dados.qryEmpresaEXIBE_ESTOQUE_FISCAL.Value);
@@ -2302,7 +2302,7 @@ begin
   qryVendaHORA_SAIDA.Value := dmnfe.ACBrNFe.NotasFiscais.Items[0]
     .NFe.ide.hSaiEnt;
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   ShowMessage('Retorno:' + dmnfe.ACBrNFe.webservices.Enviar.cStat.ToString +
     ' - ' + dmnfe.ACBrNFe.webservices.Enviar.xMotivo);
 end;
@@ -2322,7 +2322,7 @@ begin
   qryVendaHORA_SAIDA.Value := dmnfe.ACBrNFe.NotasFiscais.Items[0]
     .NFe.ide.hSaiEnt;
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   ShowMessage('Retorno:' + dmnfe.ACBrNFe.webservices.Enviar.cStat.ToString +
     ' - ' + dmnfe.ACBrNFe.webservices.Enviar.xMotivo);
 end;
@@ -2347,7 +2347,7 @@ begin
   qryVendaHORA_SAIDA.Value := dmnfe.ACBrNFe.NotasFiscais.Items[0]
     .NFe.ide.hSaiEnt;
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   ShowMessage('Retorno:' + dmnfe.ACBrNFe.webservices.Enviar.cStat.ToString +
     ' - ' + dmnfe.ACBrNFe.webservices.Enviar.xMotivo);
 end;
@@ -2365,7 +2365,7 @@ begin
   qryVendaABERTO.Value := 'N';
   qryVendaSITUACAO.Value := 'X';
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   ShowMessage('Retorno:' + dmnfe.ACBrNFe.webservices.Enviar.cStat.ToString +
     ' - ' + dmnfe.ACBrNFe.webservices.Enviar.xMotivo);
 end;
@@ -2382,7 +2382,7 @@ begin
     Dados.qryExecute.SQL.Text := 'DELETE FROM NFCE_DETALHE WHERE FKVENDA=:ID';
     Dados.qryExecute.Params[0].Value := qryVendaCODIGO.Value;
     Dados.qryExecute.ExecSQL;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     qryNFCE_M.Close;
     qryNFCE_M.Params[0].AsInteger := qryVendaCODIGO.Value;
@@ -2421,7 +2421,7 @@ begin
       .NFe.Total.ICMSTot.vCOFINS;
     qryNFCE_MXML.Value := dmnfe.ACBrNFe.NotasFiscais.Items[0].XML;
     qryNFCE_M.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     for N := 0 to dmnfe.ACBrNFe.NotasFiscais.Count - 1 do
     begin
@@ -2467,7 +2467,7 @@ begin
           end;
 
           QRYNFCE_D.Post;
-          Dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
         end;
       end;
     end;
@@ -3118,7 +3118,7 @@ begin
       mb_yesno + mb_iconquestion) = idyes then
     begin
       qryDocumento.Delete;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
   end;
 end;
@@ -3449,7 +3449,7 @@ end;
 
 procedure TfrmNFCe.qryItemAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmNFCe.qryItemBeforeDelete(DataSet: TDataSet);
@@ -3496,7 +3496,7 @@ end;
 
 procedure TfrmNFCe.qryVendaAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmNFCe.qryVendaBeforeDelete(DataSet: TDataSet);
@@ -3652,7 +3652,7 @@ begin
   qryNFCE_MTIPO_DESCONTO.Value := 'D';
   qryNFCE_MTROCO.AsFloat := 0;
   qryNFCE_M.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmNFCe.ApagaItensInutiliza(codigo: Integer);
@@ -3661,7 +3661,7 @@ begin
   Dados.qryExecute.SQL.Text := 'delete from NFCE_DETALHE where codigo=:codigo';
   Dados.qryExecute.Params[0].Value := codigo;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmNFCe.InutilizaNFCe;
@@ -3684,7 +3684,7 @@ begin
 
       ApagaItensInutiliza(qryInutilizaCODIGO.Value);
 
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       Application.ProcessMessages;
     end
     else
@@ -3708,7 +3708,7 @@ begin
       qryInutilizaTOTAL.Value := 0;
       qryInutilizaSITUACAO.Value := 'I';
       qryInutiliza.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
   end;
 end;

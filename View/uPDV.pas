@@ -1513,7 +1513,7 @@ begin
 
   Dados.qryExecute.ParamByName('CODIGO').Value := codigo1;
   Dados.qryExecute.ExecSQL;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   AbreVenda(codigo1, Dados.FTIpoPDV);
 
@@ -1652,7 +1652,7 @@ begin
   qryVendaFK_CAIXA.Value := Dados.idCaixa;
   qryVendaLOTE.Value := Dados.Lote;
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -1973,7 +1973,7 @@ begin
         qryVenda.Edit;
       qryVendaFK_VENDEDOR.Value := frmconsVendedor.idVendedor;
       qryVenda.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
   end;
 end;
@@ -2104,7 +2104,7 @@ begin
           Dados.qryMesas.Edit;
           Dados.qryMesasSITUACAO.Value := 'L';
           Dados.qryMesas.Post;
-          Dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
         end;
       end;
 
@@ -2230,7 +2230,7 @@ begin
         qryVendaSUBTOTAL.Value := qryVendaSUBTOTAL.Value;
         qryVenda.Post;
 
-        Dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
     end;
   finally
@@ -2345,7 +2345,7 @@ begin
       'UPDATE CONTAS SET ID_USUARIO=NULL, DATA_ABERTURA=NULL, SITUACAO=''F'', LOTE=0 WHERE CODIGO=:COD';
     Dados.qryExecute.Params[0].Value := Dados.idCaixa;
     Dados.qryExecute.ExecSQL;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     if qryVendaCODIGO.Value > 0 then
     begin
@@ -2354,7 +2354,7 @@ begin
         'delete from CONTAS_MOVIMENTO WHERE fkvenda=:COD';
       Dados.qryExecute.Params[0].Value := qryVendaCODIGO.Value;
       Dados.qryExecute.ExecSQL;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
     close;
@@ -2414,7 +2414,7 @@ begin
     qryVendaNOME.AsString := qryVendaVIRTUAL_CLIENTE.AsString;
   qryVenda.Post;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   if Dados.TerminalCaixa then
   begin
@@ -2452,7 +2452,7 @@ begin
         'update vendas_fpg set valor=0 where vendas_master=:codigo and FEZ_TEF=''N''';
       Dados.qryExecute.Params[0].Value := qryVendaCODIGO.Value;
       Dados.qryExecute.ExecSQL;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       frmFechavenda.JvDBGrid1.Visible := true;
       frmFechavenda.PageControl2.ActivePageIndex := 0;
@@ -2515,7 +2515,7 @@ begin
         'update vendas_fpg set valor=0  where vendas_master=:codigo and FEZ_TEF=''N''';
       Dados.qryExecute.Params[0].Value := qryVendaCODIGO.Value;
       Dados.qryExecute.ExecSQL;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       frmFechavenda.JvDBGrid1.Visible := false;
       frmFechavenda.PageControl2.ActivePageIndex := 1;
@@ -2533,7 +2533,7 @@ begin
 
       Dados.tela := 'PDV';
 
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       DBGridSetFocus;
       DescricaoSetFocus('');
@@ -2664,7 +2664,7 @@ end;
 
 procedure TFrmPDV.btnSangriaClick(Sender: TObject);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   if not btnSangria.Visible then
     exit;
@@ -2732,7 +2732,7 @@ begin
   if (qryVenda.State in dsEditModes) then
     qryVenda.Post;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   if copy(Descricao, 1, 1) = '*' then
     exit;
@@ -2948,7 +2948,7 @@ begin
             Dados.qryExecute.ParamByName('DATA_VENDA').AsDate := now;
     Dados.qryExecute.Prepare;
     Dados.qryExecute.ExecSQL;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     if (qryPesqProdQTD_ATACADO.AsFloat > 0) and
       (qryPesqProdPRECO_ATACADO.AsFloat > 0) then
@@ -2986,7 +2986,7 @@ begin
         edtProdutoD.SetFocus;
     end;
 
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     qryItem.Refresh;
 
     qryItem.Locate('codigo', idItem, []);
@@ -3761,7 +3761,7 @@ begin
     qryVenda.Edit;
   qryVendaID_CLIENTE.Value := qryBuscaFoneCODIGO.Value;
   qryVenda.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -3816,7 +3816,7 @@ begin
   qryItemPRECO.AsFloat := NovoPreco;
   qryItemVALOR_ITEM.AsFloat := RoundABNT(NovoPreco * qryItemQTD.AsFloat, 2);
   qryItem.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -3976,7 +3976,7 @@ end;
 
 procedure TFrmPDV.qryItemAfterDelete(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotalVenda(qryVendaCODIGO.Value);
 end;
 
@@ -4324,7 +4324,7 @@ begin
     Dados.qryExecute.ExecSQL;
   end;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   qryVenda.Refresh;
 end;
 
@@ -5048,7 +5048,7 @@ begin
   begin
     if (qryVenda.State in dsEditModes) then
       qryVenda.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end
   else
   begin
@@ -5108,14 +5108,14 @@ begin
     Dados.qryExecute.Params[0].Value := Dados.qryConsulta.Fields[2].AsFloat;
     Dados.qryExecute.Params[1].Value := produto;
     Dados.qryExecute.ExecSQL;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     { Dados.qryExecute.close;
       Dados.qryExecute.SQL.Text :=
       'update vendas_detalhe set valor_item= qtd*preco where ID_PRODUTO=:ID';
       Dados.qryExecute.Params[0].Value := produto;
       Dados.qryExecute.ExecSQL;
-      Dados.Conexao.CommitRetaining; }
+      Dados.Confirmar; }
   end;
 
 end;
@@ -5397,7 +5397,7 @@ begin
         qryComposicao.FieldByName('QUANTIDADE').AsFloat;
 
       Dados.qryExecute.ExecSQL;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       qryComposicao.Next;
     end;
@@ -5865,7 +5865,7 @@ begin
     Dados.qryParametro.FieldByName('TELA_FUNDO_ECF').AsString :=
       OpenPicture.FileName;
     Dados.qryParametro.Post;
-    Dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     CarregaImagem;
   end;
 end;

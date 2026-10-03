@@ -1,20 +1,20 @@
 unit uDmPDV;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  SysUtils, Classes, DB, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset,
+  ZAbstractConnection;
 
 type
   TdmPDV = class(TDataModule)
-    qryBuscaVenda: TFDQuery;
+    qryBuscaVenda: TZQuery;
     qryBuscaVendaCODIGO: TIntegerField;
-    qrySoma: TFDQuery;
-    qrySomaTOTAL: TFMTBCDField;
-    qryNFCE_M: TFDQuery;
+    qrySoma: TZQuery;
+    qrySomaTOTAL: TBCDField;
+    qryNFCE_M: TZQuery;
     qryNFCE_MCODIGO: TIntegerField;
     qryNFCE_MNUMERO: TIntegerField;
     qryNFCE_MCHAVE: TStringField;
@@ -41,28 +41,28 @@ type
     qryNFCE_MABERTO: TStringField;
     qryNFCE_MFKEMPRESA: TIntegerField;
     qryNFCE_MFK_VENDA: TIntegerField;
-    qryNFCE_MSUBTOTAL: TFMTBCDField;
-    qryNFCE_MDESCONTO: TFMTBCDField;
-    qryNFCE_MTROCO: TFMTBCDField;
-    qryNFCE_MDINHEIRO: TFMTBCDField;
-    qryNFCE_MTOTAL: TFMTBCDField;
-    qryNFCE_MBASEICMS: TFMTBCDField;
-    qryNFCE_MTOTALICMS: TFMTBCDField;
-    qryNFCE_MBASEICMSPIS: TFMTBCDField;
-    qryNFCE_MTOTALICMSPIS: TFMTBCDField;
-    qryNFCE_MBASEICMSCOF: TFMTBCDField;
-    qryNFCE_MTOTALICMSCOFINS: TFMTBCDField;
-    qryNFCE_MBASEISS: TFMTBCDField;
-    qryNFCE_MTOTALISS: TFMTBCDField;
-    qryNFCE_MTRIB_MUN: TFMTBCDField;
-    qryNFCE_MTRIB_EST: TFMTBCDField;
-    qryNFCE_MTRIB_FED: TFMTBCDField;
-    qryNFCE_MTRIB_IMP: TFMTBCDField;
-    qryNFCE_MOUTROS: TFMTBCDField;
+    qryNFCE_MSUBTOTAL: TBCDField;
+    qryNFCE_MDESCONTO: TBCDField;
+    qryNFCE_MTROCO: TBCDField;
+    qryNFCE_MDINHEIRO: TBCDField;
+    qryNFCE_MTOTAL: TBCDField;
+    qryNFCE_MBASEICMS: TBCDField;
+    qryNFCE_MTOTALICMS: TBCDField;
+    qryNFCE_MBASEICMSPIS: TBCDField;
+    qryNFCE_MTOTALICMSPIS: TBCDField;
+    qryNFCE_MBASEICMSCOF: TBCDField;
+    qryNFCE_MTOTALICMSCOFINS: TBCDField;
+    qryNFCE_MBASEISS: TBCDField;
+    qryNFCE_MTOTALISS: TBCDField;
+    qryNFCE_MTRIB_MUN: TBCDField;
+    qryNFCE_MTRIB_EST: TBCDField;
+    qryNFCE_MTRIB_FED: TBCDField;
+    qryNFCE_MTRIB_IMP: TBCDField;
+    qryNFCE_MOUTROS: TBCDField;
     qryNFCE_MSAT_NUMERO_CFE: TIntegerField;
     qryNFCE_MSAT_NUMERO_SERIE: TStringField;
     qryNFCE_MCNF: TStringField;
-    qryContas: TFDQuery;
+    qryContas: TZQuery;
     qryContasCODIGO: TIntegerField;
     qryContasDESCRICAO: TStringField;
     qryContasTIPO: TStringField;
@@ -71,7 +71,7 @@ type
     qryContasEMPRESA: TIntegerField;
     qryContasLOTE: TIntegerField;
     qryContasSITUACAO: TStringField;
-    qryVenda: TFDQuery;
+    qryVenda: TZQuery;
     qryVendaCODIGO: TIntegerField;
     qryVendaDATA_EMISSAO: TDateField;
     qryVendaDATA_SAIDA: TDateField;
@@ -96,16 +96,16 @@ type
     qryVendaVIRTUAL_TABELA: TStringField;
     qryVendaVIRTUAL_TX_ACRESC: TFloatField;
     qryVendaVIRTUAL_CNPJ: TStringField;
-    qryVendaSUBTOTAL: TFMTBCDField;
-    qryVendaDESCONTO: TFMTBCDField;
-    qryVendaTROCO: TFMTBCDField;
-    qryVendaDINHEIRO: TFMTBCDField;
-    qryVendaTOTAL: TFMTBCDField;
-    qryVendaPERCENTUAL: TFMTBCDField;
-    qryVendaPERCENTUAL_ACRESCIMO: TFMTBCDField;
-    qryVendaACRESCIMO: TFMTBCDField;
+    qryVendaSUBTOTAL: TBCDField;
+    qryVendaDESCONTO: TBCDField;
+    qryVendaTROCO: TBCDField;
+    qryVendaDINHEIRO: TBCDField;
+    qryVendaTOTAL: TBCDField;
+    qryVendaPERCENTUAL: TBCDField;
+    qryVendaPERCENTUAL_ACRESCIMO: TBCDField;
+    qryVendaACRESCIMO: TBCDField;
     qryVendaPEDIDO: TStringField;
-    qryVendaTOTAL_TROCA: TFMTBCDField;
+    qryVendaTOTAL_TROCA: TBCDField;
     qryVendaOS: TStringField;
     qryVendaFK_OS: TIntegerField;
     qryVendaFORMA_PAGAMENTO: TStringField;
@@ -115,7 +115,7 @@ type
     qryVendaNOME: TStringField;
     dsEmpresa: TDataSource;
     dsItem: TDataSource;
-    qryBuscaFone: TFDQuery;
+    qryBuscaFone: TZQuery;
     qryBuscaFoneCODIGO: TIntegerField;
     qryBuscaFoneFANTASIA: TStringField;
     qryBuscaFoneENDERECO: TStringField;
@@ -126,30 +126,30 @@ type
     qryBuscaFoneCEP: TStringField;
     qryBuscaFoneCOMPLEMENTO: TStringField;
     qryBuscaFoneCELULAR1: TStringField;
-    qryGrade: TFDQuery;
+    qryGrade: TZQuery;
     qryGradeCODIGO: TIntegerField;
     qryGradeFK_PRODUTO: TIntegerField;
     qryGradeDESCRICAO: TStringField;
-    qryGradeQTD: TFMTBCDField;
-    qryGradePRECO: TFMTBCDField;
+    qryGradeQTD: TBCDField;
+    qryGradePRECO: TBCDField;
     dsPesqProd: TDataSource;
-    qryPesqProd: TFDQuery;
+    qryPesqProd: TZQuery;
     qryPesqProdCODIGO: TIntegerField;
     qryPesqProdDESCRICAO: TStringField;
     qryPesqProdCFOP: TStringField;
     qryPesqProdCODBARRA: TStringField;
     qryPesqProdNCM: TStringField;
     qryPesqProdREFERENCIA: TStringField;
-    qryPesqProdPR_VENDA: TFMTBCDField;
-    qryPesqProdPRECO_ATACADO: TFMTBCDField;
-    qryPesqProdQTD_ATACADO: TFMTBCDField;
-    qryPesqProdQTD_ATUAL: TFMTBCDField;
+    qryPesqProdPR_VENDA: TBCDField;
+    qryPesqProdPRECO_ATACADO: TBCDField;
+    qryPesqProdQTD_ATACADO: TBCDField;
+    qryPesqProdQTD_ATUAL: TFloatField;
     qryPesqProdUNIDADE: TStringField;
     qryPesqProdEFISCAL: TStringField;
-    qryPesqProdE_MEDIO: TFMTBCDField;
+    qryPesqProdE_MEDIO: TBCDField;
     qryPesqProdLOCALIZACAO: TStringField;
-    qryPesqProdPRECO_PROMO_VAREJO: TFMTBCDField;
-    qryPesqProdPRECO_PROMO_ATACADO: TFMTBCDField;
+    qryPesqProdPRECO_PROMO_VAREJO: TBCDField;
+    qryPesqProdPRECO_PROMO_ATACADO: TBCDField;
     qryPesqProdPRECO_VARIAVEL: TStringField;
     qryPesqProdDESCONTO: TCurrencyField;
     qryPesqProdINICIO_PROMOCAO: TDateField;
@@ -158,11 +158,11 @@ type
     qryPesqProdREMEDIO: TStringField;
     qryPesqProdGRADE: TStringField;
     qryPesqProdPREFIXO_BALANCA: TStringField;
-    qryPesqProdVIRTUAL_PRECO: TExtendedField;
+    qryPesqProdVIRTUAL_PRECO: TFloatField;
     qryPesqProdPRODUTO_PESADO: TStringField;
-    qryPesqProdQTD_FISCAL: TFMTBCDField;
+    qryPesqProdQTD_FISCAL: TBCDField;
     qryPesqProdSERIAL: TStringField;
-    qryConta_Movimento: TFDQuery;
+    qryConta_Movimento: TZQuery;
     qryConta_MovimentoCODIGO: TIntegerField;
     qryConta_MovimentoID_CONTA_CAIXA: TIntegerField;
     qryConta_MovimentoHISTORICO: TStringField;
@@ -171,17 +171,17 @@ type
     qryConta_MovimentoFKVENDA: TIntegerField;
     qryConta_MovimentoLOTE: TIntegerField;
     qryConta_MovimentoID_USUARIO: TIntegerField;
-    qryConta_MovimentoENTRADA: TFMTBCDField;
-    qryConta_MovimentoSAIDA: TFMTBCDField;
-    qryConta_MovimentoTROCA: TFMTBCDField;
-    qryConta_MovimentoSALDO: TFMTBCDField;
+    qryConta_MovimentoENTRADA: TBCDField;
+    qryConta_MovimentoSAIDA: TBCDField;
+    qryConta_MovimentoTROCA: TBCDField;
+    qryConta_MovimentoSALDO: TBCDField;
     dsVenda: TDataSource;
     dsGrade: TDataSource;
     dsBuscaFone: TDataSource;
-    qryEntregador: TFDQuery;
+    qryEntregador: TZQuery;
     qryEntregadorCODIGO: TIntegerField;
     qryEntregadorNOME: TStringField;
-    qryPesqConta: TFDQuery;
+    qryPesqConta: TZQuery;
     qryPesqContaCODIGO: TIntegerField;
     qryPesqContaDESCRICAO: TStringField;
     qryPesqContaTIPO: TStringField;
@@ -190,22 +190,22 @@ type
     qryPesqContaEMPRESA: TIntegerField;
     qryPesqContaLOTE: TIntegerField;
     qryPesqContaSITUACAO: TStringField;
-    qryProd: TFDQuery;
+    qryProd: TZQuery;
     qryProdCODIGO: TIntegerField;
     qryProdDESCRICAO: TStringField;
     qryProdEFISCAL: TStringField;
-    qryProdE_MEDIO: TFMTBCDField;
-    qryProdQTD_FISCAL: TFMTBCDField;
-    qryTabela: TFDQuery;
+    qryProdE_MEDIO: TBCDField;
+    qryProdQTD_FISCAL: TBCDField;
+    qryTabela: TZQuery;
     qryTabelaCODIGO: TIntegerField;
     qryTabelaDESCRICAO: TStringField;
     qryTabelaFKEMPRESA: TIntegerField;
     qryTabelaATIVO: TStringField;
-    qryTabelaACRESCIMO: TFMTBCDField;
-    qryComposicao: TFDQuery;
+    qryTabelaACRESCIMO: TBCDField;
+    qryComposicao: TZQuery;
     qryComposicaoID_PRODUTO: TIntegerField;
-    qryComposicaoQUANTIDADE: TFMTBCDField;
-    qryCliente: TFDQuery;
+    qryComposicaoQUANTIDADE: TBCDField;
+    qryCliente: TZQuery;
     qryClienteCODIGO: TIntegerField;
     qryClienteRAZAO: TStringField;
     qryClienteCNPJ: TStringField;
@@ -218,8 +218,8 @@ type
     qryClienteFONE1: TStringField;
     qryClienteCELULAR1: TStringField;
     dsEntregador: TDataSource;
-    qtdAtacado: TFDQuery;
-    qryItem: TFDQuery;
+    qtdAtacado: TZQuery;
+    qryItem: TZQuery;
     qryItemCODIGO: TIntegerField;
     qryItemFKVENDA: TIntegerField;
     qryItemITEM: TSmallintField;
@@ -229,20 +229,19 @@ type
     qryItemUNIDADE: TStringField;
     qryItemDESCRICAO_SL: TStringField;
     qryItemEFISCAL: TStringField;
-    qryItemPRECO: TFMTBCDField;
-    qryItemVALOR_ITEM: TFMTBCDField;
-    qryItemVDESCONTO: TFMTBCDField;
-    qryItemTOTAL: TFMTBCDField;
-    qryItemACRESCIMO: TFMTBCDField;
-    qryItemQTD: TFMTBCDField;
-    qryItemE_MEDIO: TFMTBCDField;
-    qryItemQTD_DEVOLVIDA: TFMTBCDField;
+    qryItemPRECO: TBCDField;
+    qryItemVALOR_ITEM: TBCDField;
+    qryItemVDESCONTO: TBCDField;
+    qryItemTOTAL: TBCDField;
+    qryItemACRESCIMO: TBCDField;
+    qryItemQTD: TBCDField;
+    qryItemE_MEDIO: TBCDField;
+    qryItemQTD_DEVOLVIDA: TBCDField;
     qryItemFK_GRADE: TIntegerField;
     qryItemOS: TStringField;
-    qryItemQTD_FISCAL: TExtendedField;
+    qryItemQTD_FISCAL: TFloatField;
     qryItemDESCRICAO_OBS: TStringField;
     qryItemOBSERVACAO: TStringField;
-    qryItemTTOTAL: TAggregateField;
     dsCliente: TDataSource;
     qryPesqProdFOTO: TBlobField;
     qryProdFOTO: TBlobField;
@@ -261,8 +260,9 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses Udados;
+uses
+  Udados;
 
-{$R *.dfm}
+{$R *.lfm}
 
 end.

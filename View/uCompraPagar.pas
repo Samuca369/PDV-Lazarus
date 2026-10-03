@@ -187,7 +187,7 @@ begin
   qryCaixaEMPRESA.Value := frmCadCompra.qryCompraEMPRESA.Value;
   qryCaixaFKCOMPRA.Value := frmCadCompra.qryCompraID.Value;
   qryCaixa.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -216,7 +216,7 @@ begin
       dados.qryExecute.SQL.Text := 'DELETE FROM CAIXA WHERE FKCOMPRA=:ID';
       dados.qryExecute.Params[0].Value := dados.qryCompraID.Value;
       dados.qryExecute.ExecSQL;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       Caixa;
     end;
 
@@ -246,7 +246,7 @@ begin
         qryCPFKEMPRESA.Value := frmCadCompra.qryCompraEMPRESA.Value;
         qryCPFK_COMPRA.Value := frmCadCompra.qryCompraID.Value;
         qryCP.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         vSoma := vSoma + qryCPVALOR.asfloat;
       end;
 
@@ -261,7 +261,7 @@ begin
         qryCP.Edit;
         qryCPVALOR.Value := SimpleRoundTo(qryCPVALOR.Value + vDif, -2);
         qryCP.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
     end;
   finally
@@ -334,7 +334,7 @@ end;
 
 procedure TfrmCPParcela.qryCPAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCPParcela.qryCPBeforePost(DataSet: TDataSet);

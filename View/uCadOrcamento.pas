@@ -346,7 +346,7 @@ begin
       Dados.qryExecute.Params[1].Value := qryItensOCODIGO.Value;
       Dados.qryExecute.ExecSQL;
 
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       TSoma := TSoma + SimpleRoundTo(ValorDesconto, -2);
       qryItensO.Next;
@@ -378,7 +378,7 @@ begin
       Dados.qryExecute.Params[0].Value := TDif;
       Dados.qryExecute.Params[1].Value := MaiorItem;
       Dados.qryExecute.ExecSQL;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
     qryItensO.Refresh;
@@ -580,7 +580,7 @@ end;
 
 procedure TfrmCadOrcamento.qryOrcamentoAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadOrcamento.qryOrcamentoBeforeOpen(DataSet: TDataSet);
@@ -666,7 +666,7 @@ end;
 
 procedure TfrmCadOrcamento.qryItensOAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTotais;
   vletras := '';
   qryProd.Filtered := false;
@@ -839,7 +839,7 @@ begin
   Dados.qryUpdate.Prepare;
   Dados.qryUpdate.ExecSQL;
 
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   qryItensO.Refresh;
   qryItensO.Last;

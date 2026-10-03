@@ -530,7 +530,7 @@ begin
       exit;
     end;
     qryRemetente.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
   PageControl1.ActivePageIndex := 0;
   edtLoc.SetFocus;

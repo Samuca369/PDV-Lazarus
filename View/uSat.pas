@@ -802,7 +802,7 @@ begin
   Dados.qryNFCE_MHORA_EMISSAO.Value := ADataHoraRecto;
   Dados.qryNFCE_MHORA_SAIDA.Value := ADataHoraRecto;
   Dados.qryNFCE_M.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -1337,7 +1337,7 @@ begin
       EnviarCFe(Dados.qryNFCE_MSERIE.AsInteger, Dados.qryNFCE_MNUMERO.Value);
       Application.ProcessMessages;
     finally
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       btnTransmitir.Enabled := True;
     end;
 
@@ -1728,7 +1728,7 @@ end;
 
 procedure TfrmSat.qryItemAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmSat.qryItemBeforeDelete(DataSet: TDataSet);
@@ -1751,7 +1751,7 @@ end;
 
 procedure TfrmSat.qryVendaAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmSat.qryVendaBeforeDelete(DataSet: TDataSet);

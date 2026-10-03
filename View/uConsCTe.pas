@@ -263,7 +263,7 @@ begin
     BtnCCe.Enabled := false;
     if (qryCorrecao.State in dsEditmodes) then
       qryCorrecao.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     dmCTe.ACBrCTe.EventoCTe.Evento.Clear;
     with dmCTe.ACBrCTe.EventoCTe.Evento.Add do
@@ -593,7 +593,7 @@ begin
     btnCorrecao.Enabled := false;
     if (qryCorrecao.State in dsEditmodes) then
       qryCorrecao.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     dmCTe.ACBrCTe.Conhecimentos.Clear;
     dmCTe.ACBrCTe.Conhecimentos.LoadFromString(qryCteXML.Value);
@@ -783,7 +783,7 @@ begin
       qryCteDATA.Value := date;
       qryCteHORA.Value := now;
       qryCte.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       dmCTe.ACBrCTe.Conhecimentos.GravarXML();
 
@@ -843,7 +843,7 @@ begin
             qryCte.edit;
           qryCteSITUACAO.Value := '4';
           qryCte.Post;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
           ShowMessage('CT-e Já Transmitida!');
           exit;
         end;
@@ -863,9 +863,9 @@ begin
         qryCteDATA.Value := date;
         qryCteHORA.Value := now;
         qryCte.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
         dmCTe.ACBrCTe.Conhecimentos.Items[0].GravarXML();
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
     except
       on e: Exception do

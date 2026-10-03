@@ -136,12 +136,12 @@ end;
 
 procedure TfrmCadCaixa.qryCaixaAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCaixa.qryCaixaAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadCaixa.qryCaixaBeforePost(DataSet: TDataSet);
@@ -190,7 +190,7 @@ begin
     else
       qryCaixaTIPO_MOVIMENTO.Value := 'DD';
     qryCaixa.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     close;
   end;
 end;

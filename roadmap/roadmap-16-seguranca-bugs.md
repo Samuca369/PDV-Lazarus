@@ -14,6 +14,9 @@
 - [ ] Estoque baixado de novo ao mudar o preço do item (`View/uPDV.pas:4041-4053`).
 - [ ] Reenvio da contingência que gera outra chave da NFC-e (`View/uNFCe.pas:1462-1467`).
 - [ ] Troca de produto quando falta estoque fiscal (`View/uEstoque_FI_Insuficiente.pas`): remover.
+- [ ] Consultas do `Udados` que não abrem nem no original (achadas pelo `testes/TesteNucleo`):
+      `qryProdutos` (SQL emendado: `select * from Produtoselect PRO.*...`), `qryCartao` (tabela `CARTAO` não existe)
+      e `qryResumoCaixa` (`VENDAS_MASTER` não tem `EMPRESA`, só `FKEMPRESA`). As duas últimas não são usadas: remover.
 
 ## Pronto quando
 

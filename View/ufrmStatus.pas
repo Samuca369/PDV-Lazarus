@@ -1,11 +1,12 @@
 unit ufrmStatus;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  System.SysUtils, System.Classes,
-  Winapi.Windows, Winapi.Messages, System.Variants, Math,
-  Vcl.Graphics, pcnConversao, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls;
+  SysUtils, Classes, Windows, Messages, Variants, Math, Graphics, pcnConversao, Controls, Forms,
+  Dialogs, ExtCtrls;
 
 type
   TfrmStatus = class(TForm)
@@ -21,6 +22,6 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 end.

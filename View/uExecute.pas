@@ -117,7 +117,7 @@ begin
   dados.qryExecute.Params[0].Value := qtdboletos;
   dados.qryExecute.ExecSQL;
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -128,7 +128,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER ADD_ESTOQUE_COMPRA;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -137,7 +137,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER ADD_ESTOQUE_COMPRA_FI;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -146,7 +146,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER COMPOSICAO_ADD_ESTOQUE;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -155,7 +155,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER COMPOSICAO_BAIXA_ESTOQUE;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -164,7 +164,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER COMPRA_CANCELA_UPDT;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -173,7 +173,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER COMPRA_DEL_BAIXA_ESTOQUE;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -182,7 +182,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER COMPRA_DEL_BX_EST_FI;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -191,7 +191,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER COMPRA_UPD_BAIXA_ESTOQUE;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -200,7 +200,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER COMPRA_UPD_BAIXA_ESTOQUE;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -209,7 +209,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER COMPRA_UPD_BX_EST_FI;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -218,7 +218,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER GRADE_ADD_ESTOQUE;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -227,7 +227,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER GRADE_BAIXA_ESTOQUE;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -236,7 +236,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER NFCE_ADD_ESTOQUE_FISCAL;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -245,7 +245,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER NFCE_BAIXA_ESTOQUE_FISCAL;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -254,7 +254,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER NFCE_BAIXA_UPD_ESTOQUE_FI;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -263,7 +263,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER NFE_ATUALIZA_QTD_PRO;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -272,7 +272,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER NFE_DELETE_BX_ESTOQUE;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -281,7 +281,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER NFE_DELETE_ESTQOUE_FISCAL;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -290,7 +290,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER NFE_ESTOQUE_CANCELA_NF;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -299,7 +299,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER PRODUTO_FABRICADOS_ADD_COMP;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -308,7 +308,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER PRODUTO_FABRICADOS_APAGA;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -317,7 +317,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER PRODUTO_FABRICADOS_APAGA_COMP;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -326,7 +326,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TRIGGER PRO_FAB_INSERE_ESTOQUE;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -341,7 +341,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TABLE DELIVERY_BEBIDA;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -350,7 +350,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TABLE DELIVERY_CARDAPIO;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -359,7 +359,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TABLE DELIVERY_ENDERECO;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -368,7 +368,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TABLE DELIVERY_ITEMPEDIDO;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -377,7 +377,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TABLE DELIVERY_LISTANEGRA;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -386,7 +386,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TABLE DELIVERY_PEDIDO;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -395,7 +395,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TABLE DELIVERY_PIZZA;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -404,7 +404,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DROP TABLE DELIVERY_SABORES;';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -414,7 +414,7 @@ begin
     qryConsulta.Close;
     qryConsulta.SQL.Text := 'DELETE FROM TOMADOR WHERE CNPJ=''69498415234''';
     qryConsulta.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   except
     // nada
   end;
@@ -648,7 +648,7 @@ begin
     // faz nada
   end;
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -1032,7 +1032,7 @@ begin
     dados.qryExecute.SQL.Text :=
       'UPDATE VENDAS_PARAMETROS SET PREFIXO_BALANCA=NULL';
     dados.qryExecute.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 end;
 
@@ -1060,7 +1060,7 @@ begin
       dados.qryExecute.SQL.Text := 'UPDATE CONFIG SET DATA_ATUALIZACAO=:DATA';
       dados.qryExecute.Params[0].AsDateTime := now;
       dados.qryExecute.ExecSQL;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
     end;
 

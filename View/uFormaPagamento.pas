@@ -1588,7 +1588,7 @@ begin
   end;
 
   qryVenda.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.grpPessoaExit(Sender: TObject);
@@ -1676,7 +1676,7 @@ begin
       ('codigo').AsInteger;
     dados.qryUpdate.ExecSQL;
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
   end;
 
@@ -1809,7 +1809,7 @@ begin
   dados.qryNFCE_MHORA_SAIDA.Value := now;
   dados.qryNFCE_MFK_VENDA.Value := qryVendaCODIGO.Value;
   dados.qryNFCE_M.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.btnConcluirClick(Sender: TObject);
@@ -1826,7 +1826,7 @@ begin
 
     if qryVendasFPG.State in dsEditModes then
       qryVendasFPG.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     if (qryVendaVIRTUAL_CLIENTE.IsNull) or
       (qryVendaVIRTUAL_CLIENTE.AsString = '') then
@@ -2151,7 +2151,7 @@ begin
     'delete from vendas_fpg  where vendas_master=:codigo and valor=0 and fez_tef=''N''';
   dados.qryExecute.Params[0].Value := qryVendaCODIGO.Value;
   dados.qryExecute.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -2599,7 +2599,7 @@ begin
   dados.qryNFCE_MHORA_SAIDA.Value := now;
   dados.qryNFCE_MFK_VENDA.Value := qryVendaCODIGO.Value;
   dados.qryNFCE_M.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   FechaVenda('S');
 
@@ -2621,7 +2621,7 @@ begin
   dados.qryNFCE_MHORA_SAIDA.Value := now;
   dados.qryNFCE_MFK_VENDA.Value := qryVendaCODIGO.Value;
   dados.qryNFCE_M.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   FechaVenda('S');
 
@@ -2644,7 +2644,7 @@ begin
   dados.qryNFCE_MHORA_SAIDA.Value := now;
   dados.qryNFCE_MFK_VENDA.Value := qryVendaCODIGO.Value;
   dados.qryNFCE_M.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   FechaVenda('S');
 
@@ -2701,7 +2701,7 @@ begin
     dados.qryNFCE_MHORA_SAIDA.Value := now;
     dados.qryNFCE_MFK_VENDA.Value := qryVendaCODIGO.Value;
     dados.qryNFCE_M.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     dmEstoque.AtualizaEstoqueFiscal('NFCE', dados.qryNFCE_MCODIGO.Value, 'S',
       dados.qryEmpresaEXIBE_ESTOQUE_FISCAL.Value);
@@ -2768,7 +2768,7 @@ begin
   dados.qryNFCE_MHORA_SAIDA.Value := ADataHoraRecto;
   dados.qryNFCE_MFK_VENDA.Value := qryVendaCODIGO.Value;
   dados.qryNFCE_M.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   FechaVenda('S');
 
@@ -3220,7 +3220,7 @@ begin
     qryVenda.Edit;
   qryVendaTOTAL_TROCA.Value := dados.qryExecute.Fields[0].AsFloat;
   qryVenda.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.LancaChequesCR;
@@ -3399,7 +3399,7 @@ begin
 
     SomaParcela := SomaParcela + dados.qryCaixaENTRADA.AsFloat;
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     if i = Parcelas then
     begin
@@ -3410,7 +3410,7 @@ begin
         dados.qryCaixaENTRADA.AsFloat := dados.qryCaixaENTRADA.AsFloat
           - valorDif;
         dados.qryCaixa.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
     end;
 
@@ -3450,10 +3450,10 @@ begin
           dados.qryCaixa.Edit;
           dados.qryCaixaSAIDA.AsFloat := dados.qryCaixaSAIDA.AsFloat - valorDif;
           dados.qryCaixa.Post;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
         end;
       end;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
     end;
 
   end;
@@ -3480,7 +3480,7 @@ begin
   dados.qryCCFKEMPRESA.Value := dados.qryEmpresaCODIGO.Value;
   dados.qryCCBLOQUEADO.Value := 'S';
   dados.qryCC.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.LancaCartaoDebitoCaixa;
@@ -3548,7 +3548,7 @@ begin
     dados.qryCaixaTRANSFERENCIA.Value := 0;
     dados.qryCaixaFPG.Value := qryFPGCODIGO.Value;
     dados.qryCaixa.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     SomaParcela := SomaParcela + dados.qryCaixaENTRADA.AsFloat;
 
     if i = Parcelas then
@@ -3560,7 +3560,7 @@ begin
         dados.qryCaixaENTRADA.AsFloat := dados.qryCaixaENTRADA.AsFloat
           - valorDif;
         dados.qryCaixa.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
       end;
     end;
 
@@ -3587,7 +3587,7 @@ begin
       dados.qryCaixaTRANSFERENCIA.Value := 0;
       dados.qryCaixaFPG.Value := qryFPGCODIGO.Value;
       dados.qryCaixa.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       SomaTaxa := SomaTaxa + dados.qryCaixaSAIDA.AsFloat;
 
@@ -3599,7 +3599,7 @@ begin
           dados.qryCaixa.Edit;
           dados.qryCaixaSAIDA.AsFloat := dados.qryCaixaSAIDA.AsFloat - valorDif;
           dados.qryCaixa.Post;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
         end;
       end;
     end;
@@ -3851,7 +3851,7 @@ begin
     end;
 
   finally
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     btnTransmitir.Enabled := True;
   end;
   vFinalizou := True;
@@ -3978,7 +3978,7 @@ begin
           qryVenda.Edit;
         qryVendaFORMA_PAGAMENTO.Value := Parcelas;
         qryVenda.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
         ImprimeA4;
       end;
@@ -4052,7 +4052,7 @@ begin
     dados.qryExecute.Params[3].Value := qryItemCODIGO.Value;
     dados.qryExecute.ExecSQL;
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     TSoma := TSoma + SimpleRoundTo(ValorDesconto, -2);
     TSomaOutro := TSomaOutro + SimpleRoundTo(ValorAcrescimo, -2);
@@ -4090,7 +4090,7 @@ begin
     dados.qryExecute.Params[0].Value := TDif;
     dados.qryExecute.Params[1].Value := MaiorItem;
     dados.qryExecute.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   if TDifOutro <> 0 then
@@ -4102,7 +4102,7 @@ begin
     dados.qryExecute.Params[0].Value := TDifOutro;
     dados.qryExecute.Params[1].Value := MaiorItem;
     dados.qryExecute.ExecSQL;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
   end;
 
   qryItem.Refresh;
@@ -4139,7 +4139,7 @@ begin
     dados.qryParametro.FieldByName('CAMINHO_LOGO_FPG').AsString :=
       OpenPicture.FileName;
     dados.qryParametro.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     CarregaImagem;
 
@@ -4212,14 +4212,14 @@ begin
     dados.qryNFCE_MTIPO_DESCONTO.Value := qryVendaTIPO_DESCONTO.Value;
     dados.qryNFCE_MTROCO.AsFloat := qryVendaTROCO.AsFloat;
     dados.qryNFCE_M.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     dados.qryExecute.Close;
     dados.qryExecute.SQL.Text := 'delete from nfce_detalhe where fkvenda=:fk';
     dados.qryExecute.Params[0].Value := dados.qryNFCE_MCODIGO.Value;
     dados.qryExecute.ExecSQL;
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
     i := 1;
     qryItem.First;
     while not qryItem.Eof do
@@ -4356,7 +4356,7 @@ begin
         '.', ',', [])) * qryItemTOTAL.AsFloat) / 100, -2);
 
       dados.qryNFCE_D.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       i := i + 1;
       qryItem.Next;
     end;
@@ -4456,7 +4456,7 @@ begin
     qryCMovimentoLOTE.Value := dados.Lote;
     qryCMovimento.Post;
   end;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.FechaVenda(Tipo: string);
@@ -4471,7 +4471,7 @@ begin
   dados.qryUpdate.ParamByName('NECF').AsInteger := dados.qryNFCE_MNUMERO.Value;
   dados.qryUpdate.ParamByName('CODIGO').AsInteger := qryVendaCODIGO.Value;
   dados.qryUpdate.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   LancaContaMovimento;
 end;
@@ -4738,7 +4738,7 @@ begin
     'update vendas_fpg set valor=0 where vendas_master=:codigo and FEZ_TEF=''N''';
   dados.qryExecute.Params[0].Value := qryVenda.FieldByName('codigo').AsInteger;
   dados.qryExecute.ExecSQL;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   qryVendasFPG.Refresh;
 end;
 
@@ -5016,7 +5016,7 @@ begin
 
           dados.qryUpdate.Prepare;
           dados.qryUpdate.ExecSQL;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
         end;
       end;
 
@@ -5135,17 +5135,17 @@ end;
 
 procedure TfrmFechaVenda.qryFPGAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.qryItemAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.qryItemAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.AtualizaTotal;
@@ -5166,13 +5166,13 @@ end;
 
 procedure TfrmFechaVenda.qryVendaAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.qryVendaAfterPost(DataSet: TDataSet);
 begin
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
   if (qryVendaSITUACAO.Value = 'F') or (qryVendaSITUACAO.Value = 'T') or
     (qryVendaSITUACAO.Value = 'G') then
@@ -5186,12 +5186,12 @@ end;
 
 procedure TfrmFechaVenda.qryVendasFPGAfterDelete(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.qryVendasFPGAfterPost(DataSet: TDataSet);
 begin
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   CalculaTroco;
 
 end;
@@ -5204,7 +5204,7 @@ begin
 
   if (qryVenda.State in dsEditModes) then
     qryVenda.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmFechaVenda.qryVendasFPGBeforeOpen(DataSet: TDataSet);
@@ -5313,7 +5313,7 @@ begin
     dados.qryNFCE_MXML.Value := dmnfe.ACBrNFe.NotasFiscais.Items[0].XML;
     dados.qryNFCE_M.Post;
   end;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 
   // grava chave do nfe no banco de dados
@@ -5512,7 +5512,7 @@ begin
       end;
 
     finally
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       btnTransmitir.Enabled := True;
     end;
 

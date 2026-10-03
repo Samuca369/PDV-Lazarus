@@ -88,7 +88,7 @@ begin
   end;
 
   qryRecibo.Post;
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
   close;
 end;
 

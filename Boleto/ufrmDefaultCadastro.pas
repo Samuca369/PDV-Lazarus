@@ -179,7 +179,7 @@ procedure TfrmDefaultCadastro.btnCancelarClick(Sender: TObject);
 begin
   dtsDefault.DataSet.Cancel;
 
-  dados.conexao.RollbackRetaining;
+  Dados.Desfazer;
 
   Self.Close;
   Self.ModalResult := mrCancel;
@@ -199,7 +199,7 @@ begin
       TExcluir:TFDQuery(dtsDefault.DataSet).Delete;
     end;
 
-    dados.conexao.CommitRetaining;
+    Dados.Confirmar;
 
     if FOperacao in [TIncluir,TEditar] then
       if FCampoChave.Trim.Length > 0 then

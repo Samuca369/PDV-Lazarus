@@ -52,7 +52,7 @@ begin
   dados.qryExecute.Prepare;
   dados.qryExecute.ExecSQL;
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 
@@ -66,7 +66,7 @@ begin
   dados.qryExecute.Prepare;
   dados.qryExecute.ExecSQL;
 
-  dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 
 end;
 

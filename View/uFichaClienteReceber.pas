@@ -162,7 +162,7 @@ begin
   qryCaixaFPG.Value := qryFichaFK_FPG.Value;
   qryCaixaTIPO_MOVIMENTO.Value := 'RE';
   qryCaixa.Post;
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadFichaClieR.btnGravarClick(Sender: TObject);
@@ -214,7 +214,7 @@ begin
       end;
 
       qryFicha.Post;
-      Dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       if qryFichaENTRADA.Value > 0 then
         GeraCaixa;
@@ -256,7 +256,7 @@ end;
 
 procedure TfrmCadFichaClieR.qryFichaAfterPost(DataSet: TDataSet);
 begin
-  Dados.Conexao.CommitRetaining;
+  Dados.Confirmar;
 end;
 
 procedure TfrmCadFichaClieR.qryFichaBeforeOpen(DataSet: TDataSet);

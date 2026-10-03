@@ -1,13 +1,12 @@
 unit uSplash;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls,
-  Vcl.Buttons, Vcl.Imaging.pngimage, Vcl.ExtCtrls, Vcl.DBCtrls,
-  Vcl.Imaging.jpeg, Vcl.ExtDlgs, dxGDIPlusClasses;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, ComCtrls,
+  StdCtrls, Buttons, ExtCtrls, DBCtrls, ExtDlgs;
 
 type
   TfrmSplash = class(TForm)
@@ -27,9 +26,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados;
+uses
+  Udados;
 
 procedure TfrmSplash.CarregaImagem;
 begin
@@ -69,7 +69,7 @@ begin
       dados.qryParametro.FieldByName('TELA_ABERTURA').AsString :=
         OpenPicture.FileName;
       dados.qryParametro.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
 
       CarregaImagem;
 

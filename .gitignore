@@ -26,3 +26,10 @@ __recovery/
 *.gdb
 Banco.ini
 dados-locais/
+
+# saídas do Lazarus
+bin/
+lib/
+backup/
+*.lps
+__pycache__/

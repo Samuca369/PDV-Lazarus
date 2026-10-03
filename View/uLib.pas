@@ -3,17 +3,19 @@
    unit:   uLib
    Classe: uLib
 
-   Data de criação  : 20/05/2019
+   Data de criaÃ§Ã£o  : 20/05/2019
    Autor            :
-   Descrição        : Lib contendo estruturas Auxiliares da Aplicação
+   DescriÃ§Ã£o        : Lib contendo estruturas Auxiliares da AplicaÃ§Ã£o
    }
 //*****************************************************************************/
 unit uLib;
 
+{$mode delphi}{$H+}
+
 interface
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, System.StrUtils, system.AnsiStrings,
-  Vcl.Graphics,Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, System.Types, System.TypInfo;
+  Windows, Messages, SysUtils, Variants, Classes, StrUtils, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, MaskEdit, Types, TypInfo;
 
 
 function GetAveCharSize(Canvas: TCanvas): TPoint;
@@ -59,7 +61,7 @@ end;
 
 //==========================================================
   {
-    Cria Formulário para entrada de dados
+    Cria FormulÃ¡rio para entrada de dados
   }
 //==========================================================
 function vInputQuery(const ACaption, APrompt: string; var Value: string; x,y:integer): Boolean;
@@ -102,7 +104,7 @@ begin
   Top := Prompt.Top + Prompt.Height + 5;
   Width := MulDiv(164, DialogUnits.X, 4);
   MaxLength := 255;
-  // PassWordChar := ´*´;
+  // PassWordChar := Â´*Â´;
   Text := Value;
   SelectAll;
 end;
@@ -126,7 +128,7 @@ begin
   ModalResult := mrCancel;
   Cancel := True;
   //Enabled := False;
-  Visible := True;       // Esconde Botão Cancelar
+  Visible := True;       // Esconde BotÃ£o Cancelar
   SetBounds(MulDiv(92, DialogUnits.X, 4), Edit.Top + Edit.Height + 15,
   ButtonWidth, ButtonHeight);
   Form.ClientHeight := Top + Height + 13;
@@ -195,7 +197,7 @@ end;
 
 //==========================================================
   {
-    Cria Formulário com Mascara para entrada de dados
+    Cria FormulÃ¡rio com Mascara para entrada de dados
   }
 //==========================================================
 function vMInputQuery(const ACaption, APrompt: string; var Value: string; x,y:integer; Tipo:Integer): Boolean;
@@ -252,7 +254,7 @@ begin
       EditMask :=  'R$ 00,00;0;_';
   end;
 
-  if Tipo = 3 then       // Horário
+  if Tipo = 3 then       // HorÃ¡rio
   begin
     EditMask :=  '!90:00;0;_';
   end;
@@ -263,7 +265,7 @@ begin
   end;
 
 
-  // PassWordChar := ´*´;
+  // PassWordChar := Â´*Â´;
   Text := Value;
   SelectAll;
 end;
@@ -287,7 +289,7 @@ begin
   ModalResult := mrCancel;
   Cancel := True;
   //Enabled := False;
-  Visible := True;       // Esconde Botão Cancelar
+  Visible := True;       // Esconde BotÃ£o Cancelar
   SetBounds(MulDiv(92, DialogUnits.X, 4), Edit.Top + Edit.Height + 15,
   ButtonWidth, ButtonHeight);
   Form.ClientHeight := Top + Height + 13;

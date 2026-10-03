@@ -335,7 +335,7 @@ begin
     frmCadNFe.qryVendaFINALIDADE.Value := '3';
     frmCadNFe.qryVendaMOVIMENTO.Value := 'S';
     frmCadNFe.qryVenda.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     if not frmCadNFe.qryItem.IsEmpty then
     begin
@@ -348,7 +348,7 @@ begin
       end;
     end;
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     qryDevItensCompra.First;
     while not qryDevItensCompra.Eof do
@@ -386,7 +386,7 @@ begin
       frmCadNFe.qryItemTOTAL.AsFloat := frmCadNFe.qryItemTOTAL.AsFloat;
 
       frmCadNFe.qryItem.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       qryDevItensCompra.Next;
     end;
 
@@ -435,7 +435,7 @@ begin
         frmCadNFe.qryVendaFKVENDA.Value := qryPVCODIGO.AsInteger;
         frmCadNFe.qryVendaIMPORTOU.Value := 'S';
         frmCadNFe.qryVenda.Post;
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
         qryPV_Itens.First;
         while not qryPV_Itens.Eof do
@@ -469,7 +469,7 @@ begin
 
           frmCadNFe.qryItemTOTAL.AsFloat := frmCadNFe.qryItemTOTAL.AsFloat;
           frmCadNFe.qryItem.Post;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
           qryPV_Itens.Next;
         end;
         AtualizaFPG(frmCadNFe.qryVendaCODIGO.Value, qryPVCODIGO.Value);
@@ -539,7 +539,7 @@ begin
         frmCadNFe.qryVendaID_CLIENTE.Value := qryOrcamentoFK_CLIENTE.Value;
         frmCadNFe.qryVenda.Post;
 
-        dados.Conexao.CommitRetaining;
+        Dados.Confirmar;
 
         qryItemO.First;
         while not qryItemO.Eof do
@@ -580,7 +580,7 @@ begin
           frmCadNFe.qryItemTOTAL.AsFloat := frmCadNFe.qryItemTOTAL.AsFloat -
             frmCadNFe.qryItemDESCONTO.AsFloat;
           frmCadNFe.qryItem.Post;
-          dados.Conexao.CommitRetaining;
+          Dados.Confirmar;
           qryItemO.Next;
         end;
       end;
@@ -621,7 +621,7 @@ begin
     frmCadNFe.qryVendaDESCONTO.Value := 0;
     frmCadNFe.qryVendaMOVIMENTO.Value := 'E';
     frmCadNFe.qryVenda.Post;
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     if not frmCadNFe.qryItem.IsEmpty then
     begin
@@ -634,7 +634,7 @@ begin
       end;
     end;
 
-    dados.Conexao.CommitRetaining;
+    Dados.Confirmar;
 
     qryItensDevVenda.First;
     while not qryItensDevVenda.Eof do
@@ -670,7 +670,7 @@ begin
 
       frmCadNFe.qryItemTOTAL.AsFloat := frmCadNFe.qryItemTOTAL.AsFloat;
       frmCadNFe.qryItem.Post;
-      dados.Conexao.CommitRetaining;
+      Dados.Confirmar;
       qryItensDevVenda.Next;
     end;
 
