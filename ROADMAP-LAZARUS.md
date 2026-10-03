@@ -10,7 +10,7 @@ O trabalho está dividido em 19 roadmaps, na pasta `roadmap/`. Faça um por vez,
 | Nº | Roadmap | Objetivo |
 |---|---|---|
 | 1 ✓ | [Ambiente](roadmap/roadmap-01-ambiente.md) | Deixar o PC pronto para abrir e compilar o projeto no Lazarus. |
-| 2 | [Banco Firebird](roadmap/roadmap-02-banco-firebird.md) | Ter a estrutura do banco em texto, versionada, e um usuário próprio. |
+| 2 ✓ | [Banco Firebird](roadmap/roadmap-02-banco-firebird.md) | Ter a estrutura do banco em texto, versionada, e um usuário próprio. |
 | 3 | [Núcleo de dados](roadmap/roadmap-03-nucleo-de-dados.md) (13 units) | Primeiro projeto Lazarus compilando e conectando no Firebird. |
 | 4 | [PDV — tela de venda](roadmap/roadmap-04-pdv-venda.md) (12 units) | Lançar itens na venda como no original. |
 | 5 | [PDV — pagamento](roadmap/roadmap-05-pdv-pagamento.md) (5 units) | Fechar a venda com todas as formas de pagamento. |
@@ -42,6 +42,8 @@ errado, é só movê-la ao chegar nela.
 
 - **Sem Delphi.** A passagem é feita direto no Lazarus. A referência de comportamento é o gestor original já rodando
   em `BIBLIOTECA DE ESTUDO\gestor-teste\app` (compara-se tela a tela).
+  Atenção: ele é a versão do instalador de 2020, e o código é de 2022. Onde a tela ou o banco forem diferentes, vale
+  o código.
 - **Primeiro o PDV (roadmaps 3 a 8), depois o ERP (10 a 15).** As 70 units que os dois usam são convertidas no PDV e
   reaproveitadas no ERP.
 - **Comportamento igual primeiro, melhorias depois.** Durante a passagem só se troca o que o Lazarus exige. As
