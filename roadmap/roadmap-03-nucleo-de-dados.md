@@ -9,6 +9,8 @@
 - [ ] Converter os 3 `.dfm` binários para texto: `View/uCadOS.dfm`, `View/uCadUniforme.dfm`, `View/uConsCTe_RodoViario.dfm`.
 - [ ] Criar `Projeto/PDV.lpi` com só o módulo de dados e as rotinas comuns (lista abaixo).
 - [ ] Trocar FireDAC por Zeos no `Udados` (97 consultas) e ler `Banco.ini` (`IP` e `Path`).
+- [ ] Criar o usuário `GESTOR` no Firebird, rodar `db/003-usuario-gestor.sql` e ler usuário e senha do `Banco.ini`
+      (nada de senha no código).
 - [ ] Criar `Dados.Confirmar` e trocar as 646 chamadas de `CommitRetaining` (119 units) por ela.
 - [ ] `uDadosWeb`, `uChave` e `Serial` são a licença online do autor: entram vazios, sem conexão externa.
 - [ ] Compilar e conectar no banco de teste.
