@@ -6,7 +6,7 @@ uses
   uErroFatal, Interfaces, Forms, SysUtils, zcomponent,
   Serial, uEnums, uLib, uLib02, Udados, uDadosWeb, uRotinasComuns, uDmPDV,
   frExibeMensagem, ufrmStatus, uConexaoBD, uSplash, uChave,
-  udmImpressao, uDmNFe, uDMEstoque, uPDV, uTef, uTraducaoLCL;
+  udtmCBR, udmImpressao, uDmNFe, uDMSat, uDMEstoque, uPDV, uTef, uTraducaoLCL;
 
 {$R *.res}
 
@@ -22,9 +22,11 @@ begin
     Application.CreateForm(TDados, Dados);
     Application.CreateForm(TDadosWeb, DadosWeb);
     Application.CreateForm(TDMRotinas, DMRotinas);
-    // O original também criava TdtmCBR (boleto, roadmap 8) e TDMSat (SAT, roadmap 7).
+    // boleto, impressão, NFC-e e SAT ainda são provisórios (pendentes/)
+    Application.CreateForm(TdtmCBR, dtmCBR);
     Application.CreateForm(TDMImpressao, DMImpressao);
     Application.CreateForm(TdmNFe, dmNFe);
+    Application.CreateForm(TDMSat, DMSat);
     Application.CreateForm(TdmPDV, dmPDV);
     Application.CreateForm(TDMEstoque, DMEstoque);
     Dados.ConfiguraEstilo(Dados.qryParametroESTILO.Value);

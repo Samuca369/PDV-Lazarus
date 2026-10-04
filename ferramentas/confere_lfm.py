@@ -19,7 +19,8 @@ from converte_lazarus import Parser, le_texto  # noqa: E402
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LAZBUILD = r"C:\lazarus\lazbuild.exe"
 PACOTES = ["LCL", "zcomponent", "rxnew", "ACBrComum", "ACBrDiversos", "ACBrSerial", "ACBr_TEFD", "ACBrDFeComum",
-           "ACBr_NFe", "ACBr_NFe_DanfeESCPOS", "ACBr_NFe_DanfeRL", "ACBr_SAT", "PCNComum", "laz_synapse"]
+           "ACBr_NFe", "ACBr_NFe_DanfeESCPOS", "ACBr_NFe_DanfeRL", "ACBr_SAT", "PCNComum", "laz_synapse",
+           "ACBr_Boleto"]
 # gravadas pelo editor de telas, não são propriedades publicadas
 SEMPRE_ACEITAS = {"left", "top"}
 ACEITAS_NA_RAIZ = {"height", "width", "horizontaloffset", "verticaloffset", "ppi"}

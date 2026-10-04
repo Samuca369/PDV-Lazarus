@@ -13,7 +13,7 @@ O trabalho está dividido em 19 roadmaps, na pasta `roadmap/`. Faça um por vez,
 | 2 ✓ | [Banco Firebird](roadmap/roadmap-02-banco-firebird.md) | Ter a estrutura do banco em texto, versionada, e um usuário próprio. |
 | 3 ✓ | [Núcleo de dados](roadmap/roadmap-03-nucleo-de-dados.md) (13 units) | Primeiro projeto Lazarus compilando e conectando no Firebird. |
 | 4 ✓ | [PDV — tela de venda](roadmap/roadmap-04-pdv-venda.md) (12 units + login) | Lançar itens na venda como no original. |
-| 5 | [PDV — pagamento](roadmap/roadmap-05-pdv-pagamento.md) (5 units) | Fechar a venda com todas as formas de pagamento. |
+| 5 ✓ | [PDV — pagamento](roadmap/roadmap-05-pdv-pagamento.md) (5 units) | Fechar a venda com todas as formas de pagamento. |
 | 6 | [PDV — caixa](roadmap/roadmap-06-pdv-caixa.md) (8 units) | Controle de caixa completo. |
 | 7 | [PDV — NFC-e, SAT e periféricos](roadmap/roadmap-07-pdv-fiscal-perifericos.md) (8 units) | Emitir documento fiscal e usar os aparelhos. |
 | 8 | [PDV — acesso, cadastros e boleto](roadmap/roadmap-08-pdv-apoio.md) (26 units) | Tudo o que o PDV abre além da venda. |
@@ -71,7 +71,8 @@ errado, é só movê-la ao chegar nela.
 | `CommitRetaining` espalhado | uma rotina única no módulo de dados (`Dados.Confirmar`) |
 | Mestre-detalhe por parâmetro (`MasterSource` + `MasterFields`) | `DataSource` do Zeos (o `LinkedFields` do Zeos é filtro em memória, outra coisa) |
 | Chave da consulta (campos com `pfInKey`) | `Properties` com `KeyFields=...`, que o conversor preenche |
-| Campo agregado (`TAggregateField`) | soma feita no código (exemplo: `SomaItens` no `uPDV`) |
+| Campo agregado (`TAggregateField`, `SUM(CAMPO)`) | `SomaCampo` / `SomaCampoOuZero` (`View/uAgregado.pas`) no código; o `TDBText` que mostrava o agregado vira `TRotuloTotal` (mesma unit), que o conversor troca sozinho |
+| `RecNo` dentro do `OnCalcFields` | `RecNoCalculado` (`View/uRegistroCalculado.pas`): no Zeos o `RecNo` move o cursor no meio da leitura; o conversor troca sozinho |
 | `TDBCtrlGrid` (quadro de mesas) | componente próprio `View/DBCGrids.pas` |
 | EhLib `TDBGridEh` | `TRxDBGrid` (RxFPC), com rodapé de totais |
 | EhLib `TDBLookupComboboxEh`, `TDBComboBoxEh`, `TDBMemoEh` | `TDBLookupComboBox`, `TDBComboBox`, `TDBMemo` (LCL) |

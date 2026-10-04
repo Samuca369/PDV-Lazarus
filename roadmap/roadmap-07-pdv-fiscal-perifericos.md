@@ -11,6 +11,8 @@
 - [ ] TEF pelo ACBrTEFD (PayGo/CliSiTef) em ambiente de teste.
 - [ ] Impressora térmica (ESC/POS), gaveta e balança (peso e etiqueta).
 - [ ] Reimprimir NFC-e.
+- [ ] No pagamento: F3 Contingência e F4 Transmitir (hoje param no aviso da NFC-e provisória), a NFC-e automática da
+      venda no cartão (`TRANSMITIR_CARTAO_AUTO`, desligada no `testes/tela/pagamento.ps1`) e o TEF (`USA_TEF`).
 
 **Como fazer cada tela:** Converter o `.dfm` para `.lfm`, trocar os componentes (tabela em `ROADMAP-LAZARUS.md`), compilar, abrir e comparar com o original rodando em `gestor-teste`. Marcar `[x]` e fazer um commit.
 

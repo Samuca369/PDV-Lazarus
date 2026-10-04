@@ -8,6 +8,9 @@
 
 - [ ] Abrir caixa, sangria, suprimento, resumo e fechamento (inclusive o fechamento cego).
 - [ ] Receber conta no caixa (baixa de contas a receber, uma ou em lote).
+- [ ] Conferir o dinheiro das vendas no fechamento: no código de 2022 cada venda em dinheiro só grava o movimento
+      (`CONTAS_MOVIMENTO`); o lançamento no caixa (`CAIXA`, tipo `VA`) é feito no fechamento (`uResumoCaixa`). O
+      original de 2021 lançava a cada venda (achado no roadmap 5).
 
 **Como fazer cada tela:** Converter o `.dfm` para `.lfm`, trocar os componentes (tabela em `ROADMAP-LAZARUS.md`), compilar, abrir e comparar com o original rodando em `gestor-teste`. Marcar `[x]` e fazer um commit.
 

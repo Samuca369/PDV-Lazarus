@@ -23,6 +23,13 @@
 - [ ] Código que começa com "2" é tratado como etiqueta de balança (`edtQtdPEnter` → `DecodificaBalanca`): um
       produto de código 2, 20, 21... não entra pelo código. Conferir o prefixo da balança na configuração antes de
       decodificar.
+- [ ] Pagamento (`View/uFormaPagamento.pas`, achados no roadmap 5):
+  - `ChecaLancamento` confere o caixa com `SUM(...)` e `IsEmpty`: a soma sempre devolve uma linha e a conferência
+    nunca falha. Conferir se a soma é nula.
+  - `LancaCartaCreditoCaixa` escolhe a conta por `qryCaixaFKCONTA` do registro novo (sempre vazio): lança sempre no
+    caixa geral. Usar a conta de destino da forma (`FKCONTADESTINO`) quando houver.
+  - Depósito (`LancaDepositoConta`): grava no caixa o total da venda, não o valor depositado.
+  - `ApagaFpgZerada` só apaga formas com `FEZ_TEF = 'N'`: as que vieram de versões antigas (vazio) ficam com 0.
 
 ## Pronto quando
 

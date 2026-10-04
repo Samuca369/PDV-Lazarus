@@ -9,6 +9,9 @@
 - [ ] Criar `Projeto/Gestor.lpi` reaproveitando as 70 units já convertidas no PDV.
 - [ ] Converter a tela principal (`uPrincipal`) sem o componente de licença `TLockApplication`.
 - [ ] Configurações, usuários, permissões, terminais e as telas de sistema (lista abaixo).
+- [ ] Terminais: o `CriaTerminal` deixa vazios os botões do fechamento da venda (`EXIBE_F3` a `EXIBE_F6`) e a ação
+      automática (`FLAG`); conferir o que a tela de terminais grava. Contas: o depósito do PDV lista as contas de
+      banco (`TIPO = 'B'`). Hoje o `testes/tela/pagamento.ps1` preenche os dois (achado no roadmap 5).
 - [ ] Cadastros que só o ERP tem (lista abaixo).
 - [ ] Decidir a sincronização com o aplicativo (`uSincronizar`, e `uPedidoWeb` no roadmap 13): usava o MySQL do
       `uDadosWeb`, que ficou vazio no roadmap 3.

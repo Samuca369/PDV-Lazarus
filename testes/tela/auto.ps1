@@ -52,6 +52,15 @@ public static class Auto {
     return GetGUIThreadInfo(tid, ref gi) ? gi.hwndFocus : IntPtr.Zero;
   }
   public static void Digita(IntPtr h, string t) { foreach (char c in t) PostMessage(h, WM_CHAR, (IntPtr)c, (IntPtr)1); }
+  // como o teclado de verdade, para dígitos e letras: só WM_KEYDOWN e WM_KEYUP; o caractere sai do TranslateMessage
+  // do próprio programa (a grade só abre o editor com a primeira tecla quando recebe o WM_KEYDOWN antes)
+  public static void Escreve(IntPtr h, string t) {
+    foreach (char c in t) {
+      int vk = char.ToUpperInvariant(c);
+      PostMessage(h, WM_KEYDOWN, (IntPtr)vk, (IntPtr)1);
+      PostMessage(h, WM_KEYUP, (IntPtr)vk, unchecked((IntPtr)(int)0xC0000001));
+    }
+  }
   // tecla com o caractere que o Windows gera junto (Enter = 13, Esc = 27, Tab = 9, Backspace = 8)
   public static void Tecla(IntPtr h, int vk) {
     PostMessage(h, WM_KEYDOWN, (IntPtr)vk, (IntPtr)1);
@@ -107,6 +116,21 @@ public static class Auto {
   }
 }
 '@
+}
+$RaizGestor = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+# Roda um .sql no banco de teste (dados-locais\DEV.FDB) e devolve as linhas não vazias da saída. Com a senha do SYSDBA
+# entra como SYSDBA; sem ela, com o usuário e a senha do bin\Banco.ini (o GESTOR lê e grava todas as tabelas, ver
+# db\003). O SYSDBA só é necessário no prepara-banco.ps1, que mexe na estrutura do banco.
+function SqlTeste([string]$Arquivo, [string]$SenhaSysdba = '') {
+  $isql = 'C:\Program Files (x86)\Firebird\Firebird_2_5\bin\isql.exe'
+  if ($SenhaSysdba) {
+    $usuario = 'SYSDBA'; $senha = $SenhaSysdba; $banco = "localhost:$RaizGestor\dados-locais\DEV.FDB"
+  } else {
+    $v = @{}
+    foreach ($l in Get-Content "$RaizGestor\bin\Banco.ini") { if ($l -match '^\s*([^=\[]+?)\s*=\s*(.*)$') { $v[$Matches[1]] = $Matches[2] } }
+    $usuario = if ($v['Usuario']) { $v['Usuario'] } else { 'GESTOR' }; $senha = $v['Senha']; $banco = "$($v['IP']):$($v['Path'])"
+  }
+  & $isql -q -ch WIN1252 -user $usuario -password $senha -i $Arquivo $banco | Where-Object { "$_".Trim() } | ForEach-Object { "$_".Trim() }
 }
 function Lista-Controles([IntPtr]$h) {
   foreach ($c in [Auto]::Filhos($h)) {

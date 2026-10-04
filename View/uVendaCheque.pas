@@ -1,17 +1,13 @@
 unit uVendaCheque;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, math,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.StdCtrls,
-  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, DBGridEhGrouping,
-  ToolCtrlsEh, DBGridEhToolCtrls, DynVarsEh, EhLibVCL, GridsEh, DBAxisGridsEh,
-  DBGridEh, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.DBCtrls, ACBrBase,
-  ACBrEnterTab;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, math, Controls, Forms, Dialogs,
+  ExtCtrls, DB, StdCtrls, Buttons, Grids, DBGrids, DBCtrls, ACBrBase, ACBrEnterTab, ZConnection,
+  ZDataset, ZAbstractRODataset, ZAbstractDataset, ZAbstractConnection, RxDBGrid, uAgregado;
 
 type
   TfrmCHParcela = class(TForm)
@@ -24,15 +20,14 @@ type
     BtnGerar: TBitBtn;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
-    qryCH: TFDQuery;
+    qryCH: TZQuery;
     dsCH: TDataSource;
-    DBGridEh1: TDBGridEh;
+    DBGridEh1: TRxDBGrid;
     Panel2: TPanel;
     Label3: TLabel;
-    DBText2: TDBText;
+    DBText2: TRotuloTotal; // total que era o agregado TTOTAL (ver uAgregado)
     ACBrEnterTab1: TACBrEnterTab;
     Splitter3: TSplitter;
-    qryCHTTOTAL: TAggregateField;
     qryCHCODIGO: TIntegerField;
     qryCHNUMERO: TIntegerField;
     qryCHAGENCIA: TStringField;
@@ -82,9 +77,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados;
+uses
+  Udados;
 
 procedure TfrmCHParcela.btnAvancarClick(Sender: TObject);
 var
@@ -95,12 +91,13 @@ begin
 
   if not qryCH.IsEmpty then
   begin
-    valor1 := formatfloat('0.00', simpleroundto(qryCHTTOTAL.Value, -2));
+    // qryCHTTOTAL era o agregado SUM(VALOR) do FireDAC (ver uAgregado)
+    valor1 := formatfloat('0.00', simpleroundto(SomaCampoOuZero(qryCH, 'VALOR'), -2));
     valor2 := edtTotal.text;
     if valor1.ToExtended <> valor2.ToExtended then
     begin
-      ShowMessage('Atenção!' +
-        'Não é possivel concluir. Total das parcelas difere do Valor total da venda!');
+      ShowMessage('AtenÃ§Ã£o!' +
+        'NÃ£o Ã© possivel concluir. Total das parcelas difere do Valor total da venda!');
       exit;
     end;
   end;
@@ -125,7 +122,7 @@ end;
 procedure TfrmCHParcela.BtnExcluirClick(Sender: TObject);
 begin
   if Application.messageBox('Tem certeza de que deseja excluir parcelas?',
-    'Confirmação', mb_YesNo) = mrYes then
+    'ConfirmaÃ§Ã£o', mb_YesNo) = mrYes then
   begin
     Excluir;
   end;
@@ -137,7 +134,7 @@ var
   vDif, vSoma: real;
 begin
   if Application.messageBox('Tem certeza de que deseja gerar parcelas?',
-    'Confirmação', mb_YesNo) <> mrYes then
+    'ConfirmaÃ§Ã£o', mb_YesNo) <> mrYes then
     exit;
 
   try
@@ -164,7 +161,7 @@ begin
       qryCHSITUACAO.Value := 'A';
       qryCHFK_VENDA.Value := idVenda;
       qryCHFK_EMPRESA.Value := dados.qryEmpresaCODIGO.Value;
-      qryCHHISTORICO.Value := 'REF. VENDA Nº' + IntToStr(idVenda);
+      qryCHHISTORICO.Value := 'REF. VENDA NÂº' + IntToStr(idVenda);
       qryCH.Post;
       Dados.Confirmar;
       vSoma := vSoma + qryCHVALOR.AsFloat;

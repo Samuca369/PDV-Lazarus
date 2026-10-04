@@ -18,9 +18,13 @@ function Limpa($nome) {
     foreach ($h in $novas) {
       $arq = Join-Path $saida "atalho-$nome-$i.png"; [Auto]::Print($h, $arq)
       "   abriu: '$([Auto]::Titulo($h))' -> $arq"
-      # aviso: responde com o último botão (Não / OK); tela: fecha
+      # aviso: responde com o último botão (Não / OK); tela: fecha. A Forma de Pagamento (F7) pergunta se quer sair:
+      # essa pergunta leva Sim, senão a tela não fecha.
       if ([Auto]::Classe($h) -eq '#32770') {
-        [Auto]::Clica(([Auto]::Filhos($h) | Where-Object { [Auto]::Classe($_) -eq 'Button' } | Select-Object -Last 1))
+        $botoes = @([Auto]::Filhos($h) | Where-Object { [Auto]::Classe($_) -eq 'Button' })
+        $pagamento = @($novas | Where-Object { [Auto]::Titulo($_) -eq 'Forma de Pagamento' }).Count -gt 0
+        if ($pagamento) { [Auto]::Clica(@($botoes | Where-Object { [Auto]::Titulo($_) -eq '&Sim' })[0]) }
+        else { [Auto]::Clica($botoes[-1]) }
       } else { [Auto]::Fecha($h) }
     }
     Start-Sleep -Seconds 2

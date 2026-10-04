@@ -4,22 +4,17 @@
 #      é etiqueta de balança no código de 2022); produto 1; produto 1 com quantidade 2.
 #   2. Operações: lança por código e por descrição, exclui o item atual (Del) e cancela a venda (F6).
 # Mostra o estoque do produto 1 e a venda no banco depois de cada passo. Resultado esperado em testes\README.md.
-# Uso: venda.ps1 -SenhaSysdba <senha>
-param([Parameter(Mandatory = $true)][string]$SenhaSysdba)
+# Uso: venda.ps1 [-SenhaSysdba <senha>]   (sem a senha, usa o usuário e a senha do bin\Banco.ini)
+param([string]$SenhaSysdba = '')
 . "$PSScriptRoot\auto.ps1"
-$raiz = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $saida = Join-Path $env:TEMP 'gestor-testes'
 New-Item -ItemType Directory -Force $saida | Out-Null
-$isql = 'C:\Program Files (x86)\Firebird\Firebird_2_5\bin\isql.exe'
 $sql = Join-Path $saida 'situacao.sql'
 [IO.File]::WriteAllText($sql, "set heading off;`nselect 'estoque=' || qtd_atual from produto where codigo = 1;`n" +
   "select 'venda ' || codigo || ' situacao=' || situacao || ' total=' || total || ' itens=' || " +
   "(select count(*) from vendas_detalhe d where d.fkvenda = m.codigo) from vendas_master m " +
   "where codigo = (select max(codigo) from vendas_master where fk_usuario = 1);`n")
-function Banco {
-  (& $isql -q -user SYSDBA -password $SenhaSysdba -i $sql "localhost:$raiz\dados-locais\DEV.FDB" |
-    Where-Object { "$_".Trim() -ne '' } | ForEach-Object { "$_".Trim() }) -join ' | '
-}
+function Banco { (SqlTeste $sql $SenhaSysdba) -join ' | ' }
 
 $r = & "$PSScriptRoot\abre_pdv.ps1"
 $r

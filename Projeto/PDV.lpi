@@ -52,6 +52,9 @@
         <PackageName Value="laz_synapse"/>
       </Item>
       <Item>
+        <PackageName Value="ACBr_Boleto"/>
+      </Item>
+      <Item>
         <PackageName Value="ACBr_SAT"/>
       </Item>
       <Item>

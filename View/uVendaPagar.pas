@@ -1,18 +1,14 @@
 unit uVendaPagar;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, math, acbrBoleto, ACBrBoletoConversao,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.StdCtrls,
-  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, DBGridEhGrouping,
-  ToolCtrlsEh, DBGridEhToolCtrls, DynVarsEh, EhLibVCL, GridsEh, DBAxisGridsEh,
-  DBGridEh, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.DBCtrls, ACBrBase,
-  ACBrEnterTab, frxClass, frxExportBaseDialog, frxExportPDF, frxDBSet,
-  frxExportXLS;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, math, acbrBoleto, ACBrBoletoConversao,
+  Controls, Forms, Dialogs, ExtCtrls, DB, StdCtrls, Buttons, Grids, DBGrids, DBCtrls, ACBrBase,
+  ACBrEnterTab, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset, ZAbstractConnection,
+  RxDBGrid, uAgregado;
 
 type
   TfrmCRParcela = class(TForm)
@@ -24,13 +20,12 @@ type
     BtnExcluir: TBitBtn;
     BtnGerar: TBitBtn;
     Splitter1: TSplitter;
-    qryCR: TFDQuery;
+    qryCR: TZQuery;
     dsCR: TDataSource;
-    DBGridEh1: TDBGridEh;
-    qryCRTVALOR: TAggregateField;
+    DBGridEh1: TRxDBGrid;
     Panel2: TPanel;
     Label3: TLabel;
-    DBText2: TDBText;
+    DBText2: TRotuloTotal; // total que era o agregado TVALOR (ver uAgregado)
     ACBrEnterTab1: TACBrEnterTab;
     Splitter4: TSplitter;
     qryCRCODIGO: TIntegerField;
@@ -51,9 +46,9 @@ type
     Label4: TLabel;
     qryCRVALOR: TCurrencyField;
     qryCRDESCONTO: TCurrencyField;
-    qryCRJUROS: TFMTBCDField;
+    qryCRJUROS: TBCDField;
     qryCRVRECEBIDO: TCurrencyField;
-    qryCRVL_RESTANTE: TFMTBCDField;
+    qryCRVL_RESTANTE: TBCDField;
     qryCRNBOLETO: TIntegerField;
     qryCRID_VENDEDOR: TIntegerField;
     Bevel1: TBevel;
@@ -61,11 +56,7 @@ type
     btnAvancar: TBitBtn;
     btnCarne: TBitBtn;
     Splitter5: TSplitter;
-    frxDBEmpresa: TfrxDBDataset;
-    frxDBReceber: TfrxDBDataset;
-    frxPDFExport1: TfrxPDFExport;
-    frxReport: TfrxReport;
-    qryCarne: TFDQuery;
+    qryCarne: TZQuery;
     IntegerField1: TIntegerField;
     DateField1: TDateField;
     IntegerField2: TIntegerField;
@@ -82,18 +73,13 @@ type
     IntegerField7: TIntegerField;
     CurrencyField1: TCurrencyField;
     CurrencyField2: TCurrencyField;
-    FMTBCDField1: TFMTBCDField;
+    FMTBCDField1: TBCDField;
     CurrencyField3: TCurrencyField;
-    FMTBCDField2: TFMTBCDField;
+    FMTBCDField2: TBCDField;
     qryCRFLAG: TStringField;
     qryCRFK_OS: TIntegerField;
     qryCRBLOQUEADO: TStringField;
     qryCRFK_USUARIO: TIntegerField;
-    qryCRTTOTAL: TAggregateField;
-    qryCRTJUROS: TAggregateField;
-    qryCRTDESCONTO: TAggregateField;
-    qryCRTRECEBIDO: TAggregateField;
-    qryCRTSALDO: TAggregateField;
     Panel3: TPanel;
     Shape1: TShape;
     Label5: TLabel;
@@ -106,11 +92,10 @@ type
     qryCRREMESSA_REENVIAR: TStringField;
     Splitter6: TSplitter;
     btnBoleto: TBitBtn;
-    qryCRBoleto: TFDQuery;
+    qryCRBoleto: TZQuery;
     qryCRID_CBR_REMESSA_UUID: TStringField;
     qryCarneRAZAO: TStringField;
     qryCarneVENDEDOR: TStringField;
-    frxXLSExport1: TfrxXLSExport;
     qryCRBoletoEMAIL1: TStringField;
     procedure edtParcelaKeyPress(Sender: TObject; var Key: Char);
     procedure FormShow(Sender: TObject);
@@ -151,9 +136,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados, udtmCBR;
+uses
+  Udados, udtmCBR, uRelatorioPendente;
 
 procedure TfrmCRParcela.btnBoletoClick(Sender: TObject);
 var
@@ -172,7 +158,7 @@ begin
 
     if qryCRBoleto.IsEmpty then
     begin
-      ShowMessage('Não existem contas a serem baixadas');
+      ShowMessage('NÃ£o existem contas a serem baixadas');
       Exit;
     end;
 
@@ -245,7 +231,7 @@ begin
     dtmCBR.ACBrBoleto1.Imprimir;
 
     If Application.messagebox
-      ('Deseja enviar boleto(s) para o email do cliente?', 'Confirmação',
+      ('Deseja enviar boleto(s) para o email do cliente?', 'ConfirmaÃ§Ã£o',
       mb_yesno + mb_iconquestion) = IDYES then
     begin
       email := InputBox('Email do Cliente',
@@ -271,12 +257,13 @@ begin
   begin
     if not qryCR.IsEmpty then
     begin
-      valor1 := formatfloat('0.00', SimpleRoundTo(qryCRTVALOR.Value, -2));
+      // qryCRTVALOR era o agregado SUM(VALOR) do FireDAC (ver uAgregado)
+      valor1 := formatfloat('0.00', SimpleRoundTo(SomaCampoOuZero(qryCR, 'VALOR'), -2));
       valor2 := edtTotal.Text;
       if valor1.ToExtended <> valor2.ToExtended then
       begin
-        ShowMessage('Atenção!' +
-          'Não é possivel avançar. Total das parcelas difere do Valor total da venda!');
+        ShowMessage('AtenÃ§Ã£o!' +
+          'NÃ£o Ã© possivel avanÃ§ar. Total das parcelas difere do Valor total da venda!');
         result := true;
       end;
     end;
@@ -323,7 +310,7 @@ end;
 procedure TfrmCRParcela.BtnExcluirClick(Sender: TObject);
 begin
   if Application.messagebox('Tem certeza de que deseja excluir parcelas?',
-    'Confirmação', mb_yesno) = mrYes then
+    'ConfirmaÃ§Ã£o', mb_yesno) = mrYes then
   begin
     Excluir;
   end;
@@ -334,7 +321,7 @@ var
   i: integer;
   vDif, vSoma: real;
 begin
-  if Application.messagebox('Deseja Gerar Parcelas?', 'Confirmação', mb_yesno)
+  if Application.messagebox('Deseja Gerar Parcelas?', 'ConfirmaÃ§Ã£o', mb_yesno)
     <> mrYes then
     Exit;
 
@@ -367,7 +354,7 @@ begin
         SimpleRoundTo(vValor / strtoint(edtParcela.Text), -2));
       qryCRDTVENCIMENTO.Value := date + (i * strtoint(edtIntervalo.Text));
 
-      qryCRHISTORICO.Value := 'REF.VENDA Nº' + IntToStr(idVenda);
+      qryCRHISTORICO.Value := 'REF.VENDA NÂº' + IntToStr(idVenda);
       qryCRDESCONTO.Value := 0;
       qryCRJUROS.Value := 0;
       qryCRVRECEBIDO.Value := 0;
@@ -440,9 +427,9 @@ begin
   qryCarne.Params[1].Value := eOpcao;
   qryCarne.Open;
 
-  frxReport.LoadFromFile(ExtractFilePath(Application.ExeName) +
+  // relatÃ³rios do FastReport entram no roadmap 9
+  RelatorioPendente(ExtractFilePath(Application.ExeName) +
     '\Relatorio\Carne.fr3');
-  frxReport.ShowReport;
 end;
 
 procedure TfrmCRParcela.Button2Click(Sender: TObject);
@@ -453,9 +440,9 @@ begin
   qryCarne.Params[1].Value := eOpcao;
   qryCarne.Open;
 
-  frxReport.LoadFromFile(ExtractFilePath(Application.ExeName) +
+  // relatÃ³rios do FastReport entram no roadmap 9
+  RelatorioPendente(ExtractFilePath(Application.ExeName) +
     '\Relatorio\CarneBobina.fr3');
-  frxReport.ShowReport;
 end;
 
 procedure TfrmCRParcela.Button3Click(Sender: TObject);

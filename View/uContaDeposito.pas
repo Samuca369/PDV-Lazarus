@@ -1,15 +1,13 @@
 unit uContaDeposito;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
-  DBGridEh, Vcl.Mask, DBCtrlsEh, DBLookupEh, FireDAC.Stan.Intf,
-  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
-  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  Buttons, ExtCtrls, MaskEdit, DB, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset,
+  ZAbstractConnection, DBCtrls;
 
 type
   TFrmContaDeposito = class(TForm)
@@ -19,8 +17,8 @@ type
     btnVoltar: TBitBtn;
     btnAvancar: TBitBtn;
     Label5: TLabel;
-    DBLookupComboboxEh1: TDBLookupComboboxEh;
-    qryConta: TFDQuery;
+    DBLookupComboboxEh1: TDBLookupComboBox;
+    qryConta: TZQuery;
     qryContaCODIGO: TIntegerField;
     qryContaDESCRICAO: TStringField;
     qryContaTIPO: TStringField;
@@ -51,9 +49,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados;
+uses
+  Udados;
 
 procedure TFrmContaDeposito.btnAvancarClick(Sender: TObject);
 begin
@@ -79,7 +78,7 @@ begin
   dados.qryCaixaEMPRESA.Value := dados.qryEmpresaCODIGO.Value;
   dados.qryCaixaEMISSAO.Value := date;
   dados.qryCaixaDOC.Value := inttostr(idCodigo);
-  dados.qryCaixaHISTORICO.Value := 'VENDA Nº' + inttostr(idCodigo) +
+  dados.qryCaixaHISTORICO.Value := 'VENDA NÂº' + inttostr(idCodigo) +
     ' DINHEIRO';
   dados.qryCaixaENTRADA.Value := vValor;
   dados.qryCaixaTIPO_MOVIMENTO.Value := 'DP';

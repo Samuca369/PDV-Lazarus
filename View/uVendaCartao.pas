@@ -1,17 +1,13 @@
 unit uVendaCartao;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, math,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.StdCtrls,
-  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, DBGridEhGrouping,
-  ToolCtrlsEh, DBGridEhToolCtrls, DynVarsEh, EhLibVCL, GridsEh, DBAxisGridsEh,
-  DBGridEh, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.DBCtrls, ACBrBase,
-  ACBrEnterTab;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, math, Controls, Forms, Dialogs,
+  ExtCtrls, DB, StdCtrls, Buttons, Grids, DBGrids, DBCtrls, ACBrBase, ACBrEnterTab, ZConnection,
+  ZDataset, ZAbstractRODataset, ZAbstractDataset, ZAbstractConnection, RxDBGrid, uAgregado;
 
 type
   TfrmCartaoParcela = class(TForm)
@@ -25,18 +21,16 @@ type
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     dsCartao: TDataSource;
-    DBGridEh1: TDBGridEh;
+    DBGridEh1: TRxDBGrid;
     Panel2: TPanel;
     Label3: TLabel;
-    DBText2: TDBText;
+    DBText2: TRotuloTotal; // total que era o agregado TENTRADA (ver uAgregado)
     ACBrEnterTab1: TACBrEnterTab;
     Splitter3: TSplitter;
     Splitter4: TSplitter;
     btnVoltar: TBitBtn;
     btnAvancar: TBitBtn;
-    qryCartao: TFDQuery;
-    qryCartaoTENTRADA: TAggregateField;
-    qryCartaoTSAIDA: TAggregateField;
+    qryCartao: TZQuery;
     qryCartaoCODIGO: TIntegerField;
     qryCartaoEMISSAO: TDateField;
     qryCartaoDOC: TStringField;
@@ -57,7 +51,7 @@ type
     qryCartaoEMPRESA: TIntegerField;
     qryCartaoFK_FICHA_CLI: TIntegerField;
     qryCartaoVISIVEL: TStringField;
-    qryTaxa: TFDQuery;
+    qryTaxa: TZQuery;
     qryTaxaCODIGO: TIntegerField;
     qryTaxaEMISSAO: TDateField;
     qryTaxaDOC: TStringField;
@@ -82,14 +76,14 @@ type
     Label4: TLabel;
     qryTaxaFK_CARTAO: TIntegerField;
     qryCartaoFK_CARTAO: TIntegerField;
-    qryCartaoENTRADA: TFMTBCDField;
-    qryCartaoSAIDA: TFMTBCDField;
-    qryCartaoSALDO: TFMTBCDField;
+    qryCartaoENTRADA: TBCDField;
+    qryCartaoSAIDA: TBCDField;
+    qryCartaoSALDO: TBCDField;
     qryCartaoDT_CADASTRO: TDateField;
     qryCartaoFK_DEVOLUCAO: TIntegerField;
-    qryTaxaENTRADA: TFMTBCDField;
-    qryTaxaSAIDA: TFMTBCDField;
-    qryTaxaSALDO: TFMTBCDField;
+    qryTaxaENTRADA: TBCDField;
+    qryTaxaSAIDA: TBCDField;
+    qryTaxaSALDO: TBCDField;
     qryTaxaDT_CADASTRO: TDateField;
     qryTaxaFK_DEVOLUCAO: TIntegerField;
     qryCartaoTIPO_MOVIMENTO: TStringField;
@@ -126,9 +120,10 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados;
+uses
+  Udados;
 
 procedure TfrmCartaoParcela.GerarTaxa;
 var
@@ -156,8 +151,8 @@ begin
       qryTaxaDOC.Value := qryCartaoDOC.Value;
       qryTaxaENTRADA.Value := 0;
       qryTaxaSAIDA.AsFloat := ValorTaxa;
-      qryTaxaHISTORICO.Value := 'REF.VENDA Nº' + IntToStr(idVenda) +
-        ' - TAXA CARTÃO';
+      qryTaxaHISTORICO.Value := 'REF.VENDA NÂº' + IntToStr(idVenda) +
+        ' - TAXA CARTÃƒO';
       qryTaxaECARTAO.Value := 'C';
       qryTaxaTIPO_MOVIMENTO.Value := 'TC';
       qryTaxaFKPLANO.Value := dados.qryEmpresaID_PLANO_TAXA_CARTAO.Value;
@@ -190,12 +185,13 @@ begin
 
   if not qryCartao.IsEmpty then
   begin
-    valor1 := formatfloat('0.00', SimpleRoundTo(qryCartaoTENTRADA.Value, -2));
+    // qryCartaoTENTRADA era o agregado SUM(ENTRADA) do FireDAC, com 0 quando vazio (ver uAgregado)
+    valor1 := formatfloat('0.00', SimpleRoundTo(SomaCampoOuZero(qryCartao, 'ENTRADA'), -2));
     valor2 := edtTotal.Text;
     if valor1.ToExtended <> valor2.ToExtended then
     begin
-      ShowMessage('Atenção!' +
-        'Não é possivel avançar. Total das parcelas difere do Valor total da venda!');
+      ShowMessage('AtenÃ§Ã£o!' +
+        'NÃ£o Ã© possivel avanÃ§ar. Total das parcelas difere do Valor total da venda!');
       exit;
     end;
     GerarTaxa;
@@ -221,7 +217,7 @@ end;
 procedure TfrmCartaoParcela.BtnExcluirClick(Sender: TObject);
 begin
   if Application.messageBox('Tem certeza de que deseja excluir parcelas?',
-    'Confirmação', mb_YesNo) = mrYes then
+    'ConfirmaÃ§Ã£o', mb_YesNo) = mrYes then
   begin
     Excluir;
   end;
@@ -234,7 +230,7 @@ var
 begin
 
   if Application.messageBox('Tem certeza de que deseja gerar parcelas?',
-    'Confirmação', mb_YesNo) <> mrYes then
+    'ConfirmaÃ§Ã£o', mb_YesNo) <> mrYes then
     exit;
 
   try
@@ -251,7 +247,7 @@ begin
     vSoma := 0;
     for i := 1 to strtoint(edtParcela.Text) do
     begin
-      // CRÉDITO DO CARTÃO
+      // CRÃ‰DITO DO CARTÃƒO
       qryCartao.Insert;
       qryCartaoCODIGO.Value := dados.Numerador('CAIXA', 'CODIGO', 'N', '', '');
       qryCartaoEMISSAO.Value := date + (i * strtoint(edtIntervalo.Text));
@@ -260,8 +256,8 @@ begin
         formatfloat('0.00',
         SimpleRoundTo(vValor / strtoint(edtParcela.Text), -2));
       qryCartaoSAIDA.Value := 0;
-      qryCartaoHISTORICO.Value := 'REF.VENDA Nº' + IntToStr(idVenda) +
-        ' - CARTÃO DE CRÉDITO';
+      qryCartaoHISTORICO.Value := 'REF.VENDA NÂº' + IntToStr(idVenda) +
+        ' - CARTÃƒO DE CRÃ‰DITO';
       qryCartaoECARTAO.Value := 'C';
       qryCartaoTIPO_MOVIMENTO.Value := 'CC';
       qryCartaoFKPLANO.Value := dados.qryEmpresaID_PLANO_VENDA.Value;

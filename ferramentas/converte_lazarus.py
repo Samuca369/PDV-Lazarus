@@ -28,11 +28,19 @@ CLASSES = {
     "TDBGridEh": "TRxDBGrid",
     "TcxDBImage": "TDBImage",
     "TJvEnterAsTab": "TACBrEnterTab",
+    "TDBLookupComboboxEh": "TDBLookupComboBox",
 }
+
+# propriedades que só a EhLib tem: saem de todo componente que vinha dela (classe terminada em Eh)
+PROPS_EH = {"DynProps", "EditButtons", "EmptyDataInfo", "ControlLabel", "ControlLabelLocation",
+            "AlwaysShowBorder", "HighlightRequired", "MRUList", "Tooltips"}
+PREFIXOS_EH = ("DropDownBox.", "EmptyDataInfo.", "ControlLabel.", "ControlLabelLocation.", "EditButton.",
+               "MRUList.")
 
 # unit que cada componente novo exige no uses
 UNIT_DA_CLASSE = {
     "TRxDBGrid": "RxDBGrid", "TDBImage": "DBCtrls", "TACBrEnterTab": "ACBrEnterTab", "TDBCtrlGrid": "DBCGrids",
+    "TDBLookupComboBox": "DBCtrls", "TRotuloTotal": "uAgregado",
 }
 
 # objetos que somem (sem equivalente ou desnecessários no Lazarus)
@@ -69,6 +77,8 @@ PROPS_POR_CLASSE = {
                   "AllowedOperations", "AllowedSelections", "ColumnDefValues", "DrawMemoText", "FooterRowCount",
                   "SumList", "TitleParams", "UseMultiTitle", "RowDetailPanel", "STFilter", "SearchPanel"},
     "TDBImage": {"TabOrder", "TabStop", "Properties"},
+    "TCheckBox": {"WordWrap"},
+    "TStringField": {"FixedChar"},
 }
 # no LCL só o painel tem moldura própria (BevelInner/BevelOuter); nos campos de texto o Delphi aceitava e o LCL não
 PROPS_BEVEL = {"BevelInner", "BevelOuter", "BevelEdges", "BevelWidth"}
@@ -89,7 +99,7 @@ PREFIXOS_POR_CLASSE = {
     "TDBImage": ("Properties.", "Style.", "StyleDisabled.", "StyleFocused.", "StyleHot."),
     "TRxDBGrid": ("TitleParams.", "IndicatorParams.", "GridLineParams.", "SearchPanel.", "STFilter.", "FooterParams.",
                   "ColumnDefValues.", "SumList.", "IndicatorTitle.", "HorzScrollBar.", "VertScrollBar.",
-                  "EditButtonsShowOptions.", "TreeViewParams.", "RowDetailPanel."),
+                  "EditButtonsShowOptions.", "TreeViewParams.", "RowDetailPanel.", "DataGrouping."),
 }
 # propriedades que somem dos itens de uma coleção (classe, coleção): nomes ou começos de nome
 PROPS_ITEM_REMOVIDAS = {
@@ -143,12 +153,8 @@ UNITS_EHLIB = {"dbaxisgridseh", "dbctrlseh", "dbgrideh", "dbgridehgrouping", "db
 PREFIXOS_UNIT_REMOVIDA = ("jv", "cx", "dx", "frx")
 UNITS_REMOVIDAS = UNITS_EHLIB | {"acfloatctrls", "acpng", "advglassbutton"}
 
-TIPOS_CODIGO = {
-    "TFDQuery": "TZQuery", "TFDConnection": "TZConnection", "TFDStoredProc": "TZStoredProc", "TFDTable": "TZTable",
-    "TSQLTimeStampField": "TDateTimeField", "TFDAutoIncField": "TLongintField", "TSingleField": "TFloatField",
-    "TExtendedField": "TFloatField", "TLongWordField": "TLargeintField", "TShortintField": "TSmallintField",
-    "TDBGridEh": "TRxDBGrid", "TcxDBImage": "TDBImage", "TJvEnterAsTab": "TACBrEnterTab",
-}
+# no .pas os tipos trocam igual ao .lfm
+TIPOS_CODIGO = dict(CLASSES)
 
 
 # ---------------------------------------------------------------- leitor do .dfm/.lfm em texto
@@ -329,11 +335,81 @@ def emitir(no):
     return "\n".join(linhas)
 
 
+def valor_prop(no, nome):
+    """Valor (texto depois do '=') da propriedade, sem diferenciar maiúsculas; None se não houver."""
+    for n, t in no.props:
+        if n.lower() == nome.lower():
+            return t.split("=", 1)[1].strip()
+    return None
+
+
+def sem_aspas(v):
+    return v[1:-1].replace("''", "'") if v and v.startswith("'") and v.endswith("'") else (v or "")
+
+
+def le_agregado(campo):
+    """TAggregateField do FireDAC: nome, campo somado (só SUM(CAMPO)), DisplayFormat, currency e DefaultExpression."""
+    expressao = sem_aspas(valor_prop(campo, "Expression"))
+    m = re.fullmatch(r"\s*SUM\s*\(\s*(\w+)\s*\)\s*", expressao, re.I)
+    return {"nome": sem_aspas(valor_prop(campo, "FieldName")).upper(), "expressao": expressao,
+            "campo": m.group(1).upper() if m else None,
+            "formato": sem_aspas(valor_prop(campo, "DisplayFormat")),
+            "moeda": (valor_prop(campo, "currency") or "").lower() == "true",
+            "zero": sem_aspas(valor_prop(campo, "DefaultExpression")) == "0"}
+
+
+def troca_rotulos_de_total(raiz, agregados, relatorio):
+    """O TDBText que mostrava um agregado (DataField = 'TVALOR') vira TRotuloTotal (View/uAgregado.pas), que soma o
+    campo sozinho: DataField sai, entram Campo, Formato, Moeda e ZeroSeVazio. Outro controle ligado a agregado só é
+    avisado."""
+    if not agregados:
+        return
+    fontes = {}  # TDataSource -> consulta
+
+    def junta(no):
+        if no.classe == "TDataSource" and valor_prop(no, "DataSet"):
+            fontes[no.nome.upper()] = valor_prop(no, "DataSet").upper()
+        for f in no.filhos:
+            junta(f)
+
+    def visita(no):
+        campo, fonte = sem_aspas(valor_prop(no, "DataField")), valor_prop(no, "DataSource")
+        ag = agregados.get((fontes.get((fonte or "").upper(), ""), campo.upper())) if campo and fonte else None
+        if ag and no.classe == "TDBText" and ag["campo"]:
+            no.cabecalho = no.cabecalho.replace("TDBText", "TRotuloTotal", 1)
+            novas = []
+            for n, t in no.props:
+                if n == "DataField":
+                    ind = re.match(r"\s*", t).group(0)
+                    novas.append(("Campo", f"{ind}Campo = '{ag['campo']}'"))
+                    if ag["formato"]:
+                        novas.append(("Formato", f"{ind}Formato = '{ag['formato']}'"))
+                    if ag["moeda"]:
+                        novas.append(("Moeda", f"{ind}Moeda = True"))
+                    if ag["zero"]:
+                        novas.append(("ZeroSeVazio", f"{ind}ZeroSeVazio = True"))
+                else:
+                    novas.append((n, t))
+            no.props = novas
+            relatorio.setdefault("classes", set()).add("TRotuloTotal")
+            relatorio.setdefault("tipos_trocados", {})[no.nome] = ("TDBText", "TRotuloTotal")
+            relatorio.setdefault("rotulos_de_total", []).append(f"{no.nome}: {ag['nome']} = SUM({ag['campo']})")
+        elif ag:
+            relatorio.setdefault("agregado_em_controle_revisar", []).append(
+                f"{no.nome} ({no.classe}) mostra {ag['nome']} = {ag['expressao']}")
+        for f in no.filhos:
+            visita(f)
+
+    junta(raiz)
+    visita(raiz)
+
+
 def converte_lfm(texto, relatorio):
     p = Parser(texto)
     p.ws()
     raiz = p.objeto()
     removidos = []
+    agregados = {}  # (consulta, nome do agregado) -> le_agregado
 
     def visita(no):
         cls = no.classe
@@ -352,10 +428,16 @@ def converte_lfm(texto, relatorio):
             # no TFMTBCDField os limites eram texto ('9999999'); no TBCDField e no TFloatField são número
             no.props = [(n, re.sub(r"=\s*'([-\d.]+)'\s*$", r"= \1", t) if n in ("MaxValue", "MinValue") else t)
                         for n, t in no.props]
+        veio_da_ehlib = cls.endswith("Eh") and cls != "TRxDBGrid"
         if cls in CLASSES:
             no.cabecalho = no.cabecalho.replace(cls, CLASSES[cls], 1)
             cls = CLASSES[cls]
         relatorio.setdefault("classes", set()).add(cls)
+        for n, t in no.props:
+            if n == "OnCalcFields":
+                relatorio.setdefault("oncalcfields", set()).add(t.split("=", 1)[1].strip())
+        if veio_da_ehlib and cls != "TRxDBGrid":
+            no.props = [(n, t) for n, t in no.props if n not in PROPS_EH and not n.startswith(PREFIXOS_EH)]
         novas = []
         for nome, texto in no.props:
             # primeiro renomeia, depois decide se a propriedade (já com o nome novo) fica
@@ -425,6 +507,11 @@ def converte_lfm(texto, relatorio):
         for f in no.filhos:
             if f.classe in OBJETOS_REMOVIDOS or f.classe.startswith(PREFIXO_OBJETO_REMOVIDO):
                 removidos.append((f.nome, f.classe))
+                if f.classe == "TAggregateField":
+                    ag = le_agregado(f)
+                    agregados[(no.nome.upper(), ag["nome"])] = ag
+                    if not ag["campo"]:
+                        relatorio.setdefault("agregado_sem_soma_revisar", []).append(f"{f.nome}: {ag['expressao']}")
                 if f.classe == "TRowDetailPanelControlEh" and f.filhos:
                     relatorio.setdefault("painel_de_detalhe_com_componentes", []).append(
                         f"{no.nome}: {len(f.filhos)} componentes")
@@ -434,6 +521,7 @@ def converte_lfm(texto, relatorio):
         no.filhos = filhos
 
     visita(raiz)
+    troca_rotulos_de_total(raiz, agregados, relatorio)
     relatorio["objetos_removidos"] = removidos
     return emitir(raiz) + "\n", removidos
 
@@ -483,6 +571,15 @@ def converte_pas(texto, removidos, relatorio):
         t = re.sub(r"^(\s*unit\s+[\w.]+\s*;)", r"\1\n\n{$mode delphi}{$H+}", t, count=1, flags=re.I | re.M)
     t = re.sub(r"\{\$R\s+\*\.dfm\}", "{$R *.lfm}", t, flags=re.I)
 
+    # RecNo dentro do OnCalcFields: no Zeos move o cursor no meio da leitura (ver View/uRegistroCalculado.pas)
+    for metodo in relatorio.get("oncalcfields", ()):
+        m = re.search(r"^procedure\s+\w+\." + re.escape(metodo) + r"\s*\(.*?^end;", t, re.I | re.M | re.S)
+        if m:
+            corpo, k = re.subn(r"\b(\w+)\.RecNo\b(?!\s*:=)", r"RecNoCalculado(\1)", m.group(0))
+            if k:
+                t = t[:m.start()] + corpo + t[m.end():]
+                relatorio["recno_no_oncalcfields"] = relatorio.get("recno_no_oncalcfields", 0) + k
+
     # uses (interface e implementation); o primeiro (interface) recebe as units dos componentes novos do .lfm
     blocos = [0]
 
@@ -495,6 +592,8 @@ def converte_pas(texto, removidos, relatorio):
                 if u and u.lower() not in tem:
                     itens.append(u)
                     tem.add(u.lower())
+            if relatorio.get("recno_no_oncalcfields") and "uregistrocalculado" not in tem:
+                itens.append("uRegistroCalculado")
         blocos[0] += 1
         if not itens:
             return ""
@@ -515,13 +614,17 @@ def converte_pas(texto, removidos, relatorio):
     # campos decimais: o tipo de cada um foi decidido no .lfm pelo número de casas
     for nome, novo in relatorio.get("campos_bcd", {}).items():
         t = re.sub(r"^(\s*" + nome + r"\s*:\s*)TFMTBCDField\b", r"\g<1>" + novo, t, count=1, flags=re.M | re.I)
+    # controles que trocaram de classe no .lfm (TDBText de agregado -> TRotuloTotal)
+    for nome, (antes, depois) in relatorio.get("tipos_trocados", {}).items():
+        t = re.sub(r"^(\s*" + nome + r"\s*:\s*)" + antes + r"\s*;", r"\g<1>" + depois + ";", t, count=1,
+                   flags=re.M | re.I)
     sobra = len(re.findall(r"\bTFMTBCDField\b", t))
     if sobra:
         relatorio["tfmtbcdfield_no_codigo"] = sobra
     # gravar no banco: uma rotina só
     n = len(re.findall(r"\.CommitRetaining\b", t))
-    t = re.sub(r"\bDados\.Conexao\.CommitRetaining\b", "Dados.Confirmar", t)
-    t = re.sub(r"(?<![\w.])Conexao\.CommitRetaining\b", "Confirmar", t)
+    t = re.sub(r"\bDados\.Conexao\.CommitRetaining\b", "Dados.Confirmar", t, flags=re.I)
+    t = re.sub(r"(?<![\w.])Conexao\.CommitRetaining\b", "Confirmar", t, flags=re.I)
     relatorio["commitretaining"] = n
     t = re.sub(r"\bConexao\.ExecSQL\(", "Conexao.ExecuteDirect(", t)
     # no Delphi a string é larga (UTF-16); no Lazarus é UTF-8 e as funções do LCL recebem PChar
@@ -596,6 +699,22 @@ def completa_locate(texto, relatorio):
     return "".join(saida)
 
 
+def troca_edittext(texto, lfm_texto, relatorio):
+    """O TDBEdit do LCL não tem EditText (do Delphi): vira Text. Com EditMask o valor pode ser diferente: avisa."""
+    nomes = set(re.findall(r"^\s*(\w+)\s*:\s*TDBEdit\s*;", texto, re.M))
+    com_mascara = {n for n in nomes if re.search(r"object " + n + r": TDBEdit\b[^\n]*\n(?:\s+\w[\w.]* = .*\n)*?\s+EditMask = ",
+                                                 lfm_texto)}
+    n_trocas = 0
+    for nome in nomes:
+        texto, k = re.subn(r"\b" + nome + r"\.EditText\b", nome + ".Text", texto, flags=re.I)
+        n_trocas += k
+        if k and nome in com_mascara:
+            relatorio.setdefault("edittext_com_mascara_revisar", []).append(nome)
+    if n_trocas:
+        relatorio["edittext_trocado"] = n_trocas
+    return texto
+
+
 def sem_acento(nome):
     return unicodedata.normalize("NFKD", nome).encode("ascii", "ignore").decode("ascii")
 
@@ -618,6 +737,7 @@ def converte_unit(pas):
             novo = re.sub(r"(?<!\w)" + re.escape(antes) + r"(?!\w)", depois, novo)
         grava_texto(lfm, novo)
     texto = completa_locate(converte_pas(le_texto(pas), removidos, relatorio), relatorio)
+    texto = troca_edittext(texto, le_texto(lfm) if os.path.exists(lfm) else "", relatorio)
     if trocas_de_nome:
         # só no código: textos entre aspas (mensagens) continuam com acento
         partes = re.split(r"('(?:[^'\n]|'')*')", texto)
@@ -636,7 +756,7 @@ def main():
         rel = converte_unit(pas)
         print(f"== {pas}")
         for k, v in rel.items():
-            if k == "classes":
+            if k in ("classes", "oncalcfields"):
                 continue
             if k == "campos_bcd":
                 v = {c: sum(1 for x in v.values() if x == c) for c in sorted(set(v.values()))}

@@ -1,4 +1,4 @@
-﻿{ SITUAÇÃO DA VENDA
+{ SITUAÇÃO DA VENDA
   0:ABERTA
   1:GERADA
   2:TRANSMITIDA
@@ -11,29 +11,21 @@
 
 unit uFormaPagamento;
 
+{$mode delphi}{$H+}
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, blcksock, winInet, System.TypInfo,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, ACBRSAT,
-  Vcl.Mask, Vcl.ExtCtrls, Vcl.Buttons, pcnConversao, pcnConversaoNFe, acbrUtil,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, math, ACBrPosPrinter, ACBrDFeSSL,
-  Vcl.ComCtrls, Vcl.DBCtrls, DBGridEhGrouping, ToolCtrlsEh, DBGridEhToolCtrls,
-  DynVarsEh, EhLibVCL, GridsEh, DBAxisGridsEh, DBGridEh,
-  Vcl.Imaging.pngimage, Vcl.Menus, ACBrValidador, ACBRDFeUtil,
-  frxClass, frxDBSet, frxExportBaseDialog, frxExportPDF, ACBrBase,
-  ACBrNFeDANFEClass, ACBrNFeDANFeESCPOS, ACBrDFeReport, ACBrDFeDANFeReport,
-  ACBrNFeDANFeRLClass, ACBrDFe, ACBrNFe, ACBrDANFCeFortesFrA4, Vcl.Grids,
-  Vcl.DBGrids, Vcl.DBCGrids, ACBrSATClass, ACBrIntegrador,
-  ACBrSATExtratoReportClass, ACBrSATExtratoFortesFr, ACBrSATExtratoClass,
-  ACBrSATExtratoESCPOS, ACBrMail, DBCtrlsEh, DBLookupEh, Vcl.Imaging.jpeg,
-  ACBrTEFPayGoComum,
-  Vcl.ExtDlgs, ACBrTEFD, ACBrTEFDClass, ACBrTEFPayGoWebComum, ACBrTEFComum,
-  frxExportXLS, JvComponentBase, JvEnterTab, System.Actions, Vcl.ActnList;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, blcksock, winInet, TypInfo, Controls,
+  Forms, Dialogs, StdCtrls, ACBRSAT, MaskEdit, ExtCtrls, Buttons, pcnConversao, pcnConversaoNFe,
+  acbrUtil, DB, math, ACBrPosPrinter, ACBrDFeSSL, ComCtrls, DBCtrls, Menus, ACBrValidador,
+  ACBRDFeUtil, ACBrBase, ACBrNFeDANFEClass, ACBrNFeDANFeESCPOS, ACBrDFeReport, ACBrDFeDANFeReport,
+  ACBrNFeDANFeRLClass, ACBrDFe, ACBrNFe, ACBrDANFCeFortesFrA4, Grids, DBGrids, DBCGrids,
+  ACBrSATClass, ACBrIntegrador, ACBrSATExtratoReportClass, ACBrSATExtratoFortesFr,
+  ACBrSATExtratoClass, ACBrSATExtratoESCPOS, ACBrMail, ACBrTEFPayGoComum, ExtDlgs, ACBrTEFD,
+  ACBrTEFDClass, ACBrTEFPayGoWebComum, ACBrTEFComum, ActnList, ZConnection, ZDataset,
+  ZAbstractRODataset, ZAbstractDataset, ZAbstractConnection, ACBrEnterTab, RxDBGrid,
+  uRegistroCalculado;
 
 type
 
@@ -41,9 +33,9 @@ type
     stsAguardandoTEF, stsOperacaoTEF, stsFinalizada);
 
   TfrmFechaVenda = class(TForm)
-    qryFPG: TFDQuery;
+    qryFPG: TZQuery;
     dsFPG: TDataSource;
-    qryVendasFPG: TFDQuery;
+    qryVendasFPG: TZQuery;
     qryVendasFPGCODIGO: TIntegerField;
     qryVendasFPGVENDAS_MASTER: TIntegerField;
     qryVendasFPGID_FORMA: TIntegerField;
@@ -51,7 +43,7 @@ type
     qryVendasFPGVIRTUAL_FORMA: TStringField;
     qryFPGCODIGO: TIntegerField;
     qryFPGDESCRICAO: TStringField;
-    qryProduto: TFDQuery;
+    qryProduto: TZQuery;
     qryProdutoCODIGO: TIntegerField;
     qryProdutoDESCRICAO: TStringField;
     qryProdutoUNIDADE: TStringField;
@@ -68,8 +60,8 @@ type
     Memo1: TMemo;
     qryFPGDIAS: TSmallintField;
     qryVendasFPGFK_USUARIO: TIntegerField;
-    qrySomaNFCe: TFDQuery;
-    qryIBPT: TFDQuery;
+    qrySomaNFCe: TZQuery;
+    qryIBPT: TZQuery;
     qryIBPTCODIGO: TStringField;
     qryIBPTEX: TStringField;
     qryIBPTTIPO: TStringField;
@@ -95,15 +87,9 @@ type
     Pedido1: TMenuItem;
     FinalizarPedido1: TMenuItem;
     ACBrValidador1: TACBrValidador;
-    frxReport: TfrxReport;
-    frxPDFExport1: TfrxPDFExport;
-    frxDBPV: TfrxDBDataset;
-    frxDBItens: TfrxDBDataset;
-    frxDBEmpresa: TfrxDBDataset;
     qryVendasFPGSITUACAO: TStringField;
     qryVendasFPGTIPO: TStringField;
-    qryVendasFPGTTOTAL: TAggregateField;
-    qryProdutoPR_VENDA: TFMTBCDField;
+    qryProdutoPR_VENDA: TBCDField;
     qryProdutoALIQ_ICM: TCurrencyField;
     qryProdutoALIQ_PIS: TCurrencyField;
     qryProdutoALIQ_COF: TCurrencyField;
@@ -111,37 +97,36 @@ type
     qryProdutoIMPORTADOSFEDERAL: TStringField;
     qryProdutoESTADUAL: TStringField;
     qryProdutoMUNICIPAL: TStringField;
-    qryFPGTAXA: TFMTBCDField;
-    qryFPGENTRADA: TFMTBCDField;
+    qryFPGTAXA: TBCDField;
+    qryFPGENTRADA: TBCDField;
     qryFPGPARCELAS: TIntegerField;
-    qrySomaNFCeTOTAL: TFMTBCDField;
-    qrySomaNFCeBASE_ICMS: TFMTBCDField;
-    qrySomaNFCeVALOR_ICMS: TFMTBCDField;
-    qrySomaNFCeBASE_PIS_ICMS: TFMTBCDField;
-    qrySomaNFCeVALOR_PIS_ICMS: TFMTBCDField;
-    qrySomaNFCeBASE_COF_ICMS: TFMTBCDField;
-    qrySomaNFCeVALOR_COF_ICMS: TFMTBCDField;
-    qrySomaNFCeBASE_ISS: TFMTBCDField;
-    qrySomaNFCeVALOR_ISS: TFMTBCDField;
-    qrySomaNFCeTOTALMUN: TFMTBCDField;
-    qrySomaNFCeTOTALFED: TFMTBCDField;
-    qrySomaNFCeTOTALEST: TFMTBCDField;
-    qrySomaNFCeTOTALIMP: TFMTBCDField;
-    qrySomaNFCeDESCONTOS: TFMTBCDField;
-    qrySomaNFCeOUTROS: TFMTBCDField;
-    qryVendasFPGVALOR: TFMTBCDField;
-    qrySomaFPG: TFDQuery;
-    qrySomaFPGDINHEIRO: TFMTBCDField;
-    qrySomaFPGOUTROS: TFMTBCDField;
-    qrySomaFPGTOTAL: TFMTBCDField;
-    qryBuscaOS: TFDQuery;
+    qrySomaNFCeTOTAL: TBCDField;
+    qrySomaNFCeBASE_ICMS: TBCDField;
+    qrySomaNFCeVALOR_ICMS: TBCDField;
+    qrySomaNFCeBASE_PIS_ICMS: TBCDField;
+    qrySomaNFCeVALOR_PIS_ICMS: TBCDField;
+    qrySomaNFCeBASE_COF_ICMS: TBCDField;
+    qrySomaNFCeVALOR_COF_ICMS: TBCDField;
+    qrySomaNFCeBASE_ISS: TBCDField;
+    qrySomaNFCeVALOR_ISS: TBCDField;
+    qrySomaNFCeTOTALMUN: TBCDField;
+    qrySomaNFCeTOTALFED: TBCDField;
+    qrySomaNFCeTOTALEST: TBCDField;
+    qrySomaNFCeTOTALIMP: TBCDField;
+    qrySomaNFCeDESCONTOS: TBCDField;
+    qrySomaNFCeOUTROS: TBCDField;
+    qryVendasFPGVALOR: TBCDField;
+    qrySomaFPG: TZQuery;
+    qrySomaFPGDINHEIRO: TBCDField;
+    qrySomaFPGOUTROS: TBCDField;
+    qrySomaFPGTOTAL: TBCDField;
+    qryBuscaOS: TZQuery;
     qryBuscaOSCODIGO: TIntegerField;
     qryBuscaOSDATA_TERMINO: TDateField;
-    qryBuscaOSTOTAL_GERAL: TFMTBCDField;
-    qryBuscaOSTOTAL_PRODUTOS: TFMTBCDField;
+    qryBuscaOSTOTAL_GERAL: TBCDField;
+    qryBuscaOSTOTAL_PRODUTOS: TBCDField;
     qryProdutoCEST: TStringField;
-    frxDBCliente: TfrxDBDataset;
-    qryVenda: TFDQuery;
+    qryVenda: TZQuery;
     qryVendaCODIGO: TIntegerField;
     qryVendaDATA_EMISSAO: TDateField;
     qryVendaDATA_SAIDA: TDateField;
@@ -160,19 +145,19 @@ type
     qryVendaLOTE: TIntegerField;
     qryVendaGERA_FINANCEIRO: TStringField;
     qryVendaFK_TABELA: TIntegerField;
-    qryVendaSUBTOTAL: TFMTBCDField;
-    qryVendaDESCONTO: TFMTBCDField;
-    qryVendaTROCO: TFMTBCDField;
-    qryVendaDINHEIRO: TFMTBCDField;
-    qryVendaTOTAL: TFMTBCDField;
-    qryVendaPERCENTUAL: TFMTBCDField;
-    qryVendaPERCENTUAL_ACRESCIMO: TFMTBCDField;
+    qryVendaSUBTOTAL: TBCDField;
+    qryVendaDESCONTO: TBCDField;
+    qryVendaTROCO: TBCDField;
+    qryVendaDINHEIRO: TBCDField;
+    qryVendaTOTAL: TBCDField;
+    qryVendaPERCENTUAL: TBCDField;
+    qryVendaPERCENTUAL_ACRESCIMO: TBCDField;
     qryVendaPEDIDO: TStringField;
-    qryVendaTOTAL_TROCA: TFMTBCDField;
+    qryVendaTOTAL_TROCA: TBCDField;
     qryVendaOS: TStringField;
     qryVendaFK_OS: TIntegerField;
     qryVendaFORMA_PAGAMENTO: TStringField;
-    qryItem: TFDQuery;
+    qryItem: TZQuery;
     qryItemCODIGO: TIntegerField;
     qryItemFKVENDA: TIntegerField;
     qryItemITEM: TSmallintField;
@@ -180,16 +165,15 @@ type
     qryItemID_PRODUTO: TIntegerField;
     qryItemSITUACAO: TStringField;
     qryItemUNIDADE: TStringField;
-    qryItemPRECO: TFMTBCDField;
-    qryItemVALOR_ITEM: TFMTBCDField;
-    qryItemVDESCONTO: TFMTBCDField;
-    qryItemTOTAL: TFMTBCDField;
-    qryItemACRESCIMO: TFMTBCDField;
-    qryItemQTD: TFMTBCDField;
-    qryItemE_MEDIO: TFMTBCDField;
-    qryItemQTD_DEVOLVIDA: TFMTBCDField;
+    qryItemPRECO: TBCDField;
+    qryItemVALOR_ITEM: TBCDField;
+    qryItemVDESCONTO: TBCDField;
+    qryItemTOTAL: TBCDField;
+    qryItemACRESCIMO: TBCDField;
+    qryItemQTD: TBCDField;
+    qryItemE_MEDIO: TBCDField;
+    qryItemQTD_DEVOLVIDA: TBCDField;
     qryItemFK_GRADE: TIntegerField;
-    qryItemTTOTAL: TAggregateField;
     qryVendaFK_ENTREGADOR: TIntegerField;
     qryVendaVIRTUAL_CLIENTE: TStringField;
     qryVendaVIRTUAL_CNPJ: TStringField;
@@ -197,7 +181,7 @@ type
     qryItemEFISCAL: TStringField;
     qryVendaENTREGADOR: TStringField;
     dsVenda: TDataSource;
-    qryCMovimento: TFDQuery;
+    qryCMovimento: TZQuery;
     qryCMovimentoCODIGO: TIntegerField;
     qryCMovimentoID_CONTA_CAIXA: TIntegerField;
     qryCMovimentoID_USUARIO: TIntegerField;
@@ -206,29 +190,29 @@ type
     qryCMovimentoHORA: TTimeField;
     qryCMovimentoFKVENDA: TIntegerField;
     qryCMovimentoLOTE: TIntegerField;
-    qryCMovimentoENTRADA: TFMTBCDField;
-    qryCMovimentoSAIDA: TFMTBCDField;
-    qryCMovimentoTROCA: TFMTBCDField;
-    qryCMovimentoSALDO: TFMTBCDField;
-    qryReferencia: TFDQuery;
+    qryCMovimentoENTRADA: TBCDField;
+    qryCMovimentoSAIDA: TBCDField;
+    qryCMovimentoTROCA: TBCDField;
+    qryCMovimentoSALDO: TBCDField;
+    qryReferencia: TZQuery;
     IntegerField1: TIntegerField;
     IntegerField2: TIntegerField;
     dsReferencia: TDataSource;
     qryVendaFLAG_NFCE: TStringField;
-    qryTabelas: TFDQuery;
+    qryTabelas: TZQuery;
     qryTabelasCODIGO: TIntegerField;
     qryTabelasDESCRICAO: TStringField;
-    qryTabelasACRESCIMO: TFMTBCDField;
+    qryTabelasACRESCIMO: TBCDField;
     qryTabelasFKEMPRESA: TIntegerField;
     qryTabelasATIVO: TStringField;
-    qryVendaVIRTUAL_TX_ACRESC: TExtendedField;
+    qryVendaVIRTUAL_TX_ACRESC: TFloatField;
     qryVendaVIRTUAL_TABELA: TStringField;
-    qryVendaACRESCIMO: TFMTBCDField;
+    qryVendaACRESCIMO: TBCDField;
     dsTabelas: TDataSource;
     qryVendaVIRTUAL_VENDEDOR: TStringField;
-    qryTotalFPG: TFDQuery;
+    qryTotalFPG: TZQuery;
     qryTotalFPGTIPO: TStringField;
-    qryTotalFPGVALOR: TFMTBCDField;
+    qryTotalFPGVALOR: TBCDField;
     qryVendasFPGFLAG: TStringField;
     PageControl1: TPageControl;
     TabPrecoNormal: TTabSheet;
@@ -292,16 +276,16 @@ type
     Label8: TLabel;
     Panel3: TPanel;
     Label9: TLabel;
-    qryVendasFPGTROCO: TFMTBCDField;
+    qryVendasFPGTROCO: TBCDField;
     qryItemID_PRODUTO_SIMILAR: TIntegerField;
-    qryTicket: TFDQuery;
+    qryTicket: TZQuery;
     qryTicketDATA_EMISSAO: TDateField;
     qryTicketVENDA: TIntegerField;
     qryTicketCODIGO: TIntegerField;
     qryTicketDESCRICAO: TStringField;
-    qryTicketQTD: TFMTBCDField;
+    qryTicketQTD: TBCDField;
     qryVendaNOME: TStringField;
-    qryCliente: TFDQuery;
+    qryCliente: TZQuery;
     qryClienteCODIGO: TIntegerField;
     qryClienteCNPJ: TStringField;
     qryClienteIE: TStringField;
@@ -320,16 +304,14 @@ type
     dsCliente: TDataSource;
     pnPessoa: TPanel;
     DBEdit27: TDBEdit;
-    DBGridPes: TDBGridEh;
+    DBGridPes: TRxDBGrid;
     Label11: TLabel;
     mLog: TMemo;
-    qryCartao: TFDQuery;
+    qryCartao: TZQuery;
     qryCartaoCODIGO: TIntegerField;
     qryCartaoTIPO: TStringField;
-    qryCartaoVALOR: TFMTBCDField;
-    qryCartaoTTOTAL: TAggregateField;
-    frxXLSExport1: TfrxXLSExport;
-    JvEnterAsTab1: TJvEnterAsTab;
+    qryCartaoVALOR: TBCDField;
+    JvEnterAsTab1: TACBrEnterTab;
     ActionList1: TActionList;
     actBusca: TAction;
     actSelecionaGrid: TAction;
@@ -401,6 +383,7 @@ type
     procedure DBEdit27KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
   private
+    vTotalFPG: Variant; // soma dos pagamentos (no Delphi era o agregado qryVendasFPGTTOTAL)
     ClicouPedido, notaexiste: Boolean;
     Mensagem, filtratipo: string;
     sSql, vPorta, TipoEmissao: string;
@@ -474,11 +457,12 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
-uses Udados, uVendaPagar, uVendaCheque, uVendaCartao, uContaDeposito,
-  uDadosWeb, ufrmStatus, uSupervisor, uEstoque_FI_Insuficiente, frExibeMensagem,
-  uTef, uDmNFe, udmImpressao, uDMSat, uDMEstoque;
+uses
+  Udados, uVendaPagar, uVendaCheque, uVendaCartao, uContaDeposito, uDadosWeb, ufrmStatus,
+  uSupervisor, uEstoque_FI_Insuficiente, frExibeMensagem, uTef, uDmNFe, udmImpressao, uDMSat,
+  uDMEstoque, uAgregado, uRelatorioPendente;
 
 function TfrmFechaVenda.StrToPaginaCodigo(const AValor: String)
   : TACBrPosPaginaCodigo;
@@ -2188,7 +2172,7 @@ begin
       Trim(dados.qryEmpresaUF.AsString));
     SL.add('Fone: ' + Trim(dados.qryEmpresaFONE.AsString));
 
-    qryCliente.Locate('CODIGO', qryVendaID_CLIENTE.Value);
+    qryCliente.Locate('CODIGO', qryVendaID_CLIENTE.Value, []);
 
     vEndereco := qryCliente.FieldByName('ENDERECO').AsString + ',' +
       qryCliente.FieldByName('NUMERO').AsString;
@@ -2357,7 +2341,10 @@ end;
 
 procedure TfrmFechaVenda.JVDBGrid1Exit(Sender: TObject);
 begin
-  DBEdit5.SetFocus;
+  // No F10 a tela troca para a aba "Tipo de Impressão". Na LCL a aba da grade já está escondida quando a grade perde
+  // o foco (no Delphi ainda estava visível), e o SetFocus dava "Impossível focar uma janela inativa ou invisível".
+  if DBEdit5.CanFocus then
+    DBEdit5.SetFocus;
 end;
 
 procedure TfrmFechaVenda.JVDBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -2375,7 +2362,7 @@ procedure TfrmFechaVenda.JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
     begin
       if (not(qryVendasFPG.State in dsEditModes)) then
         qryVendasFPG.Edit;
-      qryVendasFPGVALOR.Value := edtVlRestante.Text;
+      qryVendasFPGVALOR.AsString := edtVlRestante.Text; // Delphi: .Value := texto (convertia sozinho)
       qryVendasFPG.Post;
     end;
   end;
@@ -2397,7 +2384,9 @@ begin
         Perform(Wm_NextDlgCtl, 0, 0);
     end;
 
-    if qryVendasFPGTTOTAL.AsVariant >= qryVendaTOTAL.AsFloat then
+    // qryVendasFPGTTOTAL era o agregado SUM(VALOR) do FireDAC (ver uAgregado)
+    vTotalFPG := SomaCampo(qryVendasFPG, 'VALOR');
+    if not VarIsNull(vTotalFPG) and (vTotalFPG >= qryVendaTOTAL.AsFloat) then
       DBEdit5.SetFocus;
   end;
 
@@ -2730,7 +2719,7 @@ begin
     end
     else
     begin
-      if Application.messageBox(Pwidechar('Deseja Imprimir NFC-e?'),
+      if Application.messageBox(PChar('Deseja Imprimir NFC-e?'),
         'Confirmação', mb_Yesno) = mrYes then
       begin
         dmnfe.ACBrNFe.NotasFiscais.Imprimir;
@@ -3631,17 +3620,16 @@ begin
 
   qryCliente.Locate('CODIGO', qryVendaID_CLIENTE.Value, []);
 
+  // relatórios do FastReport entram no roadmap 9
   if not chkEntrega.Checked then
   begin
-    frxReport.LoadFromFile(ExtractFilePath(Application.ExeName) +
+    RelatorioPendente(ExtractFilePath(Application.ExeName) +
       '\Relatorio\RelPedidoVenda.fr3');
-    frxReport.ShowReport;
   end
   else
   begin
-    frxReport.LoadFromFile(ExtractFilePath(Application.ExeName) +
+    RelatorioPendente(ExtractFilePath(Application.ExeName) +
       '\Relatorio\RelPedidoVendaEntrega.fr3');
-    frxReport.ShowReport;
   end;
 
 end;
@@ -3994,7 +3982,7 @@ begin
           if dados.qryEmpresa.FieldByName('SEGUNDA_VIA_NFCE').AsString = 'S'
           then
             if Application.messageBox
-              (Pwidechar('Deseja Imprimir Segunda Via NFC-e?'), 'Confirmação',
+              (PChar('Deseja Imprimir Segunda Via NFC-e?'), 'Confirmação',
               mb_Yesno) = mrYes then
               ImprimePedido;
         end;
@@ -4564,7 +4552,7 @@ end;
 procedure TfrmFechaVenda.DBEdit27Change(Sender: TObject);
 begin
 
-  if vPessoa <> DBEdit27.EditText then
+  if vPessoa <> DBEdit27.Text then
   begin
     DBGridPes.Visible := True;
     pnPessoa.Height := 200;
@@ -4711,13 +4699,14 @@ var
 begin
 
   edtVlRestante.Text := '0,00';
-  if qryVendasFPGTTOTAL.IsNull then
+  vTotalFPG := SomaCampo(qryVendasFPG, 'VALOR'); // era o agregado qryVendasFPGTTOTAL
+  if VarIsNull(vTotalFPG) then
     edtVlRestante.Text := FormatFloat(',0.00', qryVendaTOTAL.AsFloat)
   else
   begin
-    if qryVendasFPGTTOTAL.Value < qryVendaTOTAL.AsFloat then
+    if vTotalFPG < qryVendaTOTAL.AsFloat then
       edtVlRestante.Text := FormatFloat(',0.00', qryVendaTOTAL.AsFloat -
-        qryVendasFPGTTOTAL.Value);
+        vTotalFPG);
   end;
 end;
 
@@ -4770,7 +4759,8 @@ begin
       if not(qryVendasFPG.State in dsEditModes) then
         qryVendasFPG.Edit;
 
-      if not(qryVendasFPGTTOTAL.Value > 0) then
+      vTotalFPG := SomaCampo(qryVendasFPG, 'VALOR'); // era o agregado qryVendasFPGTTOTAL
+      if VarIsNull(vTotalFPG) or not (vTotalFPG > 0) then
         qryVendasFPGVALOR.AsFloat := qryVendaTOTAL.AsFloat;
 
       if dados.qryEmpresaLOJA_ROUPA.Value = 'S' then
@@ -5215,7 +5205,7 @@ end;
 
 procedure TfrmFechaVenda.qryVendasFPGCalcFields(DataSet: TDataSet);
 begin
-  case qryVendasFPG.RecNo of
+  case RecNoCalculado(qryVendasFPG) of
     0 .. 1:
       qryVendasFPG.FieldByName('FLAG').Value := 'A';
     2:
