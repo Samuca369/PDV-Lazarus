@@ -6,7 +6,7 @@ interface
 
 uses
   ActiveX, SysUtils, Forms, dialogs, StdCtrls, Buttons, Menus, DBGrids, ComCtrls, Math, DB,
-  acbrutil, IniFiles, WiniNet, Types, Windows, JwaTlHelp32, DateUtils, ACBrSATClass, Classes,
+  ACBrUtil, IniFiles, WiniNet, Types, Windows, JwaTlHelp32, DateUtils, ACBrSATClass, Classes,
   JwaAclApi, Messages, ShellApi, Rtti, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset,
   ZAbstractConnection;
 
@@ -2094,7 +2094,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  serial, uConexaoBD, WinSock, JwaIpHlpApi, JwaIpTypes;
+  Serial, uConexaoBD, WinSock, JwaIpHlpApi, JwaIpTypes;
 
 {$R *.lfm}
 
@@ -4541,7 +4541,7 @@ begin
   Confirmar;
 end;
 
-Procedure TDados.serial;
+Procedure TDados.Serial;
 var
   i, tamanho: Integer;
 begin

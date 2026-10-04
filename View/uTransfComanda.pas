@@ -40,7 +40,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDados, uPDV;
+  Udados, uPDV;
 
 procedure TfrmTransfComanda.btnCancelarClick(Sender: TObject);
 begin

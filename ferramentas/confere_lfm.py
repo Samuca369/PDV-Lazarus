@@ -10,6 +10,7 @@ Sem nada a mostrar, termina com código 0.
 """
 import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -17,10 +18,16 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from converte_lazarus import Parser, le_texto  # noqa: E402
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LAZBUILD = r"C:\lazarus\lazbuild.exe"
+# No Windows: o lazbuild do tutorial. Em outro sistema (ex.: Linux desta sessão de conversão) o programa de conferência
+# precisa rodar aqui mesmo, então usa o lazbuild nativo (variável LAZBUILD ou "lazbuild-nativo" no PATH).
+LAZBUILD = os.environ.get("LAZBUILD") or (r"C:\lazarus\lazbuild.exe" if os.name == "nt" else "lazbuild-nativo")
+# units só do Windows: as telas usam, mas não têm classe de componente; fora do Windows ficam de fora do programa
+UNITS_SO_WINDOWS = {"windows", "messages", "shellapi", "wininet", "winsock", "winsock2", "activex", "comobj", "shlobj",
+                    "commctrl", "mmsystem", "winspool", "jwawindows", "jwaiphlpapi", "jwaiptypes", "jwaaclapi",
+                    "jwapsapi", "jwatlhelp32", "ole2", "oleserver", "winsvc"}
 PACOTES = ["LCL", "zcomponent", "rxnew", "ACBrComum", "ACBrDiversos", "ACBrSerial", "ACBr_TEFD", "ACBrDFeComum",
            "ACBr_NFe", "ACBr_NFe_DanfeESCPOS", "ACBr_NFe_DanfeRL", "ACBr_SAT", "PCNComum", "laz_synapse",
-           "ACBr_Boleto"]
+           "ACBr_Boleto", "ACBr_SAT_Extrato_Fortes", "ACBr_SAT_Extrato_ESCPOS", "ACBr_Integrador", "ACBrTCP", "DateTimeCtrls"]
 # gravadas pelo editor de telas, não são propriedades publicadas
 SEMPRE_ACEITAS = {"left", "top"}
 ACEITAS_NA_RAIZ = {"height", "width", "horizontaloffset", "verticaloffset", "ppi"}
@@ -80,11 +87,13 @@ def usos_das_telas(pas_list):
     return usos
 
 
-def units_das_telas(pas_list):
-    """Units do uses das telas. Units do projeto entram só se forem auxiliares (sem .lfm), como o DBCGrids."""
+def units_das_telas(pas_list, classes_usadas=()):
+    """Units do uses das telas. Units do projeto entram só se forem auxiliares (sem .lfm) e declararem alguma classe
+    que as telas usam, como o DBCGrids (TDBCtrlGrid) e o uAgregado (TRotuloTotal); as outras (Serial, uLib...) não
+    têm componente e podem nem compilar fora do Windows."""
     projeto, auxiliares = set(), {}
     for pasta, _, arqs in os.walk(RAIZ):
-        if any(x in pasta for x in ("\\lib", "\\bin", "\\.git", "\\pendentes")):
+        if any(x in pasta.replace("/", "\\") for x in ("\\lib", "\\bin", "\\.git", "\\pendentes")):
             continue
         for a in arqs:
             if a.lower().endswith(".pas"):
@@ -104,7 +113,16 @@ def units_das_telas(pas_list):
             n = it.strip().split()[0] if it.strip() else ""
             if not n or n.lower() in {u.lower() for u in units}:
                 continue
+            if os.name != "nt" and n.lower() in UNITS_SO_WINDOWS:
+                continue
             if n.lower() in auxiliares:
+                arq = os.path.join(auxiliares[n.lower()], n + ".pas")
+                if not os.path.exists(arq):
+                    arq = next((os.path.join(auxiliares[n.lower()], a) for a in os.listdir(auxiliares[n.lower()])
+                                if a.lower() == n.lower() + ".pas"), arq)
+                declaradas = set(re.findall(r"^\s*(T\w+)\s*=\s*class\b", le_texto(arq), re.M)) if os.path.exists(arq) else set()
+                if not (declaradas & set(classes_usadas)):
+                    continue
                 pastas.add(auxiliares[n.lower()])
                 units.append(n)
             elif n.lower() not in projeto:
@@ -155,6 +173,9 @@ begin
   end;
 end;
 
+var
+  Dono: TForm;
+
 procedure D(C: TClass);
 var
   Obj: TObject;
@@ -166,15 +187,21 @@ begin
     else if C.InheritsFrom(TDataModule) then
       Obj := TDataModuleClass(C).CreateNew(nil)
     else if C.InheritsFrom(TComponent) then
-      Obj := TComponentClass(C).Create(nil);
+      Obj := TComponentClass(C).Create(Dono);  // alguns componentes (TACBrEnterTab) exigem um dono
   except
-    Obj := nil;
+    on E: Exception do
+    begin
+      // sem o objeto só saem as propriedades diretas da classe (as de Font, Columns... ficam de fora)
+      WriteLn(StdErr, 'aviso: nao criou ', C.ClassName, ': ', E.Message);
+      Obj := nil;
+    end;
   end;
   Props(C.ClassName + ' ', C, Obj, 0);
 end;
 
 begin
   Application.Initialize;
+  Dono := TForm.CreateNew(nil);
 %s
 end.
 """
@@ -209,7 +236,7 @@ def main():
     os.makedirs(trabalho, exist_ok=True)
     usos = usos_das_telas(pas_list)
     chamadas = "\n".join(f"  D({c});" for c in sorted(usos))
-    units, pastas = units_das_telas(pas_list)
+    units, pastas = units_das_telas(pas_list, usos.keys())
     with open(os.path.join(trabalho, "dump.lpr"), "w", encoding="utf-8") as f:
         f.write(PROGRAMA % (", ".join(units), chamadas))
     with open(os.path.join(trabalho, "dump.lpi"), "w", encoding="utf-8") as f:
@@ -219,7 +246,11 @@ def main():
     if r.returncode != 0:
         print("\n".join(l for l in r.stdout.splitlines() if "Error" in l or "Fatal" in l))
         sys.exit(2)
-    saida = subprocess.run([os.path.join(trabalho, "dump.exe")], capture_output=True, text=True).stdout
+    exe = os.path.join(trabalho, "dump.exe" if os.name == "nt" else "dump")
+    comando = [exe]
+    if os.name != "nt" and not os.environ.get("DISPLAY") and shutil.which("xvfb-run"):
+        comando = ["xvfb-run", "-a", exe]   # o LCL (gtk2) precisa de uma tela: usa um X virtual
+    saida = subprocess.run(comando, capture_output=True, text=True, errors="replace").stdout
     aceitas = {}
     for linha in saida.splitlines():
         if " " in linha:

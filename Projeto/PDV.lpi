@@ -25,6 +25,21 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="DateTimeCtrls"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBr_SAT_Extrato_Fortes"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBr_SAT_Extrato_ESCPOS"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBr_Integrador"/>
+      </Item>
+      <Item>
+        <PackageName Value="ACBrTCP"/>
+      </Item>
+      <Item>
         <PackageName Value="rxnew"/>
       </Item>
       <Item>

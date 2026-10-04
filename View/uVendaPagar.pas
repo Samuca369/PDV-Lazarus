@@ -5,7 +5,7 @@ unit uVendaPagar;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, math, acbrBoleto, ACBrBoletoConversao,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, math, ACBrBoleto, ACBrBoletoConversao,
   Controls, Forms, Dialogs, ExtCtrls, DB, StdCtrls, Buttons, Grids, DBGrids, DBCtrls, ACBrBase,
   ACBrEnterTab, ZConnection, ZDataset, ZAbstractRODataset, ZAbstractDataset, ZAbstractConnection,
   RxDBGrid, uAgregado;

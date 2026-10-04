@@ -29,6 +29,9 @@ CLASSES = {
     "TcxDBImage": "TDBImage",
     "TJvEnterAsTab": "TACBrEnterTab",
     "TDBLookupComboboxEh": "TDBLookupComboBox",
+    # roadmap 6: os outros campos da EhLib viram os do LCL (tabela em ROADMAP-LAZARUS.md)
+    "TDBEditEh": "TDBEdit", "TDBComboBoxEh": "TDBComboBox", "TDBMemoEh": "TDBMemo",
+    "TDBDateTimeEditEh": "TDBDateTimePicker",
 }
 
 # propriedades que só a EhLib tem: saem de todo componente que vinha dela (classe terminada em Eh)
@@ -41,6 +44,7 @@ PREFIXOS_EH = ("DropDownBox.", "EmptyDataInfo.", "ControlLabel.", "ControlLabelL
 UNIT_DA_CLASSE = {
     "TRxDBGrid": "RxDBGrid", "TDBImage": "DBCtrls", "TACBrEnterTab": "ACBrEnterTab", "TDBCtrlGrid": "DBCGrids",
     "TDBLookupComboBox": "DBCtrls", "TRotuloTotal": "uAgregado",
+    "TDBEdit": "DBCtrls", "TDBComboBox": "DBCtrls", "TDBMemo": "DBCtrls", "TDBDateTimePicker": "DBDateTimePicker",
 }
 
 # objetos que somem (sem equivalente ou desnecessários no Lazarus)
@@ -747,6 +751,9 @@ def converte_unit(pas):
         texto = "".join(partes)
     if trocas_de_nome:
         relatorio["nomes_sem_acento"] = trocas_de_nome
+    # Linux diferencia maiúsculas no nome do arquivo da unit (ver ferramentas/ajusta_uses.py)
+    from ajusta_uses import normaliza_uses
+    texto = normaliza_uses(texto, relatorio)
     grava_texto(pas, texto)
     return relatorio
 

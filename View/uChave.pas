@@ -6,7 +6,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, ExtCtrls,
-  StdCtrls, ComCtrls, Buttons, DB, serial, MaskEdit, ZConnection, ZDataset, ZAbstractRODataset,
+  StdCtrls, ComCtrls, Buttons, DB, Serial, MaskEdit, ZConnection, ZDataset, ZAbstractRODataset,
   ZAbstractDataset, ZAbstractConnection;
 
 type

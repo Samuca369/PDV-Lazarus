@@ -75,8 +75,8 @@ errado, é só movê-la ao chegar nela.
 | `RecNo` dentro do `OnCalcFields` | `RecNoCalculado` (`View/uRegistroCalculado.pas`): no Zeos o `RecNo` move o cursor no meio da leitura; o conversor troca sozinho |
 | `TDBCtrlGrid` (quadro de mesas) | componente próprio `View/DBCGrids.pas` |
 | EhLib `TDBGridEh` | `TRxDBGrid` (RxFPC), com rodapé de totais |
-| EhLib `TDBLookupComboboxEh`, `TDBComboBoxEh`, `TDBMemoEh` | `TDBLookupComboBox`, `TDBComboBox`, `TDBMemo` (LCL) |
-| EhLib `TDBDateTimeEditEh` | `TDBDateTimePicker` (LCL) |
+| EhLib `TDBLookupComboboxEh`, `TDBEditEh`, `TDBComboBoxEh`, `TDBMemoEh` | `TDBLookupComboBox`, `TDBEdit`, `TDBComboBox`, `TDBMemo` (LCL) |
+| EhLib `TDBDateTimeEditEh` | `TDBDateTimePicker` (LCL, pacote `DateTimeCtrls`) |
 | EhLib `TRowDetailPanelControlEh` (41) | sem equivalente: painel ou grade de detalhe separada |
 | JVCL (`TJvEnterAsTab`, `TJvDBMaskEdit`, `TJvDBGrid`…) | `TACBrEnterTab`, `TDBEdit` com máscara, `TRxDBGrid` |
 | DevExpress `TcxDBImage` (1) | `TDBImage` |

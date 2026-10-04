@@ -132,6 +132,34 @@ rodá-lo numa cópia do banco de teste e ler o resultado depois.
    momento, ou usar o `isql` direto.
 7. Diferença só por versão (o original é de 2021 e o código é de 2022) é anotada, não corrigida.
 
+## Sessão no Linux (roadmaps 6 em diante)
+
+A partir do roadmap 6 a passagem foi continuada numa sessão do Claude em Linux, sem Lazarus instalado. O que foi
+montado lá e o que isso exigiu do projeto (nada disso atrapalha no Windows):
+
+- **Alvo continua Windows 32 bits.** Free Pascal 3.2.2 com compilador cruzado `i386-win32` (fontes oficiais,
+  `make all OS_TARGET=win32 CPU_TARGET=i386` e `make crossinstall`; o `windres` do MinGW com o apelido
+  `i386-win32-windres`). O `lazbuild` é o do Lazarus 4.8 compilado dos fontes (`make lazbuild`), chamado por um
+  atalho `/usr/local/bin/lazbuild` que já põe `--os=win32 --cpu=i386 --ws=win32`; assim o comando do tutorial
+  (`lazbuild Projeto/PDV.lpi`) é o mesmo. Um segundo atalho, `lazbuild-nativo`, compila para o próprio Linux (sem
+  tela, `nogui`) só para o `ferramentas/confere_lfm.py`, que precisa rodar o programa de conferência ali.
+- **Componentes** (o SourceForge é bloqueado nessa rede): Zeos 8.0.0-stable (`github.com/marsupilami79/zeoslib`;
+  o branch `8.0-patches` não compila no FPC 3.2.2), RxFPC 3.4.1 trunk r10070 (arquivo a arquivo pelo navegador web
+  do SourceForge, `.../svn/HEAD/tree/components/rx/trunk/?format=raw`; o espelho do GitHub é de 2018 e não compila
+  no Lazarus 4.8), ACBr trunk (`github.com/frones/ACBr`, espelho git do SVN oficial), Synapse do próprio ACBr e
+  Fortes Report CE (`github.com/fortesinformatica/fortesreport-ce`).
+- **Maiúsculas no `uses`.** O Linux diferencia maiúsculas no nome do arquivo: `uses acbrUtil` não acha
+  `ACBrUtil.pas`/`.ppu`. O `ferramentas/ajusta_uses.py` escreve cada unit do `uses` igual ao nome do arquivo (só
+  nomes com maiúsculas no meio; `forms`, `sysutils` etc. o compilador acha de qualquer jeito). O
+  `converte_lazarus.py` chama isso sozinho; para uma unit já convertida, rodar à mão.
+- **Pacotes a mais no `PDV.lpi`:** `ACBr_SAT_Extrato_Fortes`, `ACBr_SAT_Extrato_ESCPOS`, `ACBr_Integrador` e
+  `ACBrTCP` (no ACBr atual essas units têm pacote próprio) e `DateTimeCtrls` (o `TDBDateTimePicker` que substitui o
+  `TDBDateTimeEditEh`). A lista `PACOTES` do `confere_lfm.py` acompanha.
+- **O que não dá para fazer no Linux:** rodar o `PDV.exe` e os scripts de `testes/tela/`. A conferência de cada tela
+  é feita no código, lado a lado com o Delphi (um construtor converte, um crítico independente compara e só aceita
+  compilando sem erro), e os roteiros de tela continuam a ser rodados no Windows. `PROGRESSO.md` mostra o item em
+  andamento e o que o crítico reprovou.
+
 ## Regras
 
 - **Igual ao original primeiro.** Durante a passagem, só muda o que o Lazarus exige. Melhorias e correções: roadmap 16.
@@ -158,3 +186,4 @@ rodá-lo numa cópia do banco de teste e ler o resultado depois.
   - para digitar numa grade, usar `[Auto]::Escreve` (manda a tecla como o teclado de verdade);
   - numa grade, o Enter também vai pelo `[Auto]::Escreve`: o `[Auto]::Tecla(h, 13)` pode valer como dois Enter.
 - **Original de 2021:** o `PDV.exe` dele não entra sozinho ("qryTerminal closed"). Abrir sempre pelo `Gestor.exe`.
+- **Linux:** o nome da unit no `uses` tem de ter as mesmas maiúsculas do arquivo (`ferramentas/ajusta_uses.py`).
