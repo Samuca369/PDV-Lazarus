@@ -136,8 +136,9 @@ rodá-lo numa cópia do banco de teste e ler o resultado depois.
 
 - **Igual ao original primeiro.** Durante a passagem, só muda o que o Lazarus exige. Melhorias e correções: roadmap 16.
 - Não mexer na `BIBLIOTECA DE ESTUDO`. Testar só no banco de teste.
-- Git só local (sem remote, sem push). Mensagem: tipo em inglês (`feat`, `fix`, `docs`, `test`), descrição em
-  português, minúscula e sem ponto final.
+- Git: o repositório também está no GitHub (`https://github.com/Samuca369/PDV-Lazarus`, público). O commit é feito
+  no PC; para enviar, rodar `git -C "C:\Users\User1\Desktop\GESTOR" push` (o Claude não consegue enviar sozinho).
+  Mensagem: tipo em inglês (`feat`, `fix`, `docs`, `test`), descrição em português, minúscula e sem ponto final.
 - Nenhuma senha em arquivo do Git: a do SYSDBA vai na linha de comando; a do GESTOR fica só no `bin\Banco.ini`.
 
 ## Armadilhas já conhecidas
